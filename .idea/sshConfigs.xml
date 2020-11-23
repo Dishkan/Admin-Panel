@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="44.234.7.139" id="6ffbcaa0-af1f-40e8-863a-36b61865f704" keyPath="D:\Job\DT_DH5\KEYS\priv.ppk" port="22" nameFormat="DESCRIPTIVE" username="root" />
+    </configs>
+  </component>
+</project>

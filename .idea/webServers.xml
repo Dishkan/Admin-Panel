@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="afccdfd1-4106-40fa-bd52-b5c4e4dbf01f" name="my" url="https://my.datgate.com">
+        <fileTransfer rootFolder="/var/www/my" accessType="SFTP" host="44.234.7.139" port="22" sshConfigId="6ffbcaa0-af1f-40e8-863a-36b61865f704" sshConfig="root@44.234.7.139:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
