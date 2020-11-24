@@ -7,6 +7,25 @@
 
 
 @section('content')
+
+    <style>
+        .content .card-body .tab-content .icon{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:20px auto;
+        }
+        .card-wizard .choice.active{
+            transform:scale(1.05);
+        }
+        .card-wizard .choice{
+            transition:transform .3s;
+        }
+        .section-image .card:not(.card-header) .description{
+            color:#fff;
+        }
+    </style>
+
     <div class="panel-header panel-header-sm">
     </div>
     <div class="content">
@@ -24,19 +43,19 @@
                                 <div class="wizard-navigation">
                                     <ul class="nav nav-pills">
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="#about" data-toggle="tab" role="tab"
+                                            <a class="nav-link active" href="#type" data-toggle="tab" role="tab"
                                                aria-controls="about" aria-selected="true">
-                                                <i class="now-ui-icons users_circle-08"></i> About
+                                                <i class="now-ui-icons users_circle-08"></i> Type
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#account" data-toggle="tab" data-toggle="tab"
+                                            <a class="nav-link" href="#account" data-toggle="tab"
                                                role="tab" aria-controls="account" aria-selected="false">
                                                 <i class="now-ui-icons ui-1_settings-gear-63"></i> Account
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#address" data-toggle="tab" data-toggle="tab"
+                                            <a class="nav-link" href="#address" data-toggle="tab"
                                                role="tab" aria-controls="address" aria-selected="false">
                                                 <i class="now-ui-icons ui-1_email-85"></i> Address
                                             </a>
@@ -47,9 +66,87 @@
                         <div class="card-body">
                             <div class="tab-content">
 
-                                <div class="tab-pane show active" id="about">
+                                <div class="tab-pane show active" id="type">
+
+                                    <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
+                                    <div class="row justify-content-center types_js">
+                                        <div class="col-lg-10">
+                                            <div class="row" role="tablist">
+                                                <div class="col-sm-4">
+                                                    <div class="choice" data-toggle="wizard-checkbox" data-index="1">
+                                                        <input type="checkbox" name="type" value="group">
+                                                        <div class="icon">
+                                                            <img src="{{asset('now/img/group.png')}}" alt="">
+                                                        </div>
+                                                        <h6>Group</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="choice" data-toggle="wizard-checkbox" data-index="2">
+                                                        <input type="checkbox" name="type" value="oem">
+                                                        <div class="icon">
+                                                            <img src="{{asset('now/img/oem.png')}}" alt="">
+                                                        </div>
+                                                        <h6>Original Equipment Manufacturer</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="choice" data-toggle="wizard-checkbox" data-index="3">
+                                                        <input type="checkbox" name="type" value="independent">
+                                                        <div class="icon">
+                                                            <img src="{{asset('now/img/independent.png')}}" alt="">
+                                                        </div>
+                                                        <h6>Independent</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane fade" id="account">
+
                                     <h5 class="info-text"> Let's start with the basic information</h5>
+
                                     <div class="row justify-content-center">
+
+                                        <div class="col-lg-10 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons text_caps-small"></i>
+                                                    </div>
+                                                </div>
+                                                <input id="pac-input" class="form-control" type="text" placeholder="Enter a location"/>
+                                                <input name="place_name" type="hidden" id="place_name">
+                                                <input name="place_id" type="hidden" id="place_id">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-10 mt-3">
+                                            {{-- MAP --}}
+                                            <div style="height:10em" id="map"></div>
+                                            {{-- /MAP --}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-sm-4">
+                                            <div class="picture-container">
+                                                <div class="picture">
+                                                    <img src="../../assets/img/default-avatar.png" class="picture-src"
+                                                         id="wizardPicturePreview" title=""/>
+                                                    <input type="file" id="wizard-picture">
+                                                </div>
+                                                <h6 class="description">Choose Logo</h6>
+                                            </div>
+                                        </div>
+
                                         <div class="col-sm-4">
                                             <div class="picture-container">
                                                 <div class="picture">
@@ -93,64 +190,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-10 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons text_caps-small"></i>
-                                                    </div>
-                                                </div>
-                                                <input id="pac-input" class="form-control" type="text" placeholder="Enter a location"/>
-                                                <input name="place_name" type="hidden" id="place_name">
-                                                <input name="place_id" type="hidden" id="place_id">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-10 mt-3">
-                                            {{-- MAP --}}
-                                            <div style="height:10em" id="map"></div>
-                                            {{-- /MAP --}}
-                                        </div>
-
                                     </div>
 
-                                </div>
-
-                                <div class="tab-pane fade" id="account">
-                                    <h5 class="info-text"> What are you doing? (checkboxes) </h5>
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-10">
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="choice" data-toggle="wizard-checkbox">
-                                                        <input type="checkbox" name="jobb" value="New">
-                                                        <div class="icon">
-                                                            <i class="now-ui-icons design-2_ruler-pencil"></i>
-                                                        </div>
-                                                        <h6>New</h6>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="choice" data-toggle="wizard-checkbox">
-                                                        <input type="checkbox" name="jobb" value="New & Used">
-                                                        <div class="icon">
-                                                            <i class="now-ui-icons business_bulb-63"></i>
-                                                        </div>
-                                                        <h6>New & Used</h6>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="choice" data-toggle="wizard-checkbox">
-                                                        <input type="checkbox" name="jobb" value="Used">
-                                                        <div class="icon">
-                                                            <i class="now-ui-icons tech_tv"></i>
-                                                        </div>
-                                                        <h6>Used</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="address">
                                     <div class="row justify-content-center">
@@ -296,9 +337,37 @@
 
             // Initialise the wizard
             demo.initNowUiWizard();
+
+            $('input[name=next]').hide()
+
             setTimeout( function(){
                 $( '.card.card-wizard' ).addClass( 'active' );
             }, 600 );
+
+            let $types        = $( '.types_js' )
+            let $inputs_types = $types.find( '.choice' )
+
+            $inputs_types.on( 'click', function( el ){
+                let $el          = $( el.currentTarget )
+                let clickedIndex = $el.data( 'index' )
+
+                $el.closest('form').find('.card-footer').css('padding', '10px')
+                $('input[name=next]').show()
+
+                // disable for all the rest
+                $inputs_types.each(function( choice, el_in ){
+                    let $el_in = $(el_in)
+                    let index = $el_in.data('index')
+
+                    if( clickedIndex !== index ){
+                        $el_in.removeClass('active')
+                        $el_in.find('input').removeAttr('checked')
+                    }
+                })
+
+            } )
+
+
         } );
 
     </script>

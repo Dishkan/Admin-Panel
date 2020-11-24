@@ -51,10 +51,8 @@ class PageController extends Controller{
 			exit('<pre>' . print_r($input, 1) . '</pre>'); # DEBUG OUT
 
 		}
-		else{
-
+		else
 			return view( 'wizard.start' );
-		}
 	}
 
 	/**
