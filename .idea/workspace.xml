@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6be08a75-908b-4f62-a4c6-e42c22511c2c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/now/img/group.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/now/img/independent.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/now/img/oem.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/SitesHelperController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/my.loc.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/my.loc.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PageController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/now/scss/now-ui-dashboard/plugins/_plugin-card-wizard.scss" beforeDir="false" afterPath="$PROJECT_DIR$/public/now/scss/now-ui-dashboard/plugins/_plugin-card-wizard.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/panels.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/panels.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/now/demo/demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/now/demo/demo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/wizard/start.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/wizard/start.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,19 +36,15 @@
       <path value="$PROJECT_DIR$/vendor/dragonmantank/cron-expression" />
       <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
       <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/cli-parser" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
       <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
       <path value="$PROJECT_DIR$/vendor/sebastian/object-enumerator" />
       <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
       <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
       <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
       <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/complexity" />
       <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
       <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
       <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/lines-of-code" />
       <path value="$PROJECT_DIR$/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/vendor/ramsey/uuid" />
       <path value="$PROJECT_DIR$/vendor/ramsey/collection" />
@@ -79,8 +76,6 @@
       <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
-      <path value="$PROJECT_DIR$/vendor/laravel/legacy-factories" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
       <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/vendor/laravel/tinker" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
@@ -101,7 +96,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/vendor/symfony/routing" />
       <path value="$PROJECT_DIR$/vendor/symfony/translation" />
-      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
       <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
@@ -115,7 +109,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/deprecation-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/process" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php70" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-kernel" />
@@ -124,6 +117,9 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-grapheme" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-iconv" />
       <path value="$PROJECT_DIR$/vendor/beyondcode/laravel-dump-server" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
     </include_path>
   </component>
   <component name="ProjectId" id="1kZa3RQ4oNF2DHmT2Ng0cSbGOuL" />
@@ -168,11 +164,25 @@
       <workItem from="1606088779429" duration="1372000" />
       <workItem from="1606090332069" duration="22000" />
       <workItem from="1606148553484" duration="11040000" />
+      <workItem from="1606183242143" duration="160000" />
+      <workItem from="1606241719026" duration="19247000" />
     </task>
+    <task id="LOCAL-00001" summary="wizard">
+      <created>1606183394005</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606183394005</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="wizard" />
+    <option name="LAST_COMMIT_MESSAGE" value="wizard" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="213" key="#Deployment" timestamp="1605911808177">
@@ -183,18 +193,34 @@
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
     <state x="536" y="200" key="#SSH_Configurations/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1605910452678" />
+    <state x="585" y="123" key="CommitChangelistDialog2" timestamp="1606183393266">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="585" y="123" key="CommitChangelistDialog2/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1606183393266" />
+    <state x="92" y="122" width="1736" height="866" key="DiffContextDialog" timestamp="1606253266034">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="92" y="122" width="1736" height="866" key="DiffContextDialog/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1606253266034" />
     <state x="740" y="310" key="FileChooserDialogImpl" timestamp="1605910444286">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
     <state x="740" y="310" key="FileChooserDialogImpl/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1605910444286" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1606243735912">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1606243735912" />
+    <state x="552" y="287" key="Vcs.Push.Dialog.v2" timestamp="1606183395244">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="552" y="287" key="Vcs.Push.Dialog.v2/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1606183395244" />
     <state x="92" y="122" width="1736" height="866" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1605924325638">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
     <state x="92" y="122" width="1736" height="866" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1605924325638" />
-    <state x="667" y="288" width="585" height="534" key="find.popup" timestamp="1606155329004">
+    <state x="462" y="112" width="990" height="879" key="find.popup" timestamp="1606250887816">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state x="667" y="288" width="585" height="534" key="find.popup/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1606155329004" />
+    <state x="462" y="112" width="990" height="879" key="find.popup/0.30.1920.1050/-1080.-486.1080.1920@0.30.1920.1050" timestamp="1606250887816" />
     <state x="809" y="285" width="510" height="540" key="ftp.server.browser" timestamp="1605911800064">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>

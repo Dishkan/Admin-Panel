@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('get-site-data', ['uses' => 'SitesHelperController@getSiteData', 'as' => 'API_getSiteData' ]);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

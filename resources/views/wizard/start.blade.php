@@ -15,14 +15,99 @@
             justify-content:center;
             margin:20px auto;
         }
+
         .card-wizard .choice.active{
             transform:scale(1.05);
         }
+
         .card-wizard .choice{
             transition:transform .3s;
         }
-        .section-image .card:not(.card-header) .description{
+
+        .section-image .card .card-header .description{
             color:#fff;
+        }
+
+        .card-wizard .picture{
+            border-radius:0;
+        }
+
+        #preloader{
+            z-index:4;
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+        }
+
+        #loader{
+            display:block;
+            position:relative;
+            left:50%;
+            top:50%;
+            width:150px;
+            height:150px;
+            margin:-75px 0 0 -75px;
+            border-radius:50%;
+            border:3px solid transparent;
+            border-top-color:#9370DB;
+            -webkit-animation:spin 2s linear infinite;
+            animation:spin 2s linear infinite;
+        }
+
+        #loader:before{
+            content:"";
+            position:absolute;
+            top:5px;
+            left:5px;
+            right:5px;
+            bottom:5px;
+            border-radius:50%;
+            border:3px solid transparent;
+            border-top-color:#BA55D3;
+            -webkit-animation:spin 3s linear infinite;
+            animation:spin 3s linear infinite;
+        }
+
+        #loader:after{
+            content:"";
+            position:absolute;
+            top:15px;
+            left:15px;
+            right:15px;
+            bottom:15px;
+            border-radius:50%;
+            border:3px solid transparent;
+            border-top-color:#FF00FF;
+            -webkit-animation:spin 1.5s linear infinite;
+            animation:spin 1.5s linear infinite;
+        }
+
+        @-webkit-keyframes spin{
+            0%{
+                -webkit-transform:rotate(0deg);
+                -ms-transform:rotate(0deg);
+                transform:rotate(0deg);
+            }
+            100%{
+                -webkit-transform:rotate(360deg);
+                -ms-transform:rotate(360deg);
+                transform:rotate(360deg);
+            }
+        }
+
+        @keyframes spin{
+            0%{
+                -webkit-transform:rotate(0deg);
+                -ms-transform:rotate(0deg);
+                transform:rotate(0deg);
+            }
+            100%{
+                -webkit-transform:rotate(360deg);
+                -ms-transform:rotate(360deg);
+                transform:rotate(360deg);
+            }
         }
     </style>
 
@@ -67,7 +152,6 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane show active" id="type">
-
                                     <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
@@ -87,7 +171,7 @@
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
-                                                        <h6>Original Equipment Manufacturer</h6>
+                                                        <h6>New Cars</h6>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
@@ -102,25 +186,41 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="tab-pane fade" id="account">
 
                                     <h5 class="info-text"> Let's start with the basic information</h5>
 
-                                    <div class="row justify-content-center">
 
+                                    <div class="row justify-content-center">
                                         <div class="col-lg-10 mt-3">
                                             <div class="input-group form-control-lg">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
-                                                        <i class="now-ui-icons text_caps-small"></i>
+                                                        <i class="now-ui-icons location_bookmark"></i>
                                                     </div>
                                                 </div>
-                                                <input id="pac-input" class="form-control" type="text" placeholder="Enter a location"/>
+                                                <input id="pac-input" class="form-control" type="text"
+                                                       placeholder="Enter a location"/>
                                                 <input name="place_name" type="hidden" id="place_name">
                                                 <input name="place_id" type="hidden" id="place_id">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h4 style="margin:15px 0 0 0" class="info-text">OR</h4>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-10 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons objects_planet"></i>
+                                                    </div>
+                                                </div>
+                                                <input id="old_website_url" name="old_website_url" class="form-control"
+                                                       type="text" placeholder="Enter Your Old Website URL"/>
                                             </div>
                                         </div>
                                     </div>
@@ -134,6 +234,201 @@
                                         </div>
                                     </div>
 
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-sm-4">
+                                            <div class="picture-container">
+                                                <div class="picture">
+                                                    <img data-default="../../assets/img/default-avatar.png" src="../../assets/img/default-avatar.png" class="picture-src"
+                                                         id="logo" title=""/>
+                                                    <input type="file" id="logo_input" class="wizard-picture">
+                                                </div>
+                                                <h6 class="description">Logo</h6>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="picture-container">
+                                                <div class="picture">
+                                                    <img data-default="../../assets/img/default-avatar.png" src="../../assets/img/default-avatar.png" class="picture-src"
+                                                         id="site_icon" title=""/>
+                                                    <input type="file" id="site_icon_input" class="wizard-picture">
+                                                </div>
+                                                <h6 class="description">Site Icon</h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons education_paper"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" class="form-control" value=""
+                                                       placeholder="Dealership Name" name="dealer_name">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons ui-1_email-85"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="Lead Emails, comma separated" value=""
+                                                       class="form-control" name="lead_emails">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons business_globe"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="Country" value=""
+                                                       class="form-control" name="country">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons business_chart-pie-36"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="State" value=""
+                                                       class="form-control" name="state">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons location_map-big"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="City" value=""
+                                                       class="form-control" name="city">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons ui-1_email-85"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="Postal Code" value=""
+                                                       class="form-control" name="postal_code">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-10 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons location_pin"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="Address" value=""
+                                                       class="form-control" name="address">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-10 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons tech_mobile"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="Phone" value=""
+                                                       class="form-control" name="phone_number">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="tab-pane fade" id="address">
+
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-sm-6 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons users_circle-08"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" class="form-control" value="John"
+                                                       placeholder="First Name (required)" name="firstname">
+                                            </div>
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons text_caps-small"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="Last Name (required)" value="Doe"
+                                                       class="form-control" name="lastname"/>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
                                     <div class="row justify-content-center">
 
                                         <div class="col-sm-4">
@@ -147,37 +442,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
-                                            <div class="picture-container">
-                                                <div class="picture">
-                                                    <img src="../../assets/img/default-avatar.png" class="picture-src"
-                                                         id="wizardPicturePreview" title=""/>
-                                                    <input type="file" id="wizard-picture">
-                                                </div>
-                                                <h6 class="description">Choose Logo</h6>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons users_circle-08"></i>
-                                                    </div>
-                                                </div>
-                                                <input type="text" class="form-control" value="John"
-                                                       placeholder="First Name (required)" name="firstname">
-                                            </div>
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons text_caps-small"></i>
-                                                    </div>
-                                                </div>
-                                                <input type="text" placeholder="Last Name (required)" value="Doe"
-                                                       class="form-control" name="lastname"/>
-                                            </div>
-                                        </div>
-
                                         <div class="col-lg-10 mt-3">
                                             <div class="input-group form-control-lg">
                                                 <div class="input-group-prepend">
@@ -185,15 +449,15 @@
                                                         <i class="now-ui-icons text_caps-small"></i>
                                                     </div>
                                                 </div>
-                                                <input type="email" placeholder="Email (required)" class="form-control" value="jdoe@datgate.com"
+                                                <input type="email" placeholder="Email (required)" class="form-control"
+                                                       value="jdoe@datgate.com"
                                                        name="email"/>
                                             </div>
                                         </div>
 
                                     </div>
 
-                                </div>
-                                <div class="tab-pane fade" id="address">
+
                                     <div class="row justify-content-center">
                                         <div class="col-sm-12">
                                             <h5 class="info-text"> Are you living in a nice area? </h5>
@@ -236,6 +500,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="card-footer">
                             <div class="pull-right">
                                 <input type='button' class='btn btn-next btn-fill btn-rose btn-wd' name='next'
@@ -258,6 +523,10 @@
             <!-- wizard container -->
         </div>
     </div>
+
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
 @endsection
 
 @push('js')
@@ -270,16 +539,15 @@
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initMap(){
-            const map          = new google.maps.Map( document.getElementById( 'map' ), {
-                center: { lat: 38.931, lng: -99.88 },
-                zoom  : 4,
+            const map            = new google.maps.Map( document.getElementById( 'map' ), {
+                center          : { lat: 38.931, lng: -99.88 },
+                zoom            : 4,
                 disableDefaultUI: true,
             } );
             const input          = document.getElementById( 'pac-input' );
             const autocomplete   = new google.maps.places.Autocomplete( input );
             let place_name_input = document.getElementById( 'place_name' );
             let place_id_input   = document.getElementById( 'place_id' );
-
 
             autocomplete.bindTo( 'bounds', map );
             // Specify just the place data fields that you need.
@@ -293,6 +561,9 @@
                 infowindow.open( map, marker );
             } );
             autocomplete.addListener( 'place_changed', () => {
+
+                preloader_start()
+
                 infowindow.close();
                 const place = autocomplete.getPlace();
 
@@ -314,10 +585,81 @@
                 } );
                 marker.setVisible( true );
 
-                console.log(place)
-
                 place_name_input.value = place.name
-                place_id_input.value = place.place_id
+                place_id_input.value   = place.place_id
+
+
+                // get details
+                let service = new google.maps.places.PlacesService( map );
+                let request = {
+                    placeId: place.place_id
+                };
+                service.getDetails( request, function( place_data, status ){
+                    preloader_start()
+
+                    if( status === google.maps.places.PlacesServiceStatus.OK ){
+                        let place_data_conv = []
+
+                        if( place_data.website ){
+                            let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
+                            let $oldWebSiteInput = $( 'input[name=old_website_url]' )
+                            $oldWebSiteInput.val( hostname )
+                            $oldWebSiteInput.trigger( 'change' )
+                        }
+
+                        for( let p = 0; p < place_data.address_components.length; p++ ){
+                            let type = place_data.address_components[p].types[0]
+                            let val  = place_data.address_components[p].long_name
+
+                            if( 'locality' === type ){
+                                place_data_conv['city'] = val
+                            }
+                            else if( 'administrative_area_level_1' === type ){
+                                place_data_conv['state'] = val
+                            }
+                            else if( 'postal_code' === type ){
+                                place_data_conv['postal_code'] = val
+                            }
+                            else if( 'country' === type ){
+                                place_data_conv['country'] = val
+                            }
+                        }
+
+                        let inputs = [
+                            'phone_number',
+                            'dealer_name',
+                            'lead_emails',
+                            'country',
+                            'state',
+                            'city',
+                            'postal_code',
+                            'address',
+                        ]
+
+                        for( let o = 0; o < inputs.length; o++ ){
+                            let $input = $('input[name='+inputs[o]+']')
+
+                            if( 'address' === inputs[o] ){
+                                $input.val( place_data.formatted_address )
+                            }
+                            else if( 'dealer_name' === inputs[o] ){
+                                $input.val( place_data.name )
+                            }
+                            else if( 'phone_number' === inputs[o] ){
+                                $input.val( place_data.formatted_phone_number )
+                            }
+                            else{
+                                $input.val( place_data_conv[inputs[o]] )
+                            }
+                        }
+                    }
+                    else{
+                        console.log( status )
+                        preloader_end()
+                    }
+                } );
+
+                preloader_end()
 
                 /*
                 infowindowContent.children.namedItem( 'place-name' ).textContent    =
@@ -332,43 +674,110 @@
             } );
         }
 
+        function preloader_start(){
+            let $wizardContainer = $( '.wizard-container' )
+            let $preloader       = $( '#preloader' )
+
+            $preloader.show()
+            $wizardContainer.css('opacity', '0.6')
+        }
+
+        function preloader_end(){
+            let $wizardContainer = $( '.wizard-container' )
+            let $preloader       = $( '#preloader' )
+
+            $preloader.hide()
+            $wizardContainer.css('opacity', '1')
+        }
+
         $( document ).ready( function(){
-            demo.checkFullPageBackgroundImage();
+            dt.checkFullPageBackgroundImage();
 
             // Initialise the wizard
-            demo.initNowUiWizard();
+            dt.initNowUiWizard();
 
-            $('input[name=next]').hide()
+            $( 'input[name=next]' ).hide()
 
             setTimeout( function(){
                 $( '.card.card-wizard' ).addClass( 'active' );
+                preloader_end()
             }, 600 );
 
-            let $types        = $( '.types_js' )
-            let $inputs_types = $types.find( '.choice' )
+            let $form                  = $( 'form' )
+            let $types                 = $( '.types_js' )
+            let $inputs_types          = $types.find( '.choice' )
+            let $old_website_url_input = $form.find( '#old_website_url' )
 
             $inputs_types.on( 'click', function( el ){
                 let $el          = $( el.currentTarget )
                 let clickedIndex = $el.data( 'index' )
 
-                $el.closest('form').find('.card-footer').css('padding', '10px')
-                $('input[name=next]').show()
+                if( ! $el.hasClass( 'active' ) ){
+                    $el.addClass( 'active' );
+                    $el.find( 'input' ).attr( 'checked' );
+                    return;
+                }
+
+                $el.closest( 'form' ).find( '.card-footer' ).css( 'padding', '10px' )
+                $( 'input[name=next]' ).show()
 
                 // disable for all the rest
-                $inputs_types.each(function( choice, el_in ){
-                    let $el_in = $(el_in)
-                    let index = $el_in.data('index')
+                $inputs_types.each( function( choice, el_in ){
+                    let $el_in = $( el_in )
+                    let index  = $el_in.data( 'index' )
 
                     if( clickedIndex !== index ){
-                        $el_in.removeClass('active')
-                        $el_in.find('input').removeAttr('checked')
+                        $el_in.removeClass( 'active' )
+                        $el_in.find( 'input' ).removeAttr( 'checked' )
                     }
-                })
+                } )
 
             } )
 
 
-        } );
+            $old_website_url_input.on( 'change click focus keyup', function( el ){
+                let $the = $( this )
+                let val  = $the.val()
+
+                if( ! val ) return;
+
+                preloader_start()
+
+                $.ajax({
+                    url: "{{ route('API_getSiteData') }}?site-url=" + val
+                }).done(function( data ){
+
+                    let parsed = JSON.parse( data )
+
+                    console.log(parsed)
+
+                    if( 'OK' !== parsed.status ){
+                        preloader_end()
+                        return;
+                    }
+
+                    let $logoImg     = $( '#logo' )
+                    let $siteIconImg = $( '#site_icon' )
+
+                    if( parsed.data.favicon_url ){
+                        $siteIconImg.attr( 'src', parsed.data.favicon_url )
+                    }
+                    else{
+                        $siteIconImg.attr( 'src', $siteIconImg.data('default') )
+                    }
+
+                    if( parsed.data.logo_url ){
+                        $logoImg.attr( 'src', parsed.data.logo_url )
+                    }
+                    else{
+                        $logoImg.attr( 'src', $logoImg.data('default') )
+                    }
+
+                    preloader_end()
+                });
+            } )
+        } )
+
 
     </script>
 @endpush
