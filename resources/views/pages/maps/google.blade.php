@@ -44,7 +44,7 @@
 @push('js')
   <script>
       $(document).ready(function() {
-        demo.initSmallGoogleMaps();
+        dt.initSmallGoogleMaps();
       });
   </script>
 @endpush

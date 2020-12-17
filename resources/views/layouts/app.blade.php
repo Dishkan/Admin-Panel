@@ -121,7 +121,6 @@
     <script src="{{ asset('now') }}/js/plugins/nouislider.min.js"></script>
     <!--  Google Maps Plugin    -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtfiaQwZ39O370BgtN_zfWGA2bNv3bpEY&callback=initMap&libraries=places&v=weekly"></script>
     <!-- Chart JS -->
     <script src="{{ asset('now') }}/js/plugins/chartjs.min.js"></script>
     <!--  Notifications Plugin    -->

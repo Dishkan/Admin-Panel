@@ -52,7 +52,7 @@
 @push('js')
 <script>
     $(document).ready(function() {
-      demo.checkFullPageBackgroundImage();
+      dt.checkFullPageBackgroundImage();
     });
   </script>
 @endpush

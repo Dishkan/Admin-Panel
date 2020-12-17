@@ -48,7 +48,7 @@
                     <div class="col-sm-4">
                       <div class="picture-container">
                         <div class="picture">
-                          <img src="../../assets/img/default-avatar.png" class="picture-src" id="wizardPicturePreview" title="" />
+                          <img src="{{asset('now/img/default-avatar.png')}}" class="picture-src" id="wizardPicturePreview" title="" />
                           <input type="file" id="wizard-picture">
                         </div>
                         <h6 class="description">Choose Picture</h6>
@@ -183,7 +183,7 @@
  <script>
     $(document).ready(function() {
       // Initialise the wizard
-      demo.initNowUiWizard();
+      dt.initNowUiWizard();
       setTimeout(function() {
         $('.card.card-wizard').addClass('active');
       }, 600);

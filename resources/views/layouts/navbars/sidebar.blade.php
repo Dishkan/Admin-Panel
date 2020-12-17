@@ -72,7 +72,7 @@
                 </a>
             </li>
 
-            {{-- USESR --}}
+            {{-- USERS --}}
             <li>
                 <a data-toggle="collapse" href="#laravelExamples">
                     <i class="fa fa-users"></i>

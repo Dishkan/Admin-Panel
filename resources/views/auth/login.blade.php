@@ -47,7 +47,7 @@
                 </span>
                                 <input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
                                        placeholder="{{ __('Email') }}" type="email" name="email"
-                                       value="{{ old('email', 'anton_rth@datgate.com' ) }}" required autofocus>
+                                       value="{{ old('email', 'anton@datgate.com' ) }}" required autofocus>
                             </div>
                             @if ($errors->has('email'))
                                 <span class="invalid-feedback" style="display: block;" role="alert">
@@ -97,7 +97,7 @@
 @push('js')
     <script>
         $( document ).ready( function(){
-            demo.checkFullPageBackgroundImage();
+            dt.checkFullPageBackgroundImage();
         } );
     </script>
 @endpush

@@ -110,6 +110,7 @@
                     </span>
                   @endif
                 </div>
+
                 <!--Begin input password -->
                 <div class="input-group {{ $errors->has('password') ? ' has-danger' : '' }}">
                   <div class="input-group-prepend">
@@ -133,6 +134,7 @@
                   </div>
                   <input class="form-control" placeholder="{{ __('Confirm Password') }}" type="password" name="password_confirmation" required>
                 </div>
+
                 <div class="form-check text-left">
                   <label class="form-check-label">
                     <input class="form-check-input" type="checkbox">
@@ -156,7 +158,7 @@
 @push('js')
   <script>
     $(document).ready(function() {
-      demo.checkFullPageBackgroundImage();
+      dt.checkFullPageBackgroundImage();
     });
   </script>
 @endpush

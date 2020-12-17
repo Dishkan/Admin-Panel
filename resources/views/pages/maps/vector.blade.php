@@ -29,7 +29,7 @@
 @push('js')
   <script>
       $(document).ready(function() {
-        demo.initVectorMap();
+        dt.initVectorMap();
       });
   </script>
 @endpush

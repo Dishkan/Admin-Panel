@@ -30,7 +30,7 @@
 @push('js')
   <script>
     $(document).ready(function() {
-      demo.initFullCalendar();
+      dt.initFullCalendar();
     });
   </script>
 @endpush

@@ -54,8 +54,8 @@ function debounce(func, wait, immediate) {
 
     if (isWindows) {
         // if we are on windows OS we activate the perfectScrollbar function
-        var ps = new PerfectScrollbar('.sidebar-wrapper');
-        var ps2 = new PerfectScrollbar('.main-panel');
+        //var ps = new PerfectScrollbar('.sidebar-wrapper');
+        //var ps2 = new PerfectScrollbar('.main-panel');
 
         $('html').addClass('perfect-scrollbar-on');
     } else {
@@ -101,18 +101,18 @@ $(document).ready(function() {
     var isWindows = navigator.platform.startsWith('Win');
     if (isWindows) {
         $('.modal').on('show.bs.modal', function() {
-            var ps1 = new PerfectScrollbar('#myModal');
-            var ps2 = new PerfectScrollbar('#noticeModal');
-            var ps3 = new PerfectScrollbar('#myModal10');
+            // var ps1 = new PerfectScrollbar('#myModal');
+            // var ps2 = new PerfectScrollbar('#noticeModal');
+            // var ps3 = new PerfectScrollbar('#myModal10');
 
         }).on('hide.bs.modal', function() {
-            var ps1 = new PerfectScrollbar('#myModal');
-            var ps2 = new PerfectScrollbar('#noticeModal');
-            var ps3 = new PerfectScrollbar('#myModal10');
+            // var ps1 = new PerfectScrollbar('#myModal');
+            // var ps2 = new PerfectScrollbar('#noticeModal');
+            // var ps3 = new PerfectScrollbar('#myModal10');
 
-            ps1.destroy();
-            ps2.destroy();
-            ps3.destroy();
+            // ps1.destroy();
+            // ps2.destroy();
+            // ps3.destroy();
         });
     }
 

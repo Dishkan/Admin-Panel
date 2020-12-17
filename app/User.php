@@ -31,7 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'picture' ,'role_id'
+        'firstname', 'lastname', 'phonenumber', 'email', 'password', 'picture' ,'role_id'
     ];
 
     /**
@@ -64,7 +64,7 @@ class User extends Authenticatable
             return "/storage/{$this->picture}";
         }
 
-        return 'http://i.pravatar.cc/200';
+        return 'https://i.pravatar.cc/200';
     }
 
     /**

@@ -89,7 +89,7 @@ dt = {
                 // We make sure that we activate the perfect scrollbar when the view isn't on Month
                 if( view.name != 'month' ){
 
-                    var ps1 = new PerfectScrollbar( '.fc-scroller' );
+                    //var ps1 = new PerfectScrollbar( '.fc-scroller' );
                 }
             },
             header      : {

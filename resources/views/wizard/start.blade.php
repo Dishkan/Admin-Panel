@@ -1,10 +1,13 @@
-@extends('layouts.app', [
+@extends('layouts.wizard', [
     'namePage'        => 'Dealer Wizard',
     'class'           => 'login-page sidebar-mini ',
     'activePage'      => 'wizard',
     'backgroundImage' => asset('now') . '/img/jet.jpg',
 ])
 
+@push('style')
+
+@endpush
 
 @section('content')
 
@@ -124,7 +127,7 @@
                             <h3 class="card-title">
                                 Build Your Dealer Site
                             </h3>
-                            <h3 class="description">This information will let us know more about you.</h5>
+                            <h3 class="description">This information will let us know more about you.</h3>
                                 <div class="wizard-navigation">
                                     <ul class="nav nav-pills">
                                         <li class="nav-item">
@@ -140,14 +143,15 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#address" data-toggle="tab"
-                                               role="tab" aria-controls="address" aria-selected="false">
-                                                <i class="now-ui-icons ui-1_email-85"></i> Address
+                                            <a class="nav-link" href="#finish" data-toggle="tab"
+                                               role="tab" aria-controls="finish" aria-selected="false">
+                                                <i class="now-ui-icons ui-1_check"></i> Finish
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                         </div>
+
                         <div class="card-body">
                             <div class="tab-content">
 
@@ -240,9 +244,9 @@
                                         <div class="col-sm-4">
                                             <div class="picture-container">
                                                 <div class="picture">
-                                                    <img data-default="../../assets/img/default-avatar.png" src="../../assets/img/default-avatar.png" class="picture-src"
+                                                    <img data-default="{{asset('now/img/default-avatar.png')}}" src="{{asset('now/img/default-avatar.png')}}" class="picture-src"
                                                          id="logo" title=""/>
-                                                    <input type="file" id="logo_input" class="wizard-picture">
+                                                    <input name="logo_src" type="file" id="logo_input" class="wizard-picture">
                                                 </div>
                                                 <h6 class="description">Logo</h6>
                                             </div>
@@ -251,9 +255,9 @@
                                         <div class="col-sm-4">
                                             <div class="picture-container">
                                                 <div class="picture">
-                                                    <img data-default="../../assets/img/default-avatar.png" src="../../assets/img/default-avatar.png" class="picture-src"
+                                                    <img data-default="{{asset('now/img/default-avatar.png')}}" src="{{asset('now/img/default-avatar.png')}}" class="picture-src"
                                                          id="site_icon" title=""/>
-                                                    <input type="file" id="site_icon_input" class="wizard-picture">
+                                                    <input name="site_icon_src" type="file" id="site_icon_input" class="wizard-picture">
                                                 </div>
                                                 <h6 class="description">Site Icon</h6>
                                             </div>
@@ -376,6 +380,7 @@
                                         </div>
 
                                     </div>
+
                                     <div class="row justify-content-center">
 
                                         <div class="col-lg-10 mt-3">
@@ -394,11 +399,29 @@
 
                                     </div>
 
+                                    {{--
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-10 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons tech_mobile"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" placeholder="Monday" value=""
+                                                       class="form-control" name="hours[monday]">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    --}}
+
                                 </div>
 
-
-                                <div class="tab-pane fade" id="address">
-
+                                <div class="tab-pane fade" id="finish">
 
                                     <div class="row justify-content-center">
 
@@ -411,7 +434,7 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" class="form-control" value="John"
-                                                       placeholder="First Name (required)" name="firstname">
+                                                       placeholder="First Name (required)" name="person_firstname">
                                             </div>
 
                                             <div class="input-group form-control-lg">
@@ -421,83 +444,63 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" placeholder="Last Name (required)" value="Doe"
-                                                       class="form-control" name="lastname"/>
+                                                       class="form-control" name="person_lastname"/>
                                             </div>
 
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-sm-4">
-                                            <div class="picture-container">
-                                                <div class="picture">
-                                                    <img src="../../assets/img/default-avatar.png" class="picture-src"
-                                                         id="wizardPicturePreview" title=""/>
-                                                    <input type="file" id="wizard-picture">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons text_caps-small"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input type="email" placeholder="Email (required)" class="form-control"
+                                                           value="jdoe@datgate.com"
+                                                           name="person_email"/>
                                                 </div>
-                                                <h6 class="description">Choose Logo</h6>
                                             </div>
-                                        </div>
 
-                                        <div class="col-lg-10 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons tech_mobile"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input placeholder="Phone (required)" class="form-control" name="person_phonenumber" value="1234567891"/>
+                                                </div>
+                                            </div>
+
+                                            <!--Begin input password -->
+                                            <div class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons objects_key-25"></i>
+                                                    </div>
+                                                </div>
+                                                <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" type="password" name="person_password" required>
+                                                @if ($errors->has('password'))
+                                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                      <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                                                @endif
+                                            </div>
+                                            <!--Begin input confirm password -->
                                             <div class="input-group form-control-lg">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
-                                                        <i class="now-ui-icons text_caps-small"></i>
+                                                        <i class="now-ui-icons objects_key-25"></i></i>
                                                     </div>
                                                 </div>
-                                                <input type="email" placeholder="Email (required)" class="form-control"
-                                                       value="jdoe@datgate.com"
-                                                       name="email"/>
+                                                <input class="form-control" placeholder="{{ __('Confirm Password') }}" type="password" name="person_password_confirmation" required>
                                             </div>
+
                                         </div>
 
                                     </div>
 
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-sm-12">
-                                            <h5 class="info-text"> Are you living in a nice area? </h5>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="form-group">
-                                                <label>Street Name</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <label>Street No.</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label>City</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label>Country</label>
-                                                <select class="selectpicker" data-size="7"
-                                                        data-style="btn btn-primary btn-round" title="Single Select">
-                                                    <option value="Afghanistan"> Afghanistan</option>
-                                                    <option value="Albania"> Albania</option>
-                                                    <option value="Algeria"> Algeria</option>
-                                                    <option value="American Samoa"> American Samoa</option>
-                                                    <option value="Andorra"> Andorra</option>
-                                                    <option value="Angola"> Angola</option>
-                                                    <option value="Anguilla"> Anguilla</option>
-                                                    <option value="Antarctica"> Antarctica</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -539,15 +542,20 @@
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initMap(){
+
+            if( !document.getElementById( 'map' ) ){
+                return
+            }
+
             const map            = new google.maps.Map( document.getElementById( 'map' ), {
                 center          : { lat: 38.931, lng: -99.88 },
                 zoom            : 4,
                 disableDefaultUI: true,
             } );
-            const input          = document.getElementById( 'pac-input' );
-            const autocomplete   = new google.maps.places.Autocomplete( input );
-            let place_name_input = document.getElementById( 'place_name' );
-            let place_id_input   = document.getElementById( 'place_id' );
+            const input          = document.getElementById( 'pac-input' )
+            const autocomplete   = new google.maps.places.Autocomplete( input )
+            let place_name_input = document.getElementById( 'place_name' )
+            let place_id_input   = document.getElementById( 'place_id' )
 
             autocomplete.bindTo( 'bounds', map );
             // Specify just the place data fields that you need.
@@ -585,9 +593,13 @@
                 } );
                 marker.setVisible( true );
 
+                // do nothing if place id already set and it's the same
+                if( place_id_input.value === place.place_id ){
+                    return
+                }
+
                 place_name_input.value = place.name
                 place_id_input.value   = place.place_id
-
 
                 // get details
                 let service = new google.maps.places.PlacesService( map );
@@ -599,6 +611,8 @@
 
                     if( status === google.maps.places.PlacesServiceStatus.OK ){
                         let place_data_conv = []
+
+                        console.log(place_data)
 
                         if( place_data.website ){
                             let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
@@ -735,7 +749,7 @@
             } )
 
 
-            $old_website_url_input.on( 'change click focus keyup', function( el ){
+            $old_website_url_input.on( 'change', function( el ){
                 let $the = $( this )
                 let val  = $the.val()
 

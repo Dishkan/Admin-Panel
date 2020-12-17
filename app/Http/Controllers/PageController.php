@@ -19,6 +19,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\User;
+use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller{
 	/**
@@ -46,10 +50,34 @@ class PageController extends Controller{
 
 		// save data
 		if( $request->isMethod('POST') ){
-			$input = $request->except('_token');
+			$input = $request->except(['_token','finish']);
 
-			exit('<pre>' . print_r($input, 1) . '</pre>'); # DEBUG OUT
+			// Register New User and Site, and add user id to the site
+			$user_data = array_filter( $input, function( $key ){
+				return 'person_' === substr( $key, 0, 7 );
+			}, ARRAY_FILTER_USE_KEY);
 
+			// Prepare array
+			$_user_data = [];
+			foreach( $user_data as $key => $val ){
+				$new_key                = substr( $key, 7 );
+				$_user_data[ $new_key ] = $val;
+			}
+			$user_data = $_user_data;
+
+			$user = User::create( [
+				'firstname'   => $user_data['firstname'],
+				'lastname'    => $user_data['lastname'],
+				'email'       => $user_data['email'],
+				'phonenumber' => $user_data['phonenumber'],
+				'password'    => Hash::make( $user_data['password'] ),
+				'role_id'     => 3 // Dealer role id
+			] );
+
+			// Login with created user
+			auth()->login( $user );
+
+			return redirect()->route('home');
 		}
 		else
 			return view( 'wizard.start' );
@@ -63,7 +91,6 @@ class PageController extends Controller{
 	 * @return \Illuminate\View\View
 	 */
 	public function index( string $page ){
-
 		if( 'wizard' === $page ){
 			return view( 'wizard.start' );
 		}

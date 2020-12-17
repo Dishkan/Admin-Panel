@@ -789,7 +789,7 @@
   <script src="../../now/demo/demo.js"></script>
   <script>
     $(document).ready(function() {
-      demo.checkFullPageBackgroundImage();
+      dt.checkFullPageBackgroundImage();
     });
   </script>
 </body>
