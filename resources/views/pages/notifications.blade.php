@@ -109,13 +109,13 @@
                 <div class="col-lg-8 ml-auto mr-auto">
                   <div class="row">
                     <div class="col-md-4">
-                      <button class="btn btn-primary btn-block" onclick="demo.showNotification('top','left')">Top Left</button>
+                      <button class="btn btn-primary btn-block" onclick="dt.showNotification('top','left')">Top Left</button>
                     </div>
                     <div class="col-md-4">
-                      <button class="btn btn-primary btn-block" onclick="demo.showNotification('top','center')">Top Center</button>
+                      <button class="btn btn-primary btn-block" onclick="dt.showNotification('top','center')">Top Center</button>
                     </div>
                     <div class="col-md-4">
-                      <button class="btn btn-primary btn-block" onclick="demo.showNotification('top','right')">Top Right</button>
+                      <button class="btn btn-primary btn-block" onclick="dt.showNotification('top','right')">Top Right</button>
                     </div>
                   </div>
                 </div>
@@ -124,13 +124,13 @@
                 <div class="col-lg-8 ml-auto mr-auto">
                   <div class="row">
                     <div class="col-md-4">
-                      <button class="btn btn-primary btn-block" onclick="demo.showNotification('bottom','left')">Bottom Left</button>
+                      <button class="btn btn-primary btn-block" onclick="dt.showNotification('bottom','left')">Bottom Left</button>
                     </div>
                     <div class="col-md-4">
-                      <button class="btn btn-primary btn-block" onclick="demo.showNotification('bottom','center')">Bottom Center</button>
+                      <button class="btn btn-primary btn-block" onclick="dt.showNotification('bottom','center')">Bottom Center</button>
                     </div>
                     <div class="col-md-4">
-                      <button class="btn btn-primary btn-block" onclick="demo.showNotification('bottom','right')">Bottom Right</button>
+                      <button class="btn btn-primary btn-block" onclick="dt.showNotification('bottom','right')">Bottom Right</button>
                     </div>
                   </div>
                 </div>

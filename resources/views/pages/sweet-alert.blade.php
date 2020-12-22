@@ -22,7 +22,7 @@
           <div class="card ">
             <div class="card-body text-center">
               <p class="card-text">Basic example</p>
-              <button class="btn btn-primary btn-fill" onclick="demo.showSwal('basic')">Try me!</button>
+              <button class="btn btn-primary btn-fill" onclick="dt.showSwal('basic')">Try me!</button>
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
           <div class="card ">
             <div class="card-body text-center">
               <p class="card-text">A success message</p>
-              <button class="btn btn-primary btn-fill" onclick="demo.showSwal('success-message')">Try me!</button>
+              <button class="btn btn-primary btn-fill" onclick="dt.showSwal('success-message')">Try me!</button>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
           <div class="card ">
             <div class="card-body text-center">
               <p class="card-text">Custom HTML description</p>
-              <button class="btn btn-primary btn-fill" onclick="demo.showSwal('custom-html')">Try me!</button>
+              <button class="btn btn-primary btn-fill" onclick="dt.showSwal('custom-html')">Try me!</button>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@
           <div class="card ">
             <div class="card-body text-center">
               <p class="card-text">A warning message, with a function attached to the "Confirm" Button...</p>
-              <button class="btn btn-primary btn-fill" onclick="demo.showSwal('warning-message-and-confirmation')">Try me!</button>
+              <button class="btn btn-primary btn-fill" onclick="dt.showSwal('warning-message-and-confirmation')">Try me!</button>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
           <div class="card ">
             <div class="card-body text-center">
               <p class="card-text">Modal window with input field</p>
-              <button class="btn btn-primary btn-fill" onclick="demo.showSwal('input-field')">Try me!</button>
+              <button class="btn btn-primary btn-fill" onclick="dt.showSwal('input-field')">Try me!</button>
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
           <div class="card ">
             <div class="card-body text-center">
               <p class="card-text">A title with a text under</p>
-              <button class="btn btn-primary btn-fill" onclick="demo.showSwal('title-and-text')">Try me!</button>
+              <button class="btn btn-primary btn-fill" onclick="dt.showSwal('title-and-text')">Try me!</button>
             </div>
           </div>
         </div>
@@ -76,7 +76,7 @@
           <div class="card ">
             <div class="card-body text-center">
               <p class="card-text">A message with auto close timer set to 2 seconds</p>
-              <button class="btn btn-primary btn-fill" onclick="demo.showSwal('auto-close')">Try me!</button>
+              <button class="btn btn-primary btn-fill" onclick="dt.showSwal('auto-close')">Try me!</button>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@
           <div class="card ">
             <div class="card-body text-center">
               <p class="card-text">...and by passing a parameter, you can execute something else for "Cancel"</p>
-              <button class="btn btn-primary btn-fill" onclick="demo.showSwal('warning-message-and-cancel')">Try me!</button>
+              <button class="btn btn-primary btn-fill" onclick="dt.showSwal('warning-message-and-cancel')">Try me!</button>
             </div>
           </div>
         </div>

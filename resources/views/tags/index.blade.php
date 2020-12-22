@@ -63,7 +63,7 @@
                                                         <form action="{{ route('tag.destroy', $tag) }}" method="post" style="display:inline-block;" class ="delete-form">
                                                             @csrf
                                                             @method('delete')
-                                                            <button type="button" rel="tooltip" class="btn btn-danger btn-icon btn-sm delete-button" data-original-title="" title="" onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                            <button type="button" rel="tooltip" class="btn btn-danger btn-icon btn-sm delete-button" data-original-title="" title="" onclick="dt.showSwal('warning-message-and-confirmation')">
                                                                 <i class="now-ui-icons ui-1_simple-remove"></i>
                                                             </button>
                                                         </form>
