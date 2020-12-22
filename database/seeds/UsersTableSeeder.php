@@ -41,16 +41,6 @@ class UsersTableSeeder extends Seeder{
 		] );
 
 		factory( App\User::class )->create( [
-			'id'          => 3,
-			'firstname'   => 'Dishkan',
-			'lastname'    => 'Khudoyarov',
-			'phonenumber' => '1234567891',
-			'email'       => 'dishkan@datgate.com',
-			'password'    => Hash::make( '123456' ),
-			'role_id'     => 1,
-		] );
-
-		factory( App\User::class )->create( [
 			'id'          => 4,
 			'firstname'   => 'Creator',
 			'lastname'    => '',
@@ -68,6 +58,16 @@ class UsersTableSeeder extends Seeder{
 			'email'       => 'rth@datgate.com',
 			'password'    => Hash::make( '123456' ),
 			'role_id'     => 3,
+		] );
+		
+		factory( App\User::class )->create( [
+			'id'          => 6,
+			'firstname'   => 'Dishkan',
+			'lastname'    => 'Khudoyarov',
+			'phonenumber' => '1234567891',
+			'email'       => 'dishkan@datgate.com',
+			'password'    => Hash::make( '123456' ),
+			'role_id'     => 1,
 		] );
 	}
 }

@@ -18,7 +18,7 @@ Route::get( '/', function(){
 Auth::routes();
 Route::get( '/home', 'HomeController@index' )->name( 'home' );
 
-Route::match( ['GET','POST'], 'wizard', 'PageController@wizard' );
+Route::resource( 'wizard',  'SitesController'  );
 
 Route::get( 'pricing', 'PageController@pricing' )->name( 'page.pricing' );
 Route::get( 'lock',    'PageController@lock'    )->name( 'page.lock'    );

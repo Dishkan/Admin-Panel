@@ -14,7 +14,7 @@ class CreateSitesTable extends Migration
     public function up()
     {
         Schema::create('sites', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->timestamps();
             $table->string( 'type', 50 ); // enum of: group, oem, independent
 	        $table->string( 'place_name', 250 )->nullable();
@@ -29,8 +29,8 @@ class CreateSitesTable extends Migration
 	        $table->string( 'city', 250 )->nullable();
 	        $table->string( 'postal_code', 10 )->nullable();
 	        $table->string( 'address', 250 )->nullable();
-
-	        $table->integer( 'user_id' );
+			$table->integer('user_id')->unsigned()->default(1);
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
