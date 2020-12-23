@@ -148,4 +148,8 @@ class SitesController extends Controller{
 	public function destroy( $id ){
 		//
     }
+
+    public function get_not_created(){
+		return Site::where(['processed'=>0])->get()->toJson();
+    }
 }
