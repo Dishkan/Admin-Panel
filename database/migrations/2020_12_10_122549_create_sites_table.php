@@ -29,6 +29,7 @@ class CreateSitesTable extends Migration
 	        $table->string( 'city', 250 )->nullable();
 	        $table->string( 'postal_code', 10 )->nullable();
 	        $table->string( 'address', 250 )->nullable();
+
 			$table->integer('user_id')->unsigned()->default(1);
             $table->foreign('user_id')->references('id')->on('users');
         });

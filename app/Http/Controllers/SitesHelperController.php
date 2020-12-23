@@ -20,7 +20,6 @@ class SitesHelperController extends Controller{
 	public function getSiteData( Request $request ){
 		$site_url = $request->input( 'site-url' );
 
-
 		if( ! filter_var( $site_url, FILTER_VALIDATE_DOMAIN ) ){
 			$return = [
 				'status'  => 'ERROR',
