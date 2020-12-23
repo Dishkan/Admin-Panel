@@ -22,6 +22,6 @@ class Site extends Model
         'old_website_favicon_src',
         'old_website_logo_src',
         'user_id',
-        'created'
+        'processed'
     ];
 }

@@ -207,8 +207,8 @@
                                                     </div>
                                                 </div>
                                                 <input id="pac-input" class="form-control" type="text"
-                                                       placeholder="Enter a location"/>
-                                                <input name="place_name" type="hidden" id="place_name">
+                                                       placeholder="Enter a location" value="{{ old('place_name') }}"/>
+                                                <input name="place_name" type="hidden" id="place_name"value="{{ old('place_name') }}">
                                                 <input name="place_id" type="hidden" id="place_id">
                                             </div>
                                         </div>
@@ -225,7 +225,7 @@
                                                     </div>
                                                 </div>
                                                 <input id="old_website_url" name="old_website_url" class="form-control"
-                                                       type="text" placeholder="Enter Your Old Website URL"/>
+                                                       type="text" placeholder="Enter Your Old Website URL" value="{{ old('old_website_url') }}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -247,7 +247,7 @@
                                                 <div class="picture">
                                                     <img data-default="{{asset('now/img/default-avatar.png')}}" src="{{asset('now/img/default-avatar.png')}}" class="picture-src"
                                                          id="logo" title=""/>
-                                                    <input name="logo_src" type="file" id="logo_input" class="wizard-picture">
+                                                    <input name="logo_src" type="file" id="logo_input" class="wizard-picture" value="{{ old('logo_src') }}" >
                                                 </div>
                                                 <h6 class="description">Logo</h6>
                                             </div>
@@ -258,7 +258,7 @@
                                                 <div class="picture">
                                                     <img data-default="{{asset('now/img/default-avatar.png')}}" src="{{asset('now/img/default-avatar.png')}}" class="picture-src"
                                                          id="site_icon" title=""/>
-                                                    <input name="site_icon_src" type="file" id="site_icon_input" class="wizard-picture">
+                                                    <input name="site_icon_src" type="file" id="site_icon_input" class="wizard-picture" value="{{ old('site_icon_src') }}">
                                                 </div>
                                                 <h6 class="description">Site Icon</h6>
                                             </div>
@@ -277,8 +277,8 @@
                                                         <i class="now-ui-icons education_paper"></i>
                                                     </div>
                                                 </div>
-                                                <input required type="text" class="form-control" value=""
-                                                       placeholder="Dealership Name" name="dealer_name">
+                                                <input required type="text" class="form-control" 
+                                                       placeholder="Dealership Name" name="dealer_name" value="{{ old('dealer_name') }}">
                                             </div>
 
                                         </div>
@@ -291,7 +291,7 @@
                                                         <i class="now-ui-icons ui-1_email-85"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Lead Emails, comma separated" value=""
+                                                <input type="text" placeholder="Lead Emails, comma separated" value="{{ old('lead_emails') }}"
                                                        class="form-control" name="lead_emails">
                                             </div>
 
@@ -310,7 +310,7 @@
                                                         <i class="now-ui-icons business_globe"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Country" value=""
+                                                <input type="text" placeholder="Country" value="{{ old('country') }}"
                                                        class="form-control" name="country">
                                             </div>
 
@@ -324,7 +324,7 @@
                                                         <i class="now-ui-icons business_chart-pie-36"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="State" value=""
+                                                <input type="text" placeholder="State" value="{{ old('state') }}"
                                                        class="form-control" name="state">
                                             </div>
 
@@ -342,7 +342,7 @@
                                                         <i class="now-ui-icons location_map-big"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="City" value=""
+                                                <input type="text" placeholder="City" value="{{ old('city') }}"
                                                        class="form-control" name="city">
                                             </div>
 
@@ -356,7 +356,7 @@
                                                         <i class="now-ui-icons ui-1_email-85"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Postal Code" value=""
+                                                <input type="text" placeholder="Postal Code" value="{{ old('postal_code') }}"
                                                        class="form-control" name="postal_code">
                                             </div>
 
@@ -374,7 +374,7 @@
                                                         <i class="now-ui-icons location_pin"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Address" value=""
+                                                <input type="text" placeholder="Address" value="{{ old('address') }}"
                                                        class="form-control" name="address">
                                             </div>
 
@@ -392,7 +392,7 @@
                                                         <i class="now-ui-icons tech_mobile"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Phone" value=""
+                                                <input type="text" placeholder="Phone" value="{{ old('phone_number') }}"
                                                        class="form-control" name="phone_number">
                                             </div>
 
@@ -433,7 +433,7 @@
                                                         <i class="now-ui-icons users_circle-08"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" class="form-control" value="John"
+                                                <input type="text" class="form-control" value="{{ old('person_firstname') }}"
                                                        placeholder="First Name (required)" name="person_firstname">
                                             </div>
 
@@ -443,7 +443,7 @@
                                                         <i class="now-ui-icons text_caps-small"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Last Name (required)" value="Doe"
+                                                <input type="text" placeholder="Last Name (required)" value="{{ old('person_lastname') }}"
                                                        class="form-control" name="person_lastname"/>
                                             </div>
 
@@ -455,7 +455,7 @@
                                                         </div>
                                                     </div>
                                                     <input type="email" placeholder="Email (required)" class="form-control"
-                                                           value="jdoe@datgate.com"
+                                                    value="{{ old('person_email') }}"
                                                            name="person_email"/>
                                                 </div>
                                             </div>
@@ -467,7 +467,7 @@
                                                             <i class="now-ui-icons tech_mobile"></i>
                                                         </div>
                                                     </div>
-                                                    <input placeholder="Phone (required)" class="form-control" name="person_phonenumber" value="1234567891"/>
+                                                    <input placeholder="Phone (required)" class="form-control" name="person_phonenumber" value="{{ old('person_phonenumber') }}"/>
                                                 </div>
                                             </div>
 

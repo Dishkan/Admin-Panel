@@ -63,10 +63,10 @@ class SitesController extends Controller{
                 'unique:users,phonenumber'
                 ], 
               ]); 
-        
+              
         
             if ($validator->fails()) {
-                return back()->with($input)->withErrors($validator);
+                return back()->withInput()->withErrors($validator);
             }
 
 			$user = User::create( [
@@ -98,7 +98,8 @@ class SitesController extends Controller{
 			] );
 
 			return redirect()->route( 'home' );
-		}
+        }
+        
 		else
             return view( 'wizard.start' );
         
