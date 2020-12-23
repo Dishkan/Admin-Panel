@@ -20,6 +20,7 @@ Route::get( '/home', 'HomeController@index' )->name( 'home' );
 
 Route::resource( 'wizard',  'SitesController'  );
 
+
 Route::get( 'pricing', 'PageController@pricing' )->name( 'page.pricing' );
 Route::get( 'lock',    'PageController@lock'    )->name( 'page.lock'    );
 Route::get( 'error', [ 'as' => 'page.error', 'uses' => 'PageController@error' ] );

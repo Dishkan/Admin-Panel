@@ -118,6 +118,7 @@
     </div>
     <div class="content">
         <div class="col-md-10 mr-auto ml-auto">
+            @include('wizard.errors')
             <!--      Wizard container        -->
             <div class="wizard-container">
                 <div class="card card-wizard" data-color="primary" id="wizardProfile">
@@ -142,7 +143,7 @@
                                                 <i class="now-ui-icons ui-1_settings-gear-63"></i> Account
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item" >
                                             <a class="nav-link" href="#finish" data-toggle="tab"
                                                role="tab" aria-controls="finish" aria-selected="false">
                                                 <i class="now-ui-icons ui-1_check"></i> Finish
@@ -422,7 +423,6 @@
                                 </div>
 
                                 <div class="tab-pane fade" id="finish">
-
                                     <div class="row justify-content-center">
 
                                         <div class="col-sm-6 mt-3">
@@ -721,6 +721,9 @@
             let $types                 = $( '.types_js' )
             let $inputs_types          = $types.find( '.choice' )
             let $old_website_url_input = $form.find( '#old_website_url' )
+            let $email_input           = $form.find( 'input[name="person_email"]' )
+            let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
+
 
             $inputs_types.on( 'click', function( el ){
                 let $el          = $( el.currentTarget )
@@ -747,6 +750,45 @@
                 } )
 
             } )
+
+            $email_input.on('keyup focus blur', function(){
+
+                let $the  = $(this)
+                let email = $the.val()
+           
+                $.ajax({
+                    url: "{{ route('API_isEmailUnique') }}?email=" + email
+                }).done(function( data ){
+                    let parsed = JSON.parse( data )
+
+                    if( 'ERROR' === parsed.status ){
+                        let $errorLabel = $('#person_email-error')
+                        $errorLabel.html( parsed.message )
+                        $errorLabel.show()
+                    }
+
+                });
+            })
+
+            $phone_input.on('keyup focus blur', function(){
+
+                     let $the  = $(this)
+                     let phone = $the.val()
+                    
+                $.ajax({
+                        url: "{{ route('API_isPhoneUnique') }}?phone=" + phone
+                        }).done(function( data ){
+                        let parsed = JSON.parse( data )
+                        
+
+                    if( 'ERROR' === parsed.status ){
+                        let $errorLabel = $('#person_phone-error')
+                        $errorLabel.html( parsed.message )
+                        $errorLabel.show()
+                    }
+
+                });
+            })
 
 
             $old_website_url_input.on( 'change', function( el ){

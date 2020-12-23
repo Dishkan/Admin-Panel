@@ -14,7 +14,7 @@ class AddCreatedToSitesTable extends Migration
     public function up()
     {
         Schema::table('sites', function (Blueprint $table) {
-            $table->boolean('processed');
+            $table->boolean('processed')->default(0);
         });
     }
 

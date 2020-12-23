@@ -85,4 +85,47 @@ class SitesHelperController extends Controller{
 		return json_encode( $return, JSON_UNESCAPED_SLASHES );
 	}
 
+	public function isEmailUnique( Request $request ) {
+		$email = $request->input( 'email' );
+
+		if( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ){
+			$return = [
+				'status'  => 'ERROR',
+				'message' => 'Email is not valid',
+			];
+		}
+		else{
+			$data = [];
+
+			$return = [
+				'status' => 'OK',
+				'data'   => $data,
+			];
+		}
+
+		return json_encode( $return, JSON_UNESCAPED_SLASHES );
+	}
+
+	public function isPhoneUnique( Request $request ) {
+		$phone = $request->input( 'phone' );
+
+		if( ! filter_var( $phone, FILTER_VALIDATE_INT ) ){
+			$return = [
+				'status'  => 'ERROR',
+				'message' => 'The phone is incorrect',
+			];
+		}
+		
+		else {
+			$data = [];
+
+			$return = [
+				'status' => 'OK',
+				'data'   => $data,
+			];
+		}
+
+		return json_encode( $return, JSON_UNESCAPED_SLASHES );
+	}
+
 }

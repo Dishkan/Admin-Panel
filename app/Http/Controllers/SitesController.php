@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class SitesController extends Controller{
 	/**
@@ -50,7 +51,23 @@ class SitesController extends Controller{
 				$new_key                = substr( $key, 7 );
 				$_user_data[ $new_key ] = $val;
 			}
-			$user_data = $_user_data;
+            $user_data = $_user_data;
+
+            $validator = Validator::make($input, [
+                'person_firstname' => 'required|max:255',
+                'person_lastname' => 'required|max:255',
+                'person_email' => 'required|email|max:255|unique:users,email',
+                'person_phonenumber' => [
+                'required', 
+                'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
+                'unique:users,phonenumber'
+                ], 
+              ]); 
+        
+        
+            if ($validator->fails()) {
+                return back()->with($input)->withErrors($validator);
+            }
 
 			$user = User::create( [
 				'firstname'   => $user_data['firstname'],
@@ -59,15 +76,12 @@ class SitesController extends Controller{
 				'phonenumber' => $user_data['phonenumber'],
 				'password'    => Hash::make( $user_data['password'] ),
 				'role_id'     => 3 // Dealer role id
-			] );
-
-			// TODO: Dishkan: тут надо использовать Validator и вернуть юзера на тот же пункт и подсветить поля, если есть ошибки или дублирующиеся записи (имя занято, что-то пустое и т.д.)
-
+            ] );
+		
 			// Login with created user
 			auth()->login( $user );
 
-			// TODO: Dishkan: на сколько я понял, переменная $site ниже нам не нужна
-			$site = Site::create( [
+		    Site::create( [
 				'dealer_name'     => $input['dealer_name'],
 				'lead_emails'     => $input['lead_emails'],
 				'country'         => $input['country'],
@@ -80,17 +94,15 @@ class SitesController extends Controller{
 				'place_id'        => $input['place_id'],
 				'old_website_url' => $input['old_website_url'],
 				'user_id'         => Auth::id(),
-				'processed'       => false, // TODO: Dishkan: должно быть false по-умолчанию, т.к. он только зарегал и баг скрипт еще не отработал, сайт еще не создан. Мы будет делать выборку `WHERE created = 0` создавать сайты на сервере и менять это на `1` если сайт успешно создан.
+				'processed'       => false, 
 			] );
 
 			return redirect()->route( 'home' );
 		}
 		else
-			return view( 'wizard.start' );
-
-
-		// TODO: Dishkan: соблюдай вложенность и отступы
-	}
+            return view( 'wizard.start' );
+        
+        }
 
 	/**
 	 * Display the specified resource.
@@ -135,5 +147,5 @@ class SitesController extends Controller{
 	 */
 	public function destroy( $id ){
 		//
-	}
+    }
 }
