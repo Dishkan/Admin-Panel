@@ -5,9 +5,9 @@
     'backgroundImage' => asset('now') . '/img/jet.jpg',
 ])
 
-@push('style')
-
-@endpush
+<?php
+$activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'] : 'type';
+?>
 
 @section('content')
 
@@ -118,8 +118,8 @@
     </div>
     <div class="content">
         <div class="col-md-10 mr-auto ml-auto">
-            @include('wizard.errors')
-            <!--      Wizard container        -->
+        @include('wizard.errors')
+        <!--      Wizard container        -->
             <div class="wizard-container">
                 <div class="card card-wizard" data-color="primary" id="wizardProfile">
                     <form action="" method="POST">
@@ -129,41 +129,46 @@
                                 Build Your Dealer Site
                             </h3>
                             <h3 class="description">This information will let us know more about you.</h3>
-                                <div class="wizard-navigation">
-                                    <ul class="nav nav-pills">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#type" data-toggle="tab" role="tab"
-                                               aria-controls="about" aria-selected="true">
-                                                <i class="now-ui-icons users_circle-08"></i> Type
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#account" data-toggle="tab"
-                                               role="tab" aria-controls="account" aria-selected="false">
-                                                <i class="now-ui-icons ui-1_settings-gear-63"></i> Account
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" >
-                                            <a class="nav-link" href="#finish" data-toggle="tab"
-                                               role="tab" aria-controls="finish" aria-selected="false">
-                                                <i class="now-ui-icons ui-1_check"></i> Finish
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="wizard-navigation">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link @if( 'type' === $activeStep ) active @endif" href="#type"
+                                           data-toggle="tab" role="tab"
+                                           aria-controls="about" aria-selected="true">
+                                            <i class="now-ui-icons users_circle-08"></i> Type
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @if ( 'account' === $activeStep ) active @endif"
+                                           href="#account" data-toggle="tab"
+                                           role="tab" aria-controls="account" aria-selected="false">
+                                            <i class="now-ui-icons ui-1_settings-gear-63"></i> Account
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @if( 'finish' === $activeStep ) active @endif" href="#finish"
+                                           data-toggle="tab"
+                                           role="tab" aria-controls="finish" aria-selected="false">
+                                            <i class="now-ui-icons ui-1_check"></i> Finish
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
 
                         <div class="card-body">
                             <div class="tab-content">
 
-                                <div class="tab-pane show active" id="type">
+                                <div class="tab-pane @if( 'type' === $activeStep ) active @endif" id="type">
                                     <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
                                             <div class="row" role="tablist">
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="1">
-                                                        <input type="checkbox" name="type" value="group">
+                                                        <input type="checkbox"
+                                                               {{ 'group' === old('place_name') ? 'checked' : '' }} name="type"
+                                                               value="group">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/group.png')}}" alt="">
                                                         </div>
@@ -172,7 +177,9 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="2">
-                                                        <input type="checkbox" name="type" value="oem">
+                                                        <input type="checkbox"
+                                                               {{ 'oem' === old('place_name') ? 'checked' : '' }} name="type"
+                                                               value="oem">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
@@ -181,7 +188,9 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
-                                                        <input type="checkbox" name="type" value="independent">
+                                                        <input type="checkbox"
+                                                               {{ 'independent' === old('place_name') ? 'checked' : '' }} name="type"
+                                                               value="independent">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">
                                                         </div>
@@ -193,7 +202,7 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade" id="account">
+                                <div class="tab-pane @if( 'account' === $activeStep ) active @endif" id="account">
 
                                     <h5 class="info-text"> Let's start with the basic information</h5>
 
@@ -208,7 +217,8 @@
                                                 </div>
                                                 <input id="pac-input" class="form-control" type="text"
                                                        placeholder="Enter a location" value="{{ old('place_name') }}"/>
-                                                <input name="place_name" type="hidden" id="place_name"value="{{ old('place_name') }}">
+                                                <input name="place_name" type="hidden" id="place_name"
+                                                       value="{{ old('place_name') }}">
                                                 <input name="place_id" type="hidden" id="place_id">
                                             </div>
                                         </div>
@@ -225,7 +235,8 @@
                                                     </div>
                                                 </div>
                                                 <input id="old_website_url" name="old_website_url" class="form-control"
-                                                       type="text" placeholder="Enter Your Old Website URL" value="{{ old('old_website_url') }}"/>
+                                                       type="text" placeholder="Enter Your Old Website URL"
+                                                       value="{{ old('old_website_url') }}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -245,9 +256,12 @@
                                         <div class="col-sm-4">
                                             <div class="picture-container">
                                                 <div class="picture">
-                                                    <img data-default="{{asset('now/img/default-avatar.png')}}" src="{{asset('now/img/default-avatar.png')}}" class="picture-src"
+                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"
+                                                         src="{{asset('now/img/default-avatar.png')}}"
+                                                         class="picture-src"
                                                          id="logo" title=""/>
-                                                    <input name="logo_src" type="file" id="logo_input" class="wizard-picture" value="{{ old('logo_src') }}" >
+                                                    <input name="logo_src" type="file" id="logo_input"
+                                                           class="wizard-picture" value="{{ old('logo_src') }}">
                                                 </div>
                                                 <h6 class="description">Logo</h6>
                                             </div>
@@ -256,9 +270,12 @@
                                         <div class="col-sm-4">
                                             <div class="picture-container">
                                                 <div class="picture">
-                                                    <img data-default="{{asset('now/img/default-avatar.png')}}" src="{{asset('now/img/default-avatar.png')}}" class="picture-src"
+                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"
+                                                         src="{{asset('now/img/default-avatar.png')}}"
+                                                         class="picture-src"
                                                          id="site_icon" title=""/>
-                                                    <input name="site_icon_src" type="file" id="site_icon_input" class="wizard-picture" value="{{ old('site_icon_src') }}">
+                                                    <input name="site_icon_src" type="file" id="site_icon_input"
+                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">
                                                 </div>
                                                 <h6 class="description">Site Icon</h6>
                                             </div>
@@ -277,8 +294,9 @@
                                                         <i class="now-ui-icons education_paper"></i>
                                                     </div>
                                                 </div>
-                                                <input required type="text" class="form-control" 
-                                                       placeholder="Dealership Name" name="dealer_name" value="{{ old('dealer_name') }}">
+                                                <input required type="text" class="form-control"
+                                                       placeholder="Dealership Name" name="dealer_name"
+                                                       value="{{ old('dealer_name') }}">
                                             </div>
 
                                         </div>
@@ -291,7 +309,8 @@
                                                         <i class="now-ui-icons ui-1_email-85"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Lead Emails, comma separated" value="{{ old('lead_emails') }}"
+                                                <input type="text" placeholder="Lead Emails, comma separated"
+                                                       value="{{ old('lead_emails') }}"
                                                        class="form-control" name="lead_emails">
                                             </div>
 
@@ -356,7 +375,8 @@
                                                         <i class="now-ui-icons ui-1_email-85"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Postal Code" value="{{ old('postal_code') }}"
+                                                <input type="text" placeholder="Postal Code"
+                                                       value="{{ old('postal_code') }}"
                                                        class="form-control" name="postal_code">
                                             </div>
 
@@ -422,7 +442,7 @@
 
                                 </div>
 
-                                <div class="tab-pane fade" id="finish">
+                                <div class="tab-pane @if( 'finish' === $activeStep ) active @endif" id="finish">
                                     <div class="row justify-content-center">
 
                                         <div class="col-sm-6 mt-3">
@@ -433,8 +453,10 @@
                                                         <i class="now-ui-icons users_circle-08"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" class="form-control" value="{{ old('person_firstname') }}"
-                                                       placeholder="First Name (required)" name="person_firstname">
+                                                <input type="text" class="form-control"
+                                                       value="{{ old('person_firstname') }}"
+                                                       placeholder="First Name (required)" name="person_firstname"
+                                                       required>
                                             </div>
 
                                             <div class="input-group form-control-lg">
@@ -443,8 +465,9 @@
                                                         <i class="now-ui-icons text_caps-small"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Last Name (required)" value="{{ old('person_lastname') }}"
-                                                       class="form-control" name="person_lastname"/>
+                                                <input type="text" placeholder="Last Name (required)"
+                                                       value="{{ old('person_lastname') }}"
+                                                       class="form-control" name="person_lastname" required>
                                             </div>
 
                                             <div class="input-group form-control-lg">
@@ -454,9 +477,10 @@
                                                             <i class="now-ui-icons text_caps-small"></i>
                                                         </div>
                                                     </div>
-                                                    <input type="email" placeholder="Email (required)" class="form-control"
-                                                    value="{{ old('person_email') }}"
-                                                           name="person_email"/>
+                                                    <input type="email" placeholder="Email (required)"
+                                                           class="form-control"
+                                                           value="{{ old('person_email') }}"
+                                                           name="person_email" required>
                                                 </div>
                                             </div>
 
@@ -467,7 +491,9 @@
                                                             <i class="now-ui-icons tech_mobile"></i>
                                                         </div>
                                                     </div>
-                                                    <input placeholder="Phone (required)" class="form-control" name="person_phonenumber" value="{{ old('person_phonenumber') }}"/>
+                                                    <input placeholder="Phone (required)" class="form-control"
+                                                           name="person_phonenumber"
+                                                           value="{{ old('person_phonenumber') }}" required>
                                                 </div>
                                             </div>
 
@@ -478,11 +504,14 @@
                                                         <i class="now-ui-icons objects_key-25"></i>
                                                     </div>
                                                 </div>
-                                                <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" type="password" name="person_password" required>
+                                                <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                       placeholder="{{ __('Password') }}" type="password"
+                                                       name="person_password" value="{{ old( 'person_password' ) }}"
+                                                       required>
                                                 @if ($errors->has('password'))
                                                     <span class="invalid-feedback" style="display: block;" role="alert">
-                      <strong>{{ $errors->first('password') }}</strong>
-                    </span>
+                                                        <strong>{{ $errors->first('password') }}</strong>
+                                                    </span>
                                                 @endif
                                             </div>
                                             <!--Begin input confirm password -->
@@ -492,7 +521,9 @@
                                                         <i class="now-ui-icons objects_key-25"></i></i>
                                                     </div>
                                                 </div>
-                                                <input class="form-control" placeholder="{{ __('Confirm Password') }}" type="password" name="person_password_confirmation" required>
+                                                <input class="form-control" placeholder="{{ __('Confirm Password') }}"
+                                                       type="password" name="person_password_confirmation"
+                                                       value="{{ old( 'person_password_confirmation' ) }}" required>
                                             </div>
 
                                         </div>
@@ -543,7 +574,7 @@
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initMap(){
 
-            if( !document.getElementById( 'map' ) ){
+            if( ! document.getElementById( 'map' ) ){
                 return
             }
 
@@ -612,7 +643,7 @@
                     if( status === google.maps.places.PlacesServiceStatus.OK ){
                         let place_data_conv = []
 
-                        console.log(place_data)
+                        console.log( place_data )
 
                         if( place_data.website ){
                             let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
@@ -622,20 +653,20 @@
                         }
 
                         for( let p = 0; p < place_data.address_components.length; p++ ){
-                            let type = place_data.address_components[p].types[0]
-                            let val  = place_data.address_components[p].long_name
+                            let type = place_data.address_components[ p ].types[ 0 ]
+                            let val  = place_data.address_components[ p ].long_name
 
                             if( 'locality' === type ){
-                                place_data_conv['city'] = val
+                                place_data_conv[ 'city' ] = val
                             }
                             else if( 'administrative_area_level_1' === type ){
-                                place_data_conv['state'] = val
+                                place_data_conv[ 'state' ] = val
                             }
                             else if( 'postal_code' === type ){
-                                place_data_conv['postal_code'] = val
+                                place_data_conv[ 'postal_code' ] = val
                             }
                             else if( 'country' === type ){
-                                place_data_conv['country'] = val
+                                place_data_conv[ 'country' ] = val
                             }
                         }
 
@@ -651,19 +682,19 @@
                         ]
 
                         for( let o = 0; o < inputs.length; o++ ){
-                            let $input = $('input[name='+inputs[o]+']')
+                            let $input = $( 'input[name=' + inputs[ o ] + ']' )
 
-                            if( 'address' === inputs[o] ){
+                            if( 'address' === inputs[ o ] ){
                                 $input.val( place_data.formatted_address )
                             }
-                            else if( 'dealer_name' === inputs[o] ){
+                            else if( 'dealer_name' === inputs[ o ] ){
                                 $input.val( place_data.name )
                             }
-                            else if( 'phone_number' === inputs[o] ){
+                            else if( 'phone_number' === inputs[ o ] ){
                                 $input.val( place_data.formatted_phone_number )
                             }
                             else{
-                                $input.val( place_data_conv[inputs[o]] )
+                                $input.val( place_data_conv[ inputs[ o ] ] )
                             }
                         }
                     }
@@ -693,7 +724,7 @@
             let $preloader       = $( '#preloader' )
 
             $preloader.show()
-            $wizardContainer.css('opacity', '0.6')
+            $wizardContainer.css( 'opacity', '0.6' )
         }
 
         function preloader_end(){
@@ -701,7 +732,7 @@
             let $preloader       = $( '#preloader' )
 
             $preloader.hide()
-            $wizardContainer.css('opacity', '1')
+            $wizardContainer.css( 'opacity', '1' )
         }
 
         $( document ).ready( function(){
@@ -710,6 +741,8 @@
             // Initialise the wizard
             dt.initNowUiWizard();
 
+			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
+            $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
             $( 'input[name=next]' ).hide()
 
             setTimeout( function(){
@@ -751,45 +784,43 @@
 
             } )
 
-            $email_input.on('keyup focus blur', function(){
+            $email_input.on( 'keyup focus blur', function(){
 
-                let $the  = $(this)
+                let $the  = $( this )
                 let email = $the.val()
-           
-                $.ajax({
+
+                $.ajax( {
                     url: "{{ route('API_isEmailUnique') }}?email=" + email
-                }).done(function( data ){
+                } ).done( function( data ){
                     let parsed = JSON.parse( data )
 
                     if( 'ERROR' === parsed.status ){
-                        let $errorLabel = $('#person_email-error')
+                        let $errorLabel = $( '#person_email-error' )
                         $errorLabel.html( parsed.message )
                         $errorLabel.show()
                     }
 
-                });
-            })
+                } );
+            } )
 
-            $phone_input.on('keyup focus blur', function(){
+            $phone_input.on( 'keyup focus blur', function(){
 
-                     let $the  = $(this)
-                     let phone = $the.val()
-                    
-                $.ajax({
-                        url: "{{ route('API_isPhoneUnique') }}?phone=" + phone
-                        }).done(function( data ){
-                        let parsed = JSON.parse( data )
-                        
+                let $the  = $( this )
+                let phone = $the.val()
+
+                $.ajax( {
+                    url: "{{ route('API_isPhoneUnique') }}?phone=" + phone
+                } ).done( function( data ){
+                    let parsed = JSON.parse( data )
 
                     if( 'ERROR' === parsed.status ){
-                        let $errorLabel = $('#person_phone-error')
+                        let $errorLabel = $( '#person_phone-error' )
                         $errorLabel.html( parsed.message )
                         $errorLabel.show()
                     }
 
-                });
-            })
-
+                } );
+            } )
 
             $old_website_url_input.on( 'change', function( el ){
                 let $the = $( this )
@@ -799,13 +830,13 @@
 
                 preloader_start()
 
-                $.ajax({
+                $.ajax( {
                     url: "{{ route('API_getSiteData') }}?site-url=" + val
-                }).done(function( data ){
+                } ).done( function( data ){
 
                     let parsed = JSON.parse( data )
 
-                    console.log(parsed)
+                    console.log( parsed )
 
                     if( 'OK' !== parsed.status ){
                         preloader_end()
@@ -819,23 +850,25 @@
                         $siteIconImg.attr( 'src', parsed.data.favicon_url )
                     }
                     else{
-                        $siteIconImg.attr( 'src', $siteIconImg.data('default') )
+                        $siteIconImg.attr( 'src', $siteIconImg.data( 'default' ) )
                     }
 
                     if( parsed.data.logo_url ){
                         $logoImg.attr( 'src', parsed.data.logo_url )
                     }
                     else{
-                        $logoImg.attr( 'src', $logoImg.data('default') )
+                        $logoImg.attr( 'src', $logoImg.data( 'default' ) )
                     }
 
                     preloader_end()
-                });
+                } )
             } )
         } )
 
 
     </script>
 @endpush
+
+<?php setcookie( 'activeStep', $activeStep, time() - 3600 ); ?>
 
 

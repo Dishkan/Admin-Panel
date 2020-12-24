@@ -51,23 +51,44 @@ class SitesController extends Controller{
 				$new_key                = substr( $key, 7 );
 				$_user_data[ $new_key ] = $val;
 			}
-            $user_data = $_user_data;
+			$user_data = $_user_data;
 
-            $validator = Validator::make($input, [
-                'person_firstname' => 'required|max:255',
-                'person_lastname' => 'required|max:255',
-                'person_email' => 'required|email|max:255|unique:users,email',
-                'person_phonenumber' => [
-                'required', 
-                'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
-                'unique:users,phonenumber'
-                ], 
-              ]); 
-              
-        
-            if ($validator->fails()) {
-                return back()->withInput()->withErrors($validator);
-            }
+			$validator = Validator::make( $input, [
+				'person_firstname'   => 'required|max:255',
+				'person_lastname'    => 'required|max:255',
+				'person_email'       => 'required|email|max:255|unique:users,email',
+				'person_phonenumber' => [
+					'required',
+					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
+					'unique:users,phonenumber',
+				],
+			] );
+
+			$steps_inputs = [
+				'type' => [
+					'type'
+				],
+				'account' => [
+					'dealer_name',
+					// TODO:
+				],
+				'finish' => [
+					'person_name',
+					// TODO:
+				]
+			];
+			// TODO: Dishkan: определить на каком мы шаге не прошли валидацию, чтоб вернуть пользователя туда
+			$activeStep = 'finish';
+
+
+			setcookie( 'activeStep', $activeStep );
+
+
+			if( $validator->fails() ){
+				return back()
+					->withInput()
+					->withErrors( $validator );
+			}
 
 			$user = User::create( [
 				'firstname'   => $user_data['firstname'],
@@ -76,34 +97,34 @@ class SitesController extends Controller{
 				'phonenumber' => $user_data['phonenumber'],
 				'password'    => Hash::make( $user_data['password'] ),
 				'role_id'     => 3 // Dealer role id
-            ] );
-		
+			] );
+
 			// Login with created user
 			auth()->login( $user );
 
-		    Site::create( [
+			Site::create( [
+				'type'            => $input['type'],
 				'dealer_name'     => $input['dealer_name'],
 				'lead_emails'     => $input['lead_emails'],
 				'country'         => $input['country'],
 				'state'           => $input['state'],
-				'city'            => $input['state'],
-				'postal_code'     => $input['state'],
+				'city'            => $input['city'],
+				'postal_code'     => $input['postal_code'],
 				'address'         => $input['address'],
-				'type'            => $input['type'],
 				'place_name'      => $input['place_name'],
 				'place_id'        => $input['place_id'],
 				'old_website_url' => $input['old_website_url'],
 				'user_id'         => Auth::id(),
-				'processed'       => false, 
+				'processed'       => false,
 			] );
 
 			return redirect()->route( 'home' );
-        }
-        
+		}
+
 		else
-            return view( 'wizard.start' );
-        
-        }
+			return view( 'wizard.start' );
+
+	}
 
 	/**
 	 * Display the specified resource.
@@ -148,9 +169,9 @@ class SitesController extends Controller{
 	 */
 	public function destroy( $id ){
 		//
-    }
+	}
 
-    public function get_not_created(){
-		return Site::where(['processed'=>0])->get()->toJson();
-    }
+	public function get_not_created(){
+		return Site::where( [ 'processed' => 0 ] )->get()->toJson();
+	}
 }
