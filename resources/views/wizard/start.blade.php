@@ -11,6 +11,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
 @section('content')
 
+    <script>
+        console.log( '<?= $activeStep ?>' )
+    </script>
+
     <style>
         .content .card-body .tab-content .icon{
             display:flex;
@@ -167,7 +171,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="1">
                                                         <input type="checkbox"
-                                                               {{ 'group' === old('place_name') ? 'checked' : '' }} name="type"
+                                                               {{ 'group' === old('type') ? 'checked' : '' }} name="type"
                                                                value="group">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/group.png')}}" alt="">
@@ -178,7 +182,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="2">
                                                         <input type="checkbox"
-                                                               {{ 'oem' === old('place_name') ? 'checked' : '' }} name="type"
+                                                               {{ 'oem' === old('type') ? 'checked' : '' }} name="type"
                                                                value="oem">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
@@ -189,7 +193,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
                                                         <input type="checkbox"
-                                                               {{ 'independent' === old('place_name') ? 'checked' : '' }} name="type"
+                                                               {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
                                                                value="independent">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">

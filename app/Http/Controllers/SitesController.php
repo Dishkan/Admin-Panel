@@ -87,21 +87,19 @@ class SitesController extends Controller{
 				]
 			];
 
-			foreach ($steps_inputs as $k => $v) { // можно nested for сделать но будет O(n^2)
+			if( $validator->fails() ){
+				$not_valid_fields = array_keys( $validator->messages()->get( '*' ) );
 
-                if( $validator->fails() ){
-
-    // Антон я тут попробывал разные методы и идеи чтобы в зависимости от ошибки валидации передать нужную секцию.
-    // Проблема в проверке результата валидации если есть какая-нибудь идея плиз можешь предложить или попробовать.
-    // Бывают такие редкие моменты когда я с такими задачами не сталкивался.
-    // Я заметил в sites table нет столбца номер который передается в секции аккаунт. Исправил эту проблему
-
-                }
-
-
-            }
-
-			$activeStep = 'finish';
+				foreach( $steps_inputs as $step_name => $fields ){
+					foreach( $fields as $field ){
+						if( in_array( $field, $not_valid_fields ) ){
+							$activeStep = $step_name;
+							break 2;
+						}
+					}
+				}
+			}
+			$activeStep = $activeStep ?? 'type';
 
 
 			setcookie( 'activeStep', $activeStep );
