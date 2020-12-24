@@ -106,9 +106,7 @@ class SitesController extends Controller{
 
 
 			if( $validator->fails() ){
-				return back()
-					->withInput()
-					->withErrors( $validator );
+				return back()->withInput()->withErrors( $validator );
 			}
 
 			$user = User::create( [
@@ -124,20 +122,22 @@ class SitesController extends Controller{
 			auth()->login( $user );
 
 			Site::create( [
-				'type'            => $input['type'],
-				'dealer_name'     => $input['dealer_name'],
-				'lead_emails'     => $input['lead_emails'],
-				'country'         => $input['country'],
-				'state'           => $input['state'],
-				'city'            => $input['city'],
-				'postal_code'     => $input['postal_code'],
-				'dealer_number'   => $input['dealer_number'],
-				'address'         => $input['address'],
-				'place_name'      => $input['place_name'],
-				'place_id'        => $input['place_id'],
-				'old_website_url' => $input['old_website_url'],
-				'user_id'         => Auth::id(),
-				'processed'       => false,
+				'type'                    => $input['type'],
+				'dealer_name'             => $input['dealer_name'],
+				'lead_email'              => $input['lead_emails'],
+				'country'                 => $input['country'],
+				'state'                   => $input['state'],
+				'city'                    => $input['city'],
+				'postal_code'             => $input['postal_code'],
+				'dealer_number'           => $input['dealer_number'],
+				'address'                 => $input['address'],
+				'place_name'              => $input['place_name'],
+				'place_id'                => $input['place_id'],
+				'old_website_url'         => $input['old_website_url'],
+				'old_website_favicon_src' => $input['site_icon_src'],
+				'old_website_logo_src'    => $input['logo_src'],
+				'user_id'                 => Auth::id(),
+				'processed'               => false,
 			] );
 
 			return redirect()->route( 'home' );
