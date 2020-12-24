@@ -57,10 +57,10 @@ class SitesController extends Controller{
 				'person_firstname'   => 'required|max:255',
 				'person_lastname'    => 'required|max:255',
 				'person_email'       => 'required|email|max:255|unique:users,email',
-				'lead_emails'       => 'required|email|max:255|unique:sites,lead_email',
+				'lead_emails'        => 'required|email|max:255|unique:sites,lead_email',
 				'person_phonenumber' => [
 					'required',
-					'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
+					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
 					'unique:users,phonenumber',
 				],
 			] );
@@ -77,8 +77,7 @@ class SitesController extends Controller{
                     'city',
                     'postal_code',
                     'address',
-                    'phone_number'
-
+                    'phonenumber'
 				],
 				'finish' => [
 					'person_firstname',
