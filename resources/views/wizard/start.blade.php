@@ -412,8 +412,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons tech_mobile"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Phone" value="{{ old('phone_number') }}"
-                                                       class="form-control" name="phone_number">
+                                                <input type="text" placeholder="Phone" value="{{ old('dealer_number') }}"
+                                                       class="form-control" name="dealer_number">
                                             </div>
 
                                         </div>
@@ -671,7 +671,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                         }
 
                         let inputs = [
-                            'phone_number',
+                            'dealer_number',
                             'dealer_name',
                             'lead_emails',
                             'country',
@@ -690,8 +690,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                             else if( 'dealer_name' === inputs[ o ] ){
                                 $input.val( place_data.name )
                             }
-                            else if( 'phone_number' === inputs[ o ] ){
-                                $input.val( place_data.formatted_phone_number )
+                            else if( 'dealer_number' === inputs[ o ] ){
+                                $input.val( place_data.formatted_dealer_number )
                             }
                             else{
                                 $input.val( place_data_conv[ inputs[ o ] ] )

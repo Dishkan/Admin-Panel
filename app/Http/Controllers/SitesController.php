@@ -57,9 +57,10 @@ class SitesController extends Controller{
 				'person_firstname'   => 'required|max:255',
 				'person_lastname'    => 'required|max:255',
 				'person_email'       => 'required|email|max:255|unique:users,email',
+				'lead_emails'       => 'required|email|max:255|unique:sites,lead_email',
 				'person_phonenumber' => [
 					'required',
-					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
+					'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
 					'unique:users,phonenumber',
 				],
 			] );
@@ -70,14 +71,37 @@ class SitesController extends Controller{
 				],
 				'account' => [
 					'dealer_name',
-					// TODO:
+                    'lead_emails',
+                    'country',
+                    'state',
+                    'city',
+                    'postal_code',
+                    'address',
+                    'phone_number'
+
 				],
 				'finish' => [
-					'person_name',
-					// TODO:
+					'person_firstname',
+                    'person_lastname',
+                    'person_email',
+                    'person_phonenumber'
 				]
 			];
-			// TODO: Dishkan: определить на каком мы шаге не прошли валидацию, чтоб вернуть пользователя туда
+
+			foreach ($steps_inputs as $k => $v) { // можно nested for сделать но будет O(n^2)
+
+                if( $validator->fails() ){
+
+    // Антон я тут попробывал разные методы и идеи чтобы в зависимости от ошибки валидации передать нужную секцию.
+    // Проблема в проверке результата валидации если есть какая-нибудь идея плиз можешь предложить или попробовать.
+    // Бывают такие редкие моменты когда я с такими задачами не сталкивался.
+    // Я заметил в sites table нет столбца номер который передается в секции аккаунт. Исправил эту проблему
+
+                }
+
+
+            }
+
 			$activeStep = 'finish';
 
 
@@ -110,6 +134,7 @@ class SitesController extends Controller{
 				'state'           => $input['state'],
 				'city'            => $input['city'],
 				'postal_code'     => $input['postal_code'],
+				'dealer_number'   => $input['dealer_number'],
 				'address'         => $input['address'],
 				'place_name'      => $input['place_name'],
 				'place_id'        => $input['place_id'],

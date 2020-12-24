@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Site extends Model
 {
     protected $fillable = [
-        'dealer_name', 
-        'lead_email', 
+        'dealer_name',
+        'lead_email',
         'country',
         'state',
         'city',
         'postal_code',
+        'dealer_number',
         'address',
         'type',
         'place_name',
