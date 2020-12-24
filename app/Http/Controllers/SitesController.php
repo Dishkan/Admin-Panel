@@ -57,6 +57,7 @@ class SitesController extends Controller{
 				'person_firstname'   => 'required|max:255',
 				'person_lastname'    => 'required|max:255',
 				'person_email'       => 'required|email|max:255|unique:users,email',
+				'lead_emails'        => 'required|email|max:255|unique:sites,lead_email',
 				'person_phonenumber' => [
 					'required',
 					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
@@ -70,15 +71,35 @@ class SitesController extends Controller{
 				],
 				'account' => [
 					'dealer_name',
-					// TODO:
+                    'lead_emails',
+                    'country',
+                    'state',
+                    'city',
+                    'postal_code',
+                    'address',
+                    'phonenumber'
 				],
 				'finish' => [
-					'person_name',
-					// TODO:
+					'person_firstname',
+                    'person_lastname',
+                    'person_email',
+                    'person_phonenumber'
 				]
 			];
-			// TODO: Dishkan: определить на каком мы шаге не прошли валидацию, чтоб вернуть пользователя туда
-			$activeStep = 'finish';
+
+			if( $validator->fails() ){
+				$not_valid_fields = array_keys( $validator->messages()->get( '*' ) );
+
+				foreach( $steps_inputs as $step_name => $fields ){
+					foreach( $fields as $field ){
+						if( in_array( $field, $not_valid_fields ) ){
+							$activeStep = $step_name;
+							break 2;
+						}
+					}
+				}
+			}
+			$activeStep = $activeStep ?? 'type';
 
 
 			setcookie( 'activeStep', $activeStep );
@@ -110,6 +131,7 @@ class SitesController extends Controller{
 				'state'           => $input['state'],
 				'city'            => $input['city'],
 				'postal_code'     => $input['postal_code'],
+				'dealer_number'   => $input['dealer_number'],
 				'address'         => $input['address'],
 				'place_name'      => $input['place_name'],
 				'place_id'        => $input['place_id'],
