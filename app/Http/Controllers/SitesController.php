@@ -72,6 +72,7 @@ class SitesController extends Controller{
 				'dealer_number'      => [
 					'required',
 					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
+					'unique:sites,dealer_number',
 				],
 				'address'            => 'required|max:255',
 				'place_name'         => 'required|max:255',
