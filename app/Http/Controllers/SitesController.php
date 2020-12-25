@@ -57,12 +57,25 @@ class SitesController extends Controller{
 				'person_firstname'   => 'required|max:255',
 				'person_lastname'    => 'required|max:255',
 				'person_email'       => 'required|email|max:255|unique:users,email',
-				'lead_emails'        => 'required|email|max:255|unique:sites,lead_email',
 				'person_phonenumber' => [
 					'required',
 					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
 					'unique:users,phonenumber',
 				],
+				'type'               => 'required',
+				'dealer_name'        => 'required|max:255',
+				'lead_emails'        => 'required|email|max:255|unique:sites,lead_email',
+				'country'            => 'required|max:255',
+				'state'              => 'required|max:255',
+				'city'               => 'required|max:255',
+				'postal_code'        => 'required',
+				'dealer_number'      => [
+					'required',
+					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
+				],
+				'address'            => 'required|max:255',
+				'place_name'         => 'required|max:255',
+				'old_website_url'    => 'required|max:255',
 			] );
 
 			$steps_inputs = [
