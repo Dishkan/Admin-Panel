@@ -18,7 +18,7 @@ Route::get( '/', function(){
 Auth::routes();
 Route::get( '/home', 'HomeController@index' )->name( 'home' );
 
-Route::resource( 'wizard',  'SitesController'  );
+Route::any( '/wizard',  'SitesController@store'  )->name( 'wizard' );
 
 
 Route::get( 'pricing', 'PageController@pricing' )->name( 'page.pricing' );
@@ -26,7 +26,9 @@ Route::get( 'lock',    'PageController@lock'    )->name( 'page.lock'    );
 Route::get( 'error', [ 'as' => 'page.error', 'uses' => 'PageController@error' ] );
 
 Route::group( [ 'middleware' => 'auth' ], function(){
+
 	Route::resource( 'user',     'UserController'     );
+	Route::resource( 'sites',    'SitesController'    );
 	Route::resource( 'category', 'CategoryController' );
 	Route::resource( 'tag',      'TagController'      );
 	Route::resource( 'item',     'ItemController'     );

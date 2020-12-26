@@ -17,7 +17,7 @@
           </a>
         </li>
         <li class="nav-item @if ($activePage == 'register') active @endif">
-          <a href="{{ route('wizard.index') }}" class="nav-link">
+          <a href="{{ route('wizard') }}" class="nav-link">
             <i class="now-ui-icons tech_mobile"></i> {{ __("Register") }}
           </a>
         </li>

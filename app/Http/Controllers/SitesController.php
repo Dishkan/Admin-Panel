@@ -15,8 +15,11 @@ class SitesController extends Controller{
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(){
-		return view( 'wizard.start' );
+	public function index(Site $sites){
+
+			return view('sites.index', ['sites' => $sites->all()]);
+
+
 	}
 
 	/**
@@ -25,7 +28,7 @@ class SitesController extends Controller{
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create(){
-		return view( 'wizard.start' );
+		//
 	}
 
 	/**
@@ -172,6 +175,7 @@ class SitesController extends Controller{
 	public function show( $id ){
 		//
 	}
+
 
 	/**
 	 * Show the form for editing the specified resource.

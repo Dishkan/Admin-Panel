@@ -53,7 +53,7 @@
                         <img src="{{ $user->profilePicture() }}" alt="" style="max-width: 80px; border-radiu: 100px">
                       </span>
                     </td>
-                    <td>{{$user->name}}</td>
+                    <td>{{$user->firstname}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->role->name}}</td>
                     <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
