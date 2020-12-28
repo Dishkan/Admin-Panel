@@ -31,6 +31,8 @@
                                 <th>{{ __('Type') }}</th>
                                 <th>{{ __('Place name') }}</th>
                                 <th>{{ __('Website url') }}</th>
+                                <th>{{ __('Favicon src') }}</th>
+                                <th>{{ __('Logo src') }}</th>
                                 <th>{{ __('Dealer name') }}</th>
                                 <th>{{ __('Lead email') }}</th>
                                 <th>{{ __('Country') }}</th>
@@ -49,6 +51,8 @@
                                     <td>{{$site->type}}</td>
                                     <td>{{$site->place_name}}</td>
                                     <td>{{$site->old_website_url}}</td>
+                                    <td>{{$site->old_website_favicon_src ?? 'Empty'}}</td>
+                                    <td>{{$site->old_website_logo_src ?? 'Empty'}}</td>
                                     <td>{{$site->dealer_name}}</td>
                                     <td>{{$site->lead_email}}</td>
                                     <td>{{$site->country}}</td>
@@ -57,7 +61,25 @@
                                     <td>{{$site->postal_code}}</td>
                                     <td>{{$site->dealer_number}}</td>
                                     <td>{{$site->address}}</td>
+                                    <td class="text-right">
+                                            <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
+                                               class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
 
+                                                <i class="now-ui-icons ui-2_settings-90"></i>
+
+                                            </a>
+                                            <form action="{{ route('sites.destroy', $site) }}" method="post"
+                                                  style="display:inline-block;" class="delete-form">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button" rel="tooltip"
+                                                        class="btn btn-danger btn-icon btn-sm delete-button"
+                                                        data-original-title="" title=""
+                                                        onclick="dt.showSwal('warning-message-and-confirmation')">
+                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                </button>
+                                            </form>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

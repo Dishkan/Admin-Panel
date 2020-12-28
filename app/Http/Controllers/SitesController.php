@@ -15,10 +15,9 @@ class SitesController extends Controller{
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(Site $sites){
+	public function index( Site $sites ){
 
-			return view('sites.index', ['sites' => $sites->all()]);
-
+		return view( 'sites.index', [ 'sites' => $sites->all() ] );
 
 	}
 
@@ -184,8 +183,9 @@ class SitesController extends Controller{
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit( $id ){
-		//
+	public function edit( Site $site ){
+
+		return view('sites.edit', ['site' => $site]);
 	}
 
 	/**
