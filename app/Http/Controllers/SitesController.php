@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use App\Http\Requests\SiteRequest;
 
 class SitesController extends Controller{
 	/**
@@ -27,7 +28,7 @@ class SitesController extends Controller{
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create(){
-		//
+		return view('sites.create');
 	}
 
 	/**
@@ -37,110 +38,15 @@ class SitesController extends Controller{
 	 *
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
 	 */
-	public function store( Request $request ){
+
+	public function store( SiteRequest $request ){
 		// save data
-		if( $request->isMethod( 'POST' ) ){
-			$input = $request->except( [ '_token', 'finish' ] );
-
-			// Register New User and Site, and add user id to the site
-			$user_data = array_filter( $input, function( $key ){
-				return 'person_' === substr( $key, 0, 7 );
-			}, ARRAY_FILTER_USE_KEY );
-
-			// Prepare array
-			$_user_data = [];
-			foreach( $user_data as $key => $val ){
-				$new_key                = substr( $key, 7 );
-				$_user_data[ $new_key ] = $val;
-			}
-			$user_data = $_user_data;
-
-			$validator = Validator::make( $input, [
-				'person_firstname'   => 'required|max:255',
-				'person_lastname'    => 'required|max:255',
-				'person_email'       => 'required|email|max:255|unique:users,email',
-				'person_phonenumber' => [
-					'required',
-					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
-					'unique:users,phonenumber',
-				],
-				'type'               => 'required',
-				'dealer_name'        => 'required|max:255',
-				'lead_emails'        => 'required|email|max:255|unique:sites,lead_email',
-				'country'            => 'required|max:255',
-				'state'              => 'required|max:255',
-				'city'               => 'required|max:255',
-				'postal_code'        => 'required',
-				'dealer_number'      => [
-					'required',
-					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
-					'unique:sites,dealer_number',
-				],
-				'address'            => 'required|max:255',
-				'place_name'         => 'required|max:255',
-				'old_website_url'    => 'required|max:255',
-			] );
-
-			$steps_inputs = [
-				'type' => [
-					'type'
-				],
-				'account' => [
-					'dealer_name',
-                    'lead_emails',
-                    'country',
-                    'state',
-                    'city',
-                    'postal_code',
-                    'address',
-                    'phonenumber'
-				],
-				'finish' => [
-					'person_firstname',
-                    'person_lastname',
-                    'person_email',
-                    'person_phonenumber'
-				]
-			];
-
-			if( $validator->fails() ){
-				$not_valid_fields = array_keys( $validator->messages()->get( '*' ) );
-
-				foreach( $steps_inputs as $step_name => $fields ){
-					foreach( $fields as $field ){
-						if( in_array( $field, $not_valid_fields ) ){
-							$activeStep = $step_name;
-							break 2;
-						}
-					}
-				}
-			}
-			$activeStep = $activeStep ?? 'type';
-
-
-			setcookie( 'activeStep', $activeStep );
-
-
-			if( $validator->fails() ){
-				return back()->withInput()->withErrors( $validator );
-			}
-
-			$user = User::create( [
-				'firstname'   => $user_data['firstname'],
-				'lastname'    => $user_data['lastname'],
-				'email'       => $user_data['email'],
-				'phonenumber' => $user_data['phonenumber'],
-				'password'    => Hash::make( $user_data['password'] ),
-				'role_id'     => 3 // Dealer role id
-			] );
-
-			// Login with created user
-			auth()->login( $user );
+			$input = $request->except( [ '_token' ] );
 
 			Site::create( [
 				'type'                    => $input['type'],
 				'dealer_name'             => $input['dealer_name'],
-				'lead_email'              => $input['lead_emails'],
+				'lead_email'              => $input['lead_email'],
 				'country'                 => $input['country'],
 				'state'                   => $input['state'],
 				'city'                    => $input['city'],
@@ -150,18 +56,13 @@ class SitesController extends Controller{
 				'place_name'              => $input['place_name'],
 				'place_id'                => $input['place_id'],
 				'old_website_url'         => $input['old_website_url'],
-				'old_website_favicon_src' => $input['site_icon_src'],
-				'old_website_logo_src'    => $input['logo_src'],
+				//'old_website_favicon_src' => $input['site_icon_src'],
+				//'old_website_logo_src'    => $input['logo_src'],
 				'user_id'                 => Auth::id(),
 				'processed'               => false,
 			] );
 
-			return redirect()->route( 'home' );
-		}
-
-		else
-			return view( 'wizard.start' );
-
+			return redirect()->route( 'sites.index' )->withStatus( __( 'Site was added successfully.' ) );
 	}
 
 	/**
@@ -196,8 +97,11 @@ class SitesController extends Controller{
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update( Request $request, $id ){
-		//
+	public function update( SiteRequest $request, Site $site ){
+
+		$site->update($request->except('_token'));
+
+		return redirect()->route('sites.index')->withStatus(__('Site information successfully updated.'));
 	}
 
 	/**
@@ -207,8 +111,11 @@ class SitesController extends Controller{
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy( $id ){
-		//
+	public function destroy( Site $site ){
+
+		$site->delete();
+
+		return redirect()->route( 'sites.index' )->withStatus( __( 'Site successfully deleted.' ) );
 	}
 
 	public function get_not_created(){

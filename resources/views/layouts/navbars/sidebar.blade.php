@@ -161,7 +161,7 @@
                             <li class="@if ($activePage == 'sites') active @endif">
                                 <a href="{{ route('sites.index') }}">
                                     <span class="sidebar-mini-icon">{{ __("RL") }}</span>
-                                    <span class="sidebar-normal"> {{ __("Current Sites") }} </span>
+                                    <span class="sidebar-normal"> {{ __("Site list") }} </span>
                                 </a>
                             </li>
                         @endcan
