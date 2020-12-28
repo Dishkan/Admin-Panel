@@ -157,11 +157,11 @@
                                 <span class="sidebar-normal"> {{ __("Profile") }} </span>
                             </a>
                         </li>
-                        @can('manage-users', App\User::class)
-                            <li class="@if ($activePage == 'roles') active @endif">
-                                <a href="{{ route('role.index') }}">
+                        @can('manage-users', App\Site::class)
+                            <li class="@if ($activePage == 'sites') active @endif">
+                                <a href="{{ route('sites.index') }}">
                                     <span class="sidebar-mini-icon">{{ __("RL") }}</span>
-                                    <span class="sidebar-normal"> {{ __("Role Management") }} </span>
+                                    <span class="sidebar-normal"> {{ __("Current Sites") }} </span>
                                 </a>
                             </li>
                         @endcan
