@@ -736,23 +736,25 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             let $preloader       = $( '#preloader' )
 
             $preloader.hide()
-            $wizardContainer.css( 'opacity', '1' )
+            $wizardContainer.css( 'opacity', 1 )
         }
 
         $( document ).ready( function(){
-            dt.checkFullPageBackgroundImage();
+            dt.checkFullPageBackgroundImage()
 
             // Initialise the wizard
-            dt.initNowUiWizard();
+            dt.initNowUiWizard()
+
+            let $nextBtn =  $( 'input[name=next]' )
 
 			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
             $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
-            $( 'input[name=next]' ).hide()
+            $nextBtn.hide()
 
             setTimeout( function(){
-                $( '.card.card-wizard' ).addClass( 'active' );
+                $( '.card.card-wizard' ).addClass( 'active' )
                 preloader_end()
-            }, 600 );
+            }, 600 )
 
             let $form                  = $( 'form' )
             let $types                 = $( '.types_js' )
@@ -767,13 +769,13 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                 let clickedIndex = $el.data( 'index' )
 
                 if( ! $el.hasClass( 'active' ) ){
-                    $el.addClass( 'active' );
-                    $el.find( 'input' ).attr( 'checked' );
+                    $el.addClass( 'active' )
+                    $el.find( 'input' ).attr( 'checked' )
                     return;
                 }
 
                 $el.closest( 'form' ).find( '.card-footer' ).css( 'padding', '10px' )
-                $( 'input[name=next]' ).show()
+                $nextBtn.show()
 
                 // disable for all the rest
                 $inputs_types.each( function( choice, el_in ){
@@ -830,7 +832,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                 let $the = $( this )
                 let val  = $the.val()
 
-                if( ! val ) return;
+                if( ! val ) return
 
                 preloader_start()
 
@@ -844,7 +846,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                     if( 'OK' !== parsed.status ){
                         preloader_end()
-                        return;
+                        return
                     }
 
                     let $logoImg     = $( '#logo' )
