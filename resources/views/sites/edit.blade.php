@@ -89,17 +89,17 @@
                                 <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                     <div class="fileinput-new thumbnail">
                                         @if ($site->old_website_favicon_src)
-                                            <img src="{{ $site->path() }}" alt="...">
+                                            <img src="{{ $site->icon()}}" alt="_Field has icon">
                                         @else
-                                            <img src="{{asset('now')}}/img/image_placeholder.jpg" alt="...">
+                                            <img src="{{asset('now')}}/img/image_placeholder.jpg" alt="">
                                         @endif
                                     </div>
                                     <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                     <div>
                                         <span class="btn btn-rose btn-round btn-file">
-                                        <span class="fileinput-new">{{ __('Select icon')}}</span>
+                                        <span class="fileinput-new">{{ __('Change icon')}}</span>
                                         <span class="fileinput-exists">{{ __('Change')}}</span>
-                                        <input type="file" name="icon" class="custom-file-input" id="input-picture" accept="image/*"/>
+                                        <input type="file" name="site_icon_src" class="custom-file-input" id="input-picture" accept="image/*"/>
                                         </span>
                                         <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i>{{__('Remove')}}</a>
                                     </div>
@@ -107,17 +107,17 @@
                                 <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                     <div class="fileinput-new thumbnail">
                                         @if ($site->old_website_logo_src)
-                                            <img src="{{ $site->path() }}" alt="...">
+                                            <img src="{{ $site->logo()}}" alt="_Field has logo">
                                         @else
-                                            <img src="{{asset('now')}}/img/image_placeholder.jpg" alt="...">
+                                            <img src="{{asset('now')}}/img/image_placeholder.jpg" alt="">
                                         @endif
                                     </div>
                                     <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                     <div>
                                         <span class="btn btn-rose btn-round btn-file">
-                                        <span class="fileinput-new">{{ __('Select logo')}}</span>
+                                        <span class="fileinput-new">{{ __('Change logo')}}</span>
                                         <span class="fileinput-exists">{{ __('Change')}}</span>
-                                        <input type="file" name="logo" class="custom-file-input" id="input-picture" accept="image/*"/>
+                                        <input type="file" name="logo_src" class="custom-file-input" id="input-picture" accept="image/*"/>
                                         </span>
                                         <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i>{{__('Remove')}}</a>
                                     </div>

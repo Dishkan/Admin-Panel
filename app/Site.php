@@ -25,4 +25,13 @@ class Site extends Model
         'user_id',
         'processed'
     ];
+
+	public function icon()
+	{
+		return "/storage/{$this->old_website_favicon_src}";
+	}
+	public function logo()
+	{
+		return "/storage/{$this->old_website_logo_src}";
+	}
 }

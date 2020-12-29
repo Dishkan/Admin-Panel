@@ -56,8 +56,10 @@ class SitesController extends Controller{
 				'place_name'              => $input['place_name'],
 				'place_id'                => $input['place_id'],
 				'old_website_url'         => $input['old_website_url'],
-				//'old_website_favicon_src' => $input['site_icon_src'],
-				//'old_website_logo_src'    => $input['logo_src'],
+
+				'old_website_favicon_src' => $request->site_icon_src->store('sitepictures', 'public'),
+				'old_website_logo_src'    => $request->logo_src->store('sitepictures', 'public'),
+
 				'user_id'                 => Auth::id(),
 				'processed'               => false,
 			] );
@@ -98,8 +100,16 @@ class SitesController extends Controller{
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update( SiteRequest $request, Site $site ){
+		$site->update( $request->merge( [
+			'old_website_favicon_src' => $request->site_icon_src ? $request->site_icon_src->store( 'sitepictures', 'public' ) : null,
+			'old_website_logo_src'    => $request->logo_src ? $request->logo_src->store( 'sitepictures', 'public' ) : null,
+		] )->except( [
+			//$request->except('_token'),
+			$request->hasFile( 'site_icon_src' ) ? '' : 'old_website_favicon_src',
+			$request->hasFile( 'logo_src' ) ? '' : 'old_website_logo_src',
+		] ) );
 
-		$site->update($request->except('_token'));
+		//$site->update($request->except('_token'));
 
 		return redirect()->route('sites.index')->withStatus(__('Site information successfully updated.'));
 	}

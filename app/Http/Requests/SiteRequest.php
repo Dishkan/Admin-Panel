@@ -31,7 +31,7 @@ class SiteRequest extends FormRequest
 		    'lead_email'      => [
 			    'required',
 			    'email',
-			    Rule::unique( ( new Site )->getTable() )->ignore( auth()->id() ),
+			    Rule::unique( ( new Site )->getTable() )->ignore( $this->route()->site->id ?? null ),
 		    ],
 		    'country'         => 'required|max:255',
 		    'state'           => 'required|max:255',
@@ -40,11 +40,17 @@ class SiteRequest extends FormRequest
 		    'dealer_number'   => [
 			    'required',
 			    //'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
-			    Rule::unique( ( new Site )->getTable() )->ignore( auth()->id() ),
+			    Rule::unique( ( new Site )->getTable() )->ignore( $this->route()->site->id ?? null ),
 		    ],
 		    'address'         => 'required|max:255',
 		    'place_name'      => 'required|max:255',
 		    'old_website_url' => 'required|max:255',
+		    'site_icon_src' => [
+			    $this->route()->site ? 'nullable' : 'required', 'image'
+		    ],
+		    'logo_src' => [
+			    $this->route()->site ? 'nullable' : 'required', 'image'
+		    ],
 	    ];
     }
 }

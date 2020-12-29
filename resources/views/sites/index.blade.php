@@ -14,7 +14,7 @@
                 <div class="card">
                     <div class="card-header">
                         <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('sites.create') }}">{{ __('Add site') }}</a>
-                        <h4 class="card-title">{{ __('Current sites') }}</h4>
+                        <h4 class="card-title">{{ __('Site list') }}</h4>
                         <div class="col-12 mt-2">
                             @include('alerts.success')
                             @include('alerts.errors')
@@ -26,39 +26,27 @@
                         </div>
                         <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
-                            <tr style="font-size: 80%;">
+                            <tr>
                                 <td></td>
                                 <th>{{ __('Type') }}</th>
-                                <th>{{ __('Place name') }}</th>
                                 <th>{{ __('Website url') }}</th>
-                                <th>{{ __('Favicon src') }}</th>
-                                <th>{{ __('Logo src') }}</th>
                                 <th>{{ __('Dealer name') }}</th>
-                                <th>{{ __('Lead email') }}</th>
                                 <th>{{ __('Country') }}</th>
-                                <th>{{ __('State') }}</th>
                                 <th>{{ __('City') }}</th>
-                                <th>{{ __('Postal code') }}</th>
                                 <th>{{ __('Dealer number') }}</th>
                                 <th>{{ __('Address') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($sites as $site)
-                                <tr style="font-size: 90%;">
+                                <tr>
                                     <td>
                                     </td>
                                     <td>{{$site->type}}</td>
-                                    <td>{{$site->place_name}}</td>
                                     <td>{{$site->old_website_url}}</td>
-                                    <td>{{$site->old_website_favicon_src ?? 'Empty'}}</td>
-                                    <td>{{$site->old_website_logo_src ?? 'Empty'}}</td>
                                     <td>{{$site->dealer_name}}</td>
-                                    <td>{{$site->lead_email}}</td>
                                     <td>{{$site->country}}</td>
-                                    <td>{{$site->state}}</td>
                                     <td>{{$site->city}}</td>
-                                    <td>{{$site->postal_code}}</td>
                                     <td>{{$site->dealer_number}}</td>
                                     <td>{{$site->address}}</td>
                                     <td class="text-right">

@@ -77,7 +77,7 @@
                                 <div class="form-group{{ $errors->has('type') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-type">{{ __('Type') }}</label>
                                     <select name="type" id="input-type" data-style="btn btn-primary btn-round" class="selectpicker{{ $errors->has('type') ? ' is-invalid' : '' }}" placeholder="{{ __('Type') }}" required>
-                                            <option> group </option>
+                                            <option value="group"> group </option>
                                             <option> oem </option>
                                             <option> independent </option>
                                     </select>
