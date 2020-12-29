@@ -219,7 +219,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons location_bookmark"></i>
                                                     </div>
                                                 </div>
-                                                <input id="pac-input" class="form-control" type="text"
+                                                <input id="pac-input" class="form-control"  type="text"
                                                        placeholder="Enter a location" value="{{ old('place_name') }}"/>
                                                 <input name="place_name" type="hidden" id="place_name"
                                                        value="{{ old('place_name') }}">
@@ -313,7 +313,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons ui-1_email-85"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Lead Emails, comma separated"
+                                                <input required type="text" placeholder="Lead Emails, comma separated"
                                                        value="{{ old('lead_emails') }}"
                                                        class="form-control" name="lead_emails">
                                             </div>
@@ -333,7 +333,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons business_globe"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Country" value="{{ old('country') }}"
+                                                <input required type="text" placeholder="Country" value="{{ old('country') }}"
                                                        class="form-control" name="country">
                                             </div>
 
@@ -347,7 +347,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons business_chart-pie-36"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="State" value="{{ old('state') }}"
+                                                <input required type="text" placeholder="State" value="{{ old('state') }}"
                                                        class="form-control" name="state">
                                             </div>
 
@@ -365,7 +365,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons location_map-big"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="City" value="{{ old('city') }}"
+                                                <input required type="text" placeholder="City" value="{{ old('city') }}"
                                                        class="form-control" name="city">
                                             </div>
 
@@ -379,7 +379,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons ui-1_email-85"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Postal Code"
+                                                <input required type="text" placeholder="Postal Code"
                                                        value="{{ old('postal_code') }}"
                                                        class="form-control" name="postal_code">
                                             </div>
@@ -398,7 +398,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons location_pin"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Address" value="{{ old('address') }}"
+                                                <input required type="text" placeholder="Address" value="{{ old('address') }}"
                                                        class="form-control" name="address">
                                             </div>
 
@@ -416,7 +416,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons tech_mobile"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" placeholder="Phone" value="{{ old('dealer_number') }}"
+                                                <input required type="text" placeholder="Phone" value="{{ old('dealer_number') }}"
                                                        class="form-control" name="dealer_number">
                                             </div>
 
@@ -762,7 +762,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 	        <?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
             $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
 
-            $nextBtn.hide()
+            //$nextBtn.hide()
 
             $inputs_types.on( 'click', function( el ){
                 let $el          = $( el.currentTarget )

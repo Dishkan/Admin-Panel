@@ -105,13 +105,10 @@ class SitesController extends Controller{
 			'old_website_favicon_src' => $request->site_icon_src ? $request->site_icon_src->store( 'sitepictures', 'public' ) : null,
 			'old_website_logo_src'    => $request->logo_src ? $request->logo_src->store( 'sitepictures', 'public' ) : null,
 		] )->except( [
-			//$request->except('_token'),
 			$request->hasFile( 'site_icon_src' ) ? '' : 'old_website_favicon_src',
 			$request->hasFile( 'logo_src' ) ? '' : 'old_website_logo_src',
 		] ) );
-
-		//$site->update($request->except('_token'));
-
+		
 		return redirect()->route( 'sites.index' )->withStatus( __( 'Site information successfully updated.' ) );
 	}
 
