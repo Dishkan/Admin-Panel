@@ -186,8 +186,10 @@ class SitesController extends Controller{
 			$domain = preg_replace( '~_~', '-', $domain );
 			$domain = strtolower( trim( $domain ) );
 
-			while( in_array( $domain, $exists_domains ) ){
+			$safe = 0;
+			while( in_array( $domain, $exists_domains ) && $safe < 50 ){
 				$domain .= self::$chars[rand(0,strlen(self::$chars))];
+				$safe++;
 			}
 
 			$res = CloudFlareController::create_ns( $domain );
