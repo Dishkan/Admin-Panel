@@ -745,24 +745,24 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             // Initialise the wizard
             dt.initNowUiWizard()
 
-            let $nextBtn =  $( 'input[name=next]' )
-
-			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
-            $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
-            $nextBtn.hide()
-
             setTimeout( function(){
                 $( '.card.card-wizard' ).addClass( 'active' )
                 preloader_end()
             }, 600 )
 
+
             let $form                  = $( 'form' )
             let $types                 = $( '.types_js' )
             let $inputs_types          = $types.find( '.choice' )
+            let $nextBtn               = $form.find( 'input[name=next]' )
             let $old_website_url_input = $form.find( '#old_website_url' )
             let $email_input           = $form.find( 'input[name="person_email"]' )
             let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
 
+	        <?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
+            $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
+
+            $nextBtn.hide()
 
             $inputs_types.on( 'click', function( el ){
                 let $el          = $( el.currentTarget )
