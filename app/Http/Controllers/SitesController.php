@@ -17,8 +17,11 @@ class SitesController extends Controller{
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
 	 */
 	public function index( Site $sites ){
-		return view( 'sites.index', [ 'sites' => $sites->all() ] );
+		$user = \auth()->user();
 
+		$sites = $user->isAdmin() ? $sites->all() : $sites->where(['user_id'=>$user->id])->get();
+
+		return view( 'sites.index', [ 'sites' => $sites ] );
 	}
 
 	/**

@@ -152,7 +152,7 @@
                 </a>
                 <div class="collapse" id="sites">
                     <ul class="nav">
-                        @can('manage-users', App\Site::class)
+                        @can('manage-my-sites', App\Site::class)
                             <li class="@if ($activePage === 'sites') active @endif">
                                 <a href="{{ route('sites.index') }}">
                                     <span class="sidebar-mini-icon">{{ __('L') }}</span>
