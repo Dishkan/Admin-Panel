@@ -23,6 +23,10 @@ class Site extends Model{
 		'old_website_logo_src',
 		'user_id',
 		'processed',
+		'website_url',
+		'db_name',
+		'db_user',
+		'db_pass',
 	];
 
 	public function icon(){

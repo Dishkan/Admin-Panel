@@ -19,8 +19,15 @@ class DatabaseSeeder extends Seeder{
 		DB::table( 'items' )->truncate();
 		DB::table( 'sites' )->truncate();
 
-		$this->call( [ RolesTableSeeder::class, UsersTableSeeder::class, SitesTableSeeder::class ] );
-		$this->call( [ TagsTableSeeder::class, CategoriesTableSeeder::class, ItemsTableSeeder::class ] );
+		$this->call( [
+			RolesTableSeeder::class,
+			UsersTableSeeder::class,
+			SitesTableSeeder::class,
+			TagsTableSeeder::class,
+			CategoriesTableSeeder::class,
+			ItemsTableSeeder::class,
+			CronStatusesSeeder::class,
+		] );
 
 		DB::statement( 'SET FOREIGN_KEY_CHECKS=1' );
 	}

@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Requests\SiteRequest;
+use App\CronStatus;
 
 class SitesController extends Controller{
+
+	public static $cron_name = 'sites_processing';
+	public static $chars     = '123456789abcdefghijklmnopqrstuvwxyz';
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -124,12 +129,122 @@ class SitesController extends Controller{
 		return redirect()->route( 'sites.index' )->withStatus( __( 'Site successfully deleted.' ) );
 	}
 
+
+
+	/*
+	 * Here we gonna work on creating sites logic
+	 */
+
 	/**
-	 * Return JSON string with not created sites on the server
+	 * Return Collection with not created sites on the server
 	 *
 	 * @return mixed
 	 */
-	public function get_not_created(){
-		return Site::where( [ 'processed' => 0 ] )->get()->toJson();
+	public static function get_not_created(){
+		return Site::where( [ 'processed' => 0 ] )->get();
 	}
+
+	/**
+	 * Process not created sites
+	 *
+	 * @return mixed|void
+	 */
+	public static function process(){
+
+		// EC2ConnectController::create_db_and_user( 'thisisatestfromautomation' );
+		// exit;
+
+		// Check if this cron already running
+		if( CronStatuses::is_run( self::$cron_name ) )
+			return;
+
+		// Run
+		CronStatuses::run( self::$cron_name );
+
+		// get not processed/created
+		$not_processed_sites = self::get_not_created();
+
+		if( $not_processed_sites->isEmpty() )
+			return;
+
+		foreach( $not_processed_sites as $site ){
+			// generate name from the old website url
+			$exists_domains = CloudFlareController::list();
+			$exists_domains = (array)json_decode( $exists_domains );
+			$exists_domains = array_keys( $exists_domains );
+			if( $site->old_website_url ){
+				$old_web_site_url_parts = parse_url( $site->old_website_url );
+				$host = $old_web_site_url_parts['host'] ?? '';
+
+				// remove subdomain
+				if( $host ){
+					$domain = explode( '.', $host )[0];
+				}
+			}
+			// generate name from the dealer name
+			elseif( $site->dealer_name ){
+				$domain = preg_replace( '~\s~', '-', $site->dealer_name );
+			}
+
+			$domain = preg_replace( '~_~', '-', $domain );
+			$domain = strtolower( trim( $domain ) );
+
+			while( in_array( $domain, $exists_domains ) ){
+				$domain .= self::$chars[rand(0,strlen(self::$chars))];
+			}
+
+			$res = CloudFlareController::create_ns( $domain );
+			if( 'OK' !== $res['status'] ){
+				continue;
+			}
+			$full_domain = $res['domain'];
+
+			// set domain to DB
+			$site->update( [
+				'website_url' => $full_domain,
+				'processed'   => 1,
+			] );
+			echo "created {$res['domain']}";
+
+
+			$folder_name = parse_url( $full_domain )['host'];
+
+			// ==============
+			// DB
+			// ==============
+
+			// Get DB names from DB
+			// if it's exists, add random chars to the end (abc only)
+			// create database uses name `dg_auto_{$site->dealer_name}`
+			// create user `u_dg_auto_{$site->dealer_name}`
+			// grant privileges
+
+			// return:
+			//   DB name
+			//   DB username
+			//   DB password
+
+
+			// ==============
+			// SITES1
+			// ==============
+
+			// Create folder
+			// /var/www/dealer_sites_auto/{$folder_name}
+			// Copy sites files from `/var/www/tmps/dealersite` to `/var/www/dealer_sites_auto/{$folder_name}`
+			// Change `DB_NAME` | `DB_USER` | `DB_PASSWORD` in `/var/www/dealer_sites_auto/{$folder_name}/wp-config.php`
+			// Create Apache config uses $folder_name
+			// Run `certbot -d {$folder_name}`
+			// Run `redis-cli -a r0CO7ki98903m4I FLUSHALL`
+
+			// return:
+			//   status OK|ERROR
+
+		}
+
+		// Stop
+		CronStatuses::stop( self::$cron_name );
+	}
+
+
 }

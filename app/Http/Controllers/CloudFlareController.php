@@ -162,6 +162,7 @@ class CloudFlareController extends Controller{
 			if( property_exists( $res_obj, 'success' ) && $res_obj->success ){
 				$result['status']  = 'OK';
 				$result['message'] = "Successful created [$ns]";
+				$result['domain']  = 'https://' . $ns . '.' . self::$zone_domain;
 			}
 			else{
 				$result['status']  = 'Error';
