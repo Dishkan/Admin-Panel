@@ -18,7 +18,7 @@ Route::get( '/', function(){
 Auth::routes();
 Route::get( '/home', 'HomeController@index' )->name( 'home' );
 
-Route::any( '/wizard',  'SitesController@store'  )->name( 'wizard' );
+Route::any( '/wizard',  'PageController@wizard'  )->name( 'wizard' );
 
 
 Route::get( 'pricing', 'PageController@pricing' )->name( 'page.pricing' );

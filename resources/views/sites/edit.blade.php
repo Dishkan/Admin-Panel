@@ -29,6 +29,11 @@
                             @method('put')
                             <h6 class="heading-small text-muted mb-4">{{ __('Site information') }}</h6>
                             <div class="pl-lg-4">
+                                <div class="form-group{{ $errors->has('dealer_name') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-place_name">{{ __('Dealer name') }}</label>
+                                    <input type="text" name="dealer_name" id="input-place-name" class="form-control{{ $errors->has('dealer_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Dealer name') }}" value="{{ old('dealer_name', $site->dealer_name) }}"  required autofocus>
+
+                                </div>
                                 <div class="form-group{{ $errors->has('place_name') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-place_name">{{ __('Place name') }}</label>
                                     <input type="text" name="place_name" id="input-place-name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Place name') }}" value="{{ old('place_name', $site->place_name) }}"  required autofocus>
@@ -36,7 +41,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('old_website_url') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-website-url">{{ __('Website') }}</label>
-                                    <input type="text" name="old_website_url" id="input-website-url" class="form-control{{ $errors->has('old_website_url') ? ' is-invalid' : '' }}" placeholder="{{ __('Website url') }}" value="{{ old('place_name', $site->old_website_url) }}"  required autofocus>
+                                    <input type="text" name="old_website_url" id="input-website-url" class="form-control{{ $errors->has('old_website_url') ? ' is-invalid' : '' }}" placeholder="{{ __('Website url') }}" value="{{ old('old_website_url', $site->old_website_url) }}"  required autofocus>
                                 </div>
                                 <div class="form-group{{ $errors->has('lead_email') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-lead-email">{{ __('Lead email') }}</label>
@@ -48,7 +53,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('state') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-state">{{ __('State') }}</label>
-                                    <input type="text" name="state" id="input-state" class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}" placeholder="{{ __('State') }}" value="{{ old('country', $site->state) }}" required>
+                                    <input type="text" name="state" id="input-state" class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}" placeholder="{{ __('State') }}" value="{{ old('state', $site->state) }}" required>
                                 </div>
                                 <div class="form-group{{ $errors->has('state') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-city">{{ __('City') }}</label>
