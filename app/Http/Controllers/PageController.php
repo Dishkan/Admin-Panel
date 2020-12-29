@@ -100,6 +100,7 @@ class PageController extends Controller{
 					'dealer_name',
 					'place_name',
 					'lead_emails',
+					'old_website_url',
 					'country',
 					'state',
 					'city',
