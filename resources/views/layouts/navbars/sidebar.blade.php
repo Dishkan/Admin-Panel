@@ -1,4 +1,5 @@
-<div class="sidebar" data-color="{{ array_key_exists( 'sidebar-color', $_COOKIE ) ? $_COOKIE['sidebar-color'] : 'blue' }}">
+<div class="sidebar"
+     data-color="{{ array_key_exists( 'sidebar-color', $_COOKIE ) ? $_COOKIE['sidebar-color'] : 'blue' }}">
     <!--
       Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
   -->
@@ -151,56 +152,11 @@
                 </a>
                 <div class="collapse" id="sites">
                     <ul class="nav">
-                        <li class="@if ($activePage == 'profile') active @endif">
-                            <a href="{{ route('profile.edit') }}">
-                                <span class="sidebar-mini-icon">{{ __("P") }}</span>
-                                <span class="sidebar-normal"> {{ __("Profile") }} </span>
-                            </a>
-                        </li>
                         @can('manage-users', App\Site::class)
-                            <li class="@if ($activePage == 'sites') active @endif">
+                            <li class="@if ($activePage === 'sites') active @endif">
                                 <a href="{{ route('sites.index') }}">
-                                    <span class="sidebar-mini-icon">{{ __("RL") }}</span>
-                                    <span class="sidebar-normal"> {{ __("Site list") }} </span>
-                                </a>
-                            </li>
-                        @endcan
-                        @can('manage-users', App\User::class)
-                            <li class="@if ($activePage == 'users') active @endif">
-                                <a href="{{ route('user.index') }}">
-                                    <span class="sidebar-mini-icon">{{ __("US") }}</span>
-                                    <span class="sidebar-normal"> {{ __("User Management") }} </span>
-                                </a>
-                            </li>
-                        @endcan
-                        @can('manage-items', App\User::class)
-                            <li class="@if ($activePage == 'categories') active @endif">
-                                <a href="{{ route('category.index') }}">
-                                    <span class="sidebar-mini-icon">{{ __("CA") }}</span>
-                                    <span class="sidebar-normal"> {{ __("Category Management") }} </span>
-                                </a>
-                            </li>
-                        @endcan
-                        @can('manage-items', App\User::class)
-                            <li class="@if ($activePage == 'tags') active @endif">
-                                <a href="{{ route('tag.index') }}">
-                                    <span class="sidebar-mini-icon">{{ __("TG") }}</span>
-                                    <span class="sidebar-normal"> {{ __("Tag Management") }} </span>
-                                </a>
-                            </li>
-                        @endcan
-                        @can('manage-items', App\User::class)
-                            <li class="@if ($activePage == 'items') active @endif">
-                                <a href="{{ route('item.index') }}">
-                                    <span class="sidebar-mini-icon">{{ __("IT") }}</span>
-                                    <span class="sidebar-normal"> {{ __("Item Management") }} </span>
-                                </a>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a href="{{ route('item.index') }}">
-                                    <span class="sidebar-mini-icon">{{ __("IT") }}</span>
-                                    <span class="sidebar-normal"> {{ __("Items") }} </span>
+                                    <span class="sidebar-mini-icon">{{ __('L') }}</span>
+                                    <span class="sidebar-normal"> {{ __('List') }} </span>
                                 </a>
                             </li>
                         @endcan
