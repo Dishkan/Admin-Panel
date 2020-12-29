@@ -12,6 +12,7 @@
             <div class="col-xl-12 order-xl-1">
                 <div class="card">
                     <div class="card-header">
+                        @include('wizard.errors')
                         <div class="row align-items-center">
                             <div class="col-8">
                                 <h3 class="mb-0">{{ __('Sites Management') }}</h3>

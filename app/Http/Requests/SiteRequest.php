@@ -46,10 +46,10 @@ class SiteRequest extends FormRequest
 		    'place_name'      => 'required|max:255',
 		    'old_website_url' => 'required|max:255',
 		    'site_icon_src' => [
-			    $this->route()->site ? 'nullable' : 'required', 'image'
+			    $this->route()->site ? 'nullable' : 'nullable', 'image'
 		    ],
 		    'logo_src' => [
-			    $this->route()->site ? 'nullable' : 'required', 'image'
+			    $this->route()->site ? 'nullable' : 'nullable', 'image'
 		    ],
 	    ];
     }

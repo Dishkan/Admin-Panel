@@ -57,8 +57,8 @@ class SitesController extends Controller{
 				'place_id'                => $input['place_id'],
 				'old_website_url'         => $input['old_website_url'],
 
-				'old_website_favicon_src' => $request->site_icon_src->store('sitepictures', 'public'),
-				'old_website_logo_src'    => $request->logo_src->store('sitepictures', 'public'),
+				'old_website_favicon_src' => isset($request->site_icon_src) ? $request->site_icon_src->store('sitepictures', 'public') : null,
+				'old_website_logo_src'    => isset ($request->logo_src) ? $request->logo_src->store('sitepictures', 'public') : null,
 
 				'user_id'                 => Auth::id(),
 				'processed'               => false,
