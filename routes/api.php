@@ -18,6 +18,18 @@ Route::get('is_email_unique', ['uses' => 'SitesHelperController@isEmailUnique', 
 Route::get('is_phone_unique', ['uses' => 'SitesHelperController@isPhoneUnique', 'as' => 'API_isPhoneUnique' ]);
 Route::get( 'processed',      ['uses' => 'ProcessedController@execute',         'as' => 'API_Processed'     ]);
 
+Route::group( [ 'middleware' => 'api.auth' ], function(){
+
+	// CloudFlare
+	Route::group( [ 'prefix' => 'cf' ], function(){
+		Route::get( 'verify',         [ 'uses' => 'CloudFlareController@verify',    'as' => 'CF_verify'    ] );
+		Route::get( 'list',           [ 'uses' => 'CloudFlareController@list',      'as' => 'CF_list'      ] );
+		Route::get( 'create_ns/{ns}', [ 'uses' => 'CloudFlareController@create_ns', 'as' => 'CF_create_ns' ] );
+		Route::get( 'delete_ns/{ns}', [ 'uses' => 'CloudFlareController@delete_ns', 'as' => 'CF_delete_ns' ] );
+	} );
+
+} );
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
