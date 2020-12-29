@@ -75,16 +75,17 @@
                                 <div class="form-group{{ $errors->has('type') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-type">{{ __('Type') }}</label>
                                     <select name="type" id="input-type" data-style="btn btn-primary btn-round" class="selectpicker{{ $errors->has('type') ? ' is-invalid' : '' }}" placeholder="{{ __('Type') }}" required>
-                                        <option  >{{ $site->type }}</option>
-                                        @if($site->type != 'group')
-                                            <option> group </option>
-                                        @endif
-                                        @if($site->type != 'oem')
-                                        <option> oem </option>
-                                        @endif
-                                        @if($site->type != 'independent')
-                                            <option> independent </option>
-                                        @endif
+                                        <?php
+	                                    $types_map = [
+		                                    'oem'         => 'New Cars',
+		                                    'group'       => 'Dealer Group',
+		                                    'independent' => 'Independent'
+	                                    ];
+                                        ?>
+                                        @foreach( ['group','oem','independent'] as $type )
+                                            <?php $selected = $type === $site->type ? 'selected' : ''; ?>
+                                            <option {{$selected}} value="{{$type}}">{{ $types_map[$type] }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="fileinput fileinput-new text-center" data-provides="fileinput">

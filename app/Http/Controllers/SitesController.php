@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Site;
 use Illuminate\Http\Request;
-use App\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Requests\SiteRequest;
@@ -14,10 +12,11 @@ class SitesController extends Controller{
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @param Site $sites
+	 *
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
 	 */
 	public function index( Site $sites ){
-
 		return view( 'sites.index', [ 'sites' => $sites->all() ] );
 
 	}
@@ -25,10 +24,10 @@ class SitesController extends Controller{
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
 	 */
 	public function create(){
-		return view('sites.create');
+		return view( 'sites.create' );
 	}
 
 	/**
@@ -38,33 +37,29 @@ class SitesController extends Controller{
 	 *
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
 	 */
-
 	public function store( SiteRequest $request ){
-		// save data
-			$input = $request->except( [ '_token' ] );
+		$input = $request->except( [ '_token' ] );
 
-			Site::create( [
-				'type'                    => $input['type'],
-				'dealer_name'             => $input['dealer_name'],
-				'lead_email'              => $input['lead_email'],
-				'country'                 => $input['country'],
-				'state'                   => $input['state'],
-				'city'                    => $input['city'],
-				'postal_code'             => $input['postal_code'],
-				'dealer_number'           => $input['dealer_number'],
-				'address'                 => $input['address'],
-				'place_name'              => $input['place_name'],
-				'place_id'                => $input['place_id'],
-				'old_website_url'         => $input['old_website_url'],
+		Site::create( [
+			'type'                    => $input['type'],
+			'dealer_name'             => $input['dealer_name'],
+			'lead_email'              => $input['lead_email'],
+			'country'                 => $input['country'],
+			'state'                   => $input['state'],
+			'city'                    => $input['city'],
+			'postal_code'             => $input['postal_code'],
+			'dealer_number'           => $input['dealer_number'],
+			'address'                 => $input['address'],
+			'place_name'              => $input['place_name'],
+			'place_id'                => $input['place_id'],
+			'old_website_url'         => $input['old_website_url'],
+			'old_website_favicon_src' => isset( $request->site_icon_src ) ? $request->site_icon_src->store( 'sitepictures', 'public' ) : null,
+			'old_website_logo_src'    => isset ( $request->logo_src ) ? $request->logo_src->store( 'sitepictures', 'public' ) : null,
+			'user_id'                 => Auth::id(),
+			'processed'               => false,
+		] );
 
-				'old_website_favicon_src' => isset($request->site_icon_src) ? $request->site_icon_src->store('sitepictures', 'public') : null,
-				'old_website_logo_src'    => isset ($request->logo_src) ? $request->logo_src->store('sitepictures', 'public') : null,
-
-				'user_id'                 => Auth::id(),
-				'processed'               => false,
-			] );
-
-			return redirect()->route( 'sites.index' )->withStatus( __( 'Site was added successfully.' ) );
+		return redirect()->route( 'sites.index' )->withStatus( __( 'Site was added successfully.' ) );
 	}
 
 	/**
@@ -78,26 +73,24 @@ class SitesController extends Controller{
 		//
 	}
 
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param int $id
+	 * @param Site $site
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
 	 */
 	public function edit( Site $site ){
-
-		return view('sites.edit', ['site' => $site]);
+		return view( 'sites.edit', [ 'site' => $site ] );
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param int                      $id
+	 * @param SiteRequest $request
+	 * @param Site        $site
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return mixed
 	 */
 	public function update( SiteRequest $request, Site $site ){
 		$site->update( $request->merge( [
@@ -111,23 +104,28 @@ class SitesController extends Controller{
 
 		//$site->update($request->except('_token'));
 
-		return redirect()->route('sites.index')->withStatus(__('Site information successfully updated.'));
+		return redirect()->route( 'sites.index' )->withStatus( __( 'Site information successfully updated.' ) );
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param int $id
+	 * @param Site $site
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return mixed
+	 * @throws \Exception
 	 */
 	public function destroy( Site $site ){
-
 		$site->delete();
 
 		return redirect()->route( 'sites.index' )->withStatus( __( 'Site successfully deleted.' ) );
 	}
 
+	/**
+	 * Return JSON string with not created sites on the server
+	 *
+	 * @return mixed
+	 */
 	public function get_not_created(){
 		return Site::where( [ 'processed' => 0 ] )->get()->toJson();
 	}
