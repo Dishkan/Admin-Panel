@@ -97,7 +97,7 @@
                                     <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                     <div>
                                         <span class="btn btn-rose btn-round btn-file">
-                                        <span class="fileinput-new">{{ __('Change icon')}}</span>
+                                        <span class="fileinput-new">{{ isset($site->old_website_logo_src)?('Change icon') : ('Select icon')}}</span>
                                         <span class="fileinput-exists">{{ __('Change')}}</span>
                                         <input type="file" name="site_icon_src" class="custom-file-input" id="input-picture" accept="image/*"/>
                                         </span>
@@ -115,8 +115,8 @@
                                     <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                     <div>
                                         <span class="btn btn-rose btn-round btn-file">
-                                        <span class="fileinput-new">{{ __('Change logo')}}</span>
-                                        <span class="fileinput-exists">{{ __('Change')}}</span>
+                                        <span class="fileinput-new">{{ isset($site->old_website_logo_src)?('Change logo') : ('Select logo')}}</span>
+                                        <span class="fileinput-exists">{{ ('Change')}}</span>
                                         <input type="file" name="logo_src" class="custom-file-input" id="input-picture" accept="image/*"/>
                                         </span>
                                         <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i>{{__('Remove')}}</a>
