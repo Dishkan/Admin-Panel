@@ -40,11 +40,4 @@ Route::group( [ 'middleware' => 'auth' ], function(){
 
 	Route::get( '{page}', [ 'as' => 'page.index', 'uses' => 'PageController@index' ] );
 
-	// CloudFlare
-	Route::group( [ 'prefix' => 'cf' ], function(){
-		Route::get( 'verify',         [ 'uses' => 'CloudFlareController@verify',    'as' => 'CF_verify'    ] );
-		Route::get( 'list',           [ 'uses' => 'CloudFlareController@list',      'as' => 'CF_list'      ] );
-		Route::get( 'create_ns/{ns}', [ 'uses' => 'CloudFlareController@create_ns', 'as' => 'CF_create_ns' ] );
-		Route::get( 'delete_ns/{ns}', [ 'uses' => 'CloudFlareController@delete_ns', 'as' => 'CF_delete_ns' ] );
-	} );
 } );
