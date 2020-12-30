@@ -72,6 +72,31 @@
                             @endforeach
                             </tbody>
                         </table>
+                        @if ($sites->lastPage() > 1)
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    @if ($sites->currentPage() !== 1)
+                                        <li class="page-item ">
+                                            <a class="page-link" href="{{ $sites->url(($sites->currentPage()-1)) }}">Previous</a>
+                                        </li>
+                                    @endif
+                                    @for ($i = 1; $i <= $sites->lastPage(); $i++)
+                                        <li class="page-item {{$sites->currentPage() == $i ? 'active' : ''}}">
+                                            @if ($sites->currentPage() == $i)
+                                                <a class="page-link">{{ $i }}</a>
+                                            @else
+                                                <a class="page-link " href="{{ $sites->url($i) }}">{{ $i }}</a>
+                                            @endif
+                                        </li>
+                                    @endfor
+                                    @if ($sites->currentPage() !== $sites->lastPage())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $sites->url($sites->currentPage()+1) }}">Next</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        @endif
                     </div>
                     <!-- end content-->
                 </div>
