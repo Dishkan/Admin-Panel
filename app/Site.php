@@ -24,6 +24,7 @@ class Site extends Model{
 		'user_id',
 		'processed',
 		'website_url',
+		'server_ip',
 		'db_name',
 		'db_user',
 		'db_pass',

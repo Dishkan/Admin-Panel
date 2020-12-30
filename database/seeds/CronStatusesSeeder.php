@@ -11,7 +11,7 @@ class CronStatusesSeeder extends Seeder{
 	public function run(){
 		DB::table( 'cron_statuses' )->insert( [
 			'name'   => 'sites_processing',
-			'status' => 1,
+			'status' => 0,
 		] );
 
 		DB::table( 'cron_statuses' )->insert( [
@@ -21,7 +21,7 @@ class CronStatusesSeeder extends Seeder{
 
 		DB::table( 'cron_statuses' )->insert( [
 			'name'   => 'theme_updating',
-			'status' => 1,
+			'status' => 0,
 		] );
 
 		DB::table( 'cron_statuses' )->insert( [

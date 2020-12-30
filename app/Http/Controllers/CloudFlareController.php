@@ -249,7 +249,7 @@ class CloudFlareController extends Controller{
 	 */
 	static function get_server_ip(){
 		// TODO: create logic to get this info based on environment
-		return self::$zone_domain;
+		return self::$sites_server_IP;
 	}
 
 	/**

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Requests\SiteRequest;
-use App\CronStatus;
 
 class SitesController extends Controller{
 
@@ -66,6 +65,8 @@ class SitesController extends Controller{
 			'user_id'                 => Auth::id(),
 			'processed'               => false,
 		] );
+
+		self::process();
 
 		return redirect()->route( 'sites.index' )->withStatus( __( 'Site was added successfully.' ) );
 	}
@@ -201,6 +202,7 @@ class SitesController extends Controller{
 			// set domain to DB
 			$site->update( [
 				'website_url' => $full_domain,
+				'server_ip'   => CloudFlareController::get_server_ip(),
 				'processed'   => 1,
 			] );
 			echo "created {$res['domain']}";

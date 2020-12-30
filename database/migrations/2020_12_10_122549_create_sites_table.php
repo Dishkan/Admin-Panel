@@ -32,6 +32,7 @@ class CreateSitesTable extends Migration{
 
 			// Hosting data
 			$table->string( 'website_url', 255 )->nullable();
+			$table->string( 'server_ip', 15 )->nullable();
 			$table->string( 'db_name' )->nullable();
 			$table->string( 'db_user' )->nullable();
 			$table->string( 'db_pass' )->nullable();

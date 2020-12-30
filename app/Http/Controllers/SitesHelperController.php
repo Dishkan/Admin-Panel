@@ -4,19 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
+use App\Site;
 
 class SitesHelperController extends Controller{
 	private static $opts = [
-		'http'    => [
-			'header' => "User-Agent:Datgate/1.0\r\n",
+		'http' => [
+			'header'  => "User-Agent:Datgate/1.0\r\n",
 			'timeout' => 100,
 		],
-		'ssl'     => [
+		'ssl'  => [
 			'verify_peer'      => false,
 			'verify_peer_name' => false,
 		],
 	];
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return false|string
+	 */
 	public function getSiteData( Request $request ){
 		$site_url = $request->input( 'site-url' );
 
@@ -36,20 +42,21 @@ class SitesHelperController extends Controller{
 				$crawler = new Crawler( $html );
 			}
 			catch( \Exception $e ){
-				return json_encode([]);
+				return json_encode( [] );
 			}
 
 
 			if( 'favicon' ){
 				try{
-					$data['favicon_url'] = $crawler->filterXPath( '//link[contains(@rel, "icon")]' )->attr('href');
+					$data['favicon_url'] = $crawler->filterXPath( '//link[contains(@rel, "icon")]' )->attr( 'href' );
 
 					// append domain
 					if( '/' === substr( $data['favicon_url'], 0, 1 ) ){
 						$data['favicon_url'] = $site_url . $data['favicon_url'];
 					}
 				}
-				catch( \Exception $e ){}
+				catch( \Exception $e ){
+				}
 			}
 
 			if( 'logo' ){
@@ -61,7 +68,8 @@ class SitesHelperController extends Controller{
 						$data['logo_url'] = $site_url . $data['logo_url'];
 					}
 				}
-				catch( \Exception $e ){}
+				catch( \Exception $e ){
+				}
 				// try to get with a
 				if( ! isset( $data['logo_url'] ) ){
 					try{
@@ -72,7 +80,8 @@ class SitesHelperController extends Controller{
 							$data['logo_url'] = $site_url . $data['logo_url'];
 						}
 					}
-					catch( \Exception $e ){}
+					catch( \Exception $e ){
+					}
 				}
 			}
 
@@ -85,7 +94,12 @@ class SitesHelperController extends Controller{
 		return json_encode( $return, JSON_UNESCAPED_SLASHES );
 	}
 
-	public function isEmailUnique( Request $request ) {
+	/**
+	 * @param Request $request
+	 *
+	 * @return false|string
+	 */
+	public function isEmailUnique( Request $request ){
 		$email = $request->input( 'email' );
 
 		if( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ){
@@ -106,7 +120,12 @@ class SitesHelperController extends Controller{
 		return json_encode( $return, JSON_UNESCAPED_SLASHES );
 	}
 
-	public function isPhoneUnique( Request $request ) {
+	/**
+	 * @param Request $request
+	 *
+	 * @return false|string
+	 */
+	public function isPhoneUnique( Request $request ){
 		$phone = $request->input( 'phone' );
 
 		if( ! filter_var( $phone, FILTER_VALIDATE_INT ) ){
@@ -115,8 +134,8 @@ class SitesHelperController extends Controller{
 				'message' => 'The phone is incorrect',
 			];
 		}
-		
-		else {
+
+		else{
 			$data = [];
 
 			$return = [
@@ -126,6 +145,32 @@ class SitesHelperController extends Controller{
 		}
 
 		return json_encode( $return, JSON_UNESCAPED_SLASHES );
+	}
+
+	/**
+	 * @param Request $request
+	 *
+	 * @return bool
+	 */
+	public function siteStatus( Request $request ){
+		$user_id = intval( $request->user_id );
+		$sites   = Site::where( [ 'user_id' => $user_id ] )->get();
+		$msg     = '';
+
+		$sites_arr = [];
+		foreach( $sites as $site ){
+			if( !$site->processed )
+				$sites_arr[] = $site->website_url ?: $site->dealer_name;
+		}
+
+		if( $sites_arr ){
+			$msg = 'in_process';
+		}
+
+		return json_encode( [
+			'message' => $msg,
+			'sites'   => $sites_arr,
+		] );
 	}
 
 }
