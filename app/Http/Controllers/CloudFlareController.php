@@ -67,16 +67,19 @@ class CloudFlareController extends Controller{
 			CURLOPT_URL            => self::$endpoint_url . 'zones/'. self::$zone_id .'/dns_records?type=A',
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_SSL_VERIFYHOST => false,
+			CURLOPT_FRESH_CONNECT  => true,
 			CURLOPT_MAXREDIRS      => 10,
 			CURLOPT_TIMEOUT        => 0,
 			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_CUSTOMREQUEST  => 'GET',
 			CURLOPT_HTTPHEADER     => [
 				'Authorization: Bearer ' . self::$token,
+				'Cache-Control: no-cache'
 			],
 		] );
 
 		$response = curl_exec( $ch );
+
 		curl_close( $ch );
 
 		try{
@@ -145,6 +148,7 @@ class CloudFlareController extends Controller{
 			] );
 
 			$response = curl_exec( $ch );
+
 			curl_close( $ch );
 
 			try{

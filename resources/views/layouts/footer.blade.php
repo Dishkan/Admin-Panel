@@ -28,10 +28,12 @@
             <script>
                 document.getElementById( 'copyright' ).appendChild( document.createTextNode( new Date().getFullYear() ) )
             </script>
-            , {{__(' Designed by')}}
-            <a href="https://dealertower.com" target="_blank">{{__(' Dealertower')}}</a>{{__(" . Coded by")}}
-            <a href="https://datgate.com" target="_blank">{{__(' DATGATGE ')}}</a>&
-            <a href="https://idweb.io" target="_blank">{{__(' IDWEB')}}</a>
+            <span>hosted with ❤️ by <a target="_blank" href="//datgate.com">DATGATE</a></span>
+
+{{--            , {{__(' Designed by')}}--}}
+{{--            <a href="https://dealertower.com" target="_blank">{{__(' Dealertower')}}</a>{{__(" . Coded by")}}--}}
+{{--            <a href="https://datgate.com" target="_blank">{{__(' DATGATGE ')}}</a>&--}}
+{{--            <a href="https://idweb.io" target="_blank">{{__(' IDWEB')}}</a>--}}
         </div>
     </div>
 </footer>

@@ -17,7 +17,8 @@
         "laravel/ui": "^2.0",
         "symfony/dom-crawler": "^5.0",
       "ext-curl": "*",
-      "ext-ssh2": "*"
+      "ext-ssh2": "*",
+      "ext-mysqli": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

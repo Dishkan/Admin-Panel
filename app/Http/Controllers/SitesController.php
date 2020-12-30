@@ -11,7 +11,6 @@ use App\Http\Requests\SiteRequest;
 class SitesController extends Controller{
 
 	public static $cron_name = 'sites_processing';
-	public static $chars     = '123456789abcdefghijklmnopqrstuvwxyz';
 
 	/**
 	 * Display a listing of the resource.
@@ -149,9 +148,6 @@ class SitesController extends Controller{
 	 */
 	public static function process(){
 
-		// EC2ConnectController::create_db_and_user( 'thisisatestfromautomation' );
-		// exit;
-
 		// Check if this cron already running
 		if( CronStatuses::is_run( self::$cron_name ) )
 			return;
@@ -162,53 +158,36 @@ class SitesController extends Controller{
 		// get not processed/created
 		$not_processed_sites = self::get_not_created();
 
-		if( $not_processed_sites->isEmpty() )
+		if( $not_processed_sites->isEmpty() ){
+			CronStatuses::stop( self::$cron_name );
 			return;
+		}
 
 		foreach( $not_processed_sites as $site ){
+
 			// generate name from the old website url
 			$exists_domains = CloudFlareController::list();
 			$exists_domains = (array)json_decode( $exists_domains );
 			$exists_domains = array_keys( $exists_domains );
 			if( $site->old_website_url ){
 				$old_web_site_url_parts = parse_url( $site->old_website_url );
-				$host = $old_web_site_url_parts['host'] ?? '';
-
-				// remove subdomain
-				if( $host ){
-					$domain = explode( '.', $host )[0];
-				}
+				$host                   = $old_web_site_url_parts['host'];
+				$base_name              = explode( '.', $host )[0];
 			}
 			// generate name from the dealer name
-			elseif( $site->dealer_name ){
-				$domain = preg_replace( '~\s~', '-', $site->dealer_name );
+			else{
+				$base_name = preg_replace( '~\s~', '-', $site->dealer_name );
 			}
 
-			$domain = preg_replace( '~_~', '-', $domain );
-			$domain = strtolower( trim( $domain ) );
+			$base_name = preg_replace( '~_~', '-', $base_name );
+			$base_name = strtolower( trim( $base_name ) );
+			$base_name = HelperController::generate_name_from_string( $base_name, $exists_domains, true, true );
+			$res = CloudFlareController::create_ns( $base_name );
 
-			$safe = 0;
-			while( in_array( $domain, $exists_domains ) && $safe < 50 ){
-				$domain .= self::$chars[rand(0,strlen(self::$chars))];
-				$safe++;
-			}
-
-			$res = CloudFlareController::create_ns( $domain );
 			if( 'OK' !== $res['status'] ){
 				continue;
 			}
 			$full_domain = $res['domain'];
-
-			// set domain to DB
-			$site->update( [
-				'website_url' => $full_domain,
-				'server_ip'   => CloudFlareController::get_server_ip(),
-				'processed'   => 1,
-			] );
-			echo "created {$res['domain']}";
-
-
-			$folder_name = parse_url( $full_domain )['host'];
 
 			// ==============
 			// DB
@@ -224,7 +203,25 @@ class SitesController extends Controller{
 			//   DB name
 			//   DB username
 			//   DB password
+			$db_host_object = new DBHostSSHController();
+			$db_data        = $db_host_object->create_db_and_user( $base_name );
 
+			CronStatuses::stop( self::$cron_name );
+
+			// set domain to DB
+			$site->update( [
+				'website_url' => $full_domain,
+				'server_ip'   => CloudFlareController::get_server_ip(),
+				'processed'   => 1,
+				'db_name'     => $db_data['db_name'],
+				'db_user'     => $db_data['db_user'],
+				'db_pass'     => $db_data['db_pass'],
+			] );
+
+			// TODO: remove me
+			CronStatuses::stop( self::$cron_name );
+
+			dd( $db_data );
 
 			// ==============
 			// SITES1
