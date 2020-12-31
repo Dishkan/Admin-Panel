@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Users',
+    'namePage' => 'Sites',
     'class' => 'sidebar-mini',
-    'activePage' => 'users',
+    'activePage' => 'sites',
     'activeNav' => '',
 ])
 
@@ -27,7 +27,6 @@
                         <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <td></td>
                                 <th>{{ __('Type') }}</th>
                                 <th>{{ __('Website url') }}</th>
                                 <th>{{ __('Dealer name') }}</th>
@@ -35,13 +34,12 @@
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Dealer number') }}</th>
                                 <th>{{ __('Address') }}</th>
+                                <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($sites as $site)
                                 <tr>
-                                    <td>
-                                    </td>
                                     <td>{{$site->type}}</td>
                                     <td>{{$site->old_website_url}}</td>
                                     <td>{{$site->dealer_name}}</td>
@@ -130,8 +128,9 @@
 
             })
             $('#datatable').DataTable({
-                "pagingType": "full_numbers",
-                "lengthMenu": [
+                info: false,
+                paging : false,
+                lengthMenu: [
                     [10, 25, 50, -1],
                     [10, 25, 50, "All"]
                 ],

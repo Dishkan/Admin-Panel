@@ -363,6 +363,12 @@
                         <p>{{ __(" Calendar") }}</p>
                     </a>
                 </li>
+                <li class="@if ($activePage == 'readme') active @endif">
+                    <a href="{{ route('page.index','readme') }}">
+                        <i class="now-ui-icons files_single-copy-04"></i>
+                        <p>{{ __(" Read me") }}</p>
+                    </a>
+                </li>
             @endif
         </ul>
 

@@ -1,5 +1,5 @@
 <?php
-
+//exit('<pre>' . print_r($_SERVER, 1) . '</pre>'); # DEBUG OUT
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
