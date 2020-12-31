@@ -9,9 +9,15 @@ class HelperController extends Controller{
 	public static $chars = '123456789abcdefghijklmnopqrstuvwxyz';
 
 	public static function test(){
-		$EC2 = new DBHostSSHController();
 
-		$EC2->create_db_and_user( 'test' );
+		$sitesHostSSH = new SitesHostSSHController();
+
+		$sitesHostSSH->get_directories();
+
+		exit('here');
+
+		// $EC2 = new DBHostSSHController();
+		// $EC2->create_db_and_user( 'test' );
 	}
 
 	/**
