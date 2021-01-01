@@ -170,7 +170,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             <div class="row" role="tablist">
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="1">
-                                                        <input type="checkbox"
+                                                        <input required type="checkbox"
                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
                                                                value="group">
                                                         <div class="icon">
@@ -181,7 +181,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="2">
-                                                        <input type="checkbox"
+                                                        <input required type="checkbox"
                                                                {{ 'oem' === old('type') ? 'checked' : '' }} name="type"
                                                                value="oem">
                                                         <div class="icon">
@@ -192,7 +192,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
-                                                        <input type="checkbox"
+                                                        <input required type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
                                                                value="independent">
                                                         <div class="icon">

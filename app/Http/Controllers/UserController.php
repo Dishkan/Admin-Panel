@@ -38,7 +38,7 @@ class UserController extends Controller{
 	public function index( User $model ){
 		$this->authorize( 'manage-users', User::class );
 
-		return view( 'users.index', [ 'users' => $model->with( 'role' )->get() ] );
+		return view( 'users.index', [ 'users' => $model->with( 'role' )->paginate(10) ] );
 	}
 
 	/**

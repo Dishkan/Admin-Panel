@@ -83,6 +83,31 @@
                 @endforeach
               </tbody>
             </table>
+              @if ($users->lastPage() > 1)
+                  <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-end">
+                          @if ($users->currentPage() !== 1)
+                              <li class="page-item ">
+                                  <a class="page-link" href="{{ $users->url(($users->currentPage()-1)) }}">Previous</a>
+                              </li>
+                          @endif
+                          @for ($i = 1; $i <= $users->lastPage(); $i++)
+                              <li class="page-item {{$users->currentPage() == $i ? 'active' : ''}}">
+                                  @if ($users->currentPage() == $i)
+                                      <a class="page-link">{{ $i }}</a>
+                                  @else
+                                      <a class="page-link " href="{{ $users->url($i) }}">{{ $i }}</a>
+                                  @endif
+                              </li>
+                          @endfor
+                          @if ($users->currentPage() !== $users->lastPage())
+                              <li class="page-item">
+                                  <a class="page-link" href="{{ $users->url($users->currentPage()+1) }}">Next</a>
+                              </li>
+                          @endif
+                      </ul>
+                  </nav>
+              @endif
           </div>
           <!-- end content-->
         </div>
@@ -116,8 +141,9 @@
 
       })
       $('#datatable').DataTable({
-        "pagingType": "full_numbers",
-        "lengthMenu": [
+          info: false,
+          paging : false,
+          lengthMenu: [
           [10, 25, 50, -1],
           [10, 25, 50, "All"]
         ],
