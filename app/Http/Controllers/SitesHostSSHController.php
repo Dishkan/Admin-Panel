@@ -10,6 +10,9 @@ class SitesHostSSHController extends Controller{
 	protected $sites_pub_key_path;
 	protected $sites_priv_key_path;
 
+	protected $auto_sites_path = '/var/www/dealer_sites_auto/';
+	protected $temp_file_name  = 'auto_sites';
+
 	// SSH Connection Handler
 	protected $ch;
 
@@ -58,16 +61,22 @@ class SitesHostSSHController extends Controller{
 
 		if( !$this->ch ) $this->__ssh_connect();
 
-		$outputs = [];
-
-		$stream = ssh2_exec( $this->ch, 'cd /var/www/dealer_sites_auto/ && pwd' );
+		// create file with listing of directories in specific folder
+		$stream = ssh2_exec( $this->ch, "ls {$this->auto_sites_path} > {$this->temp_file_name}" );
 		stream_set_blocking( $stream, true );
-		$outputs[] = stream_get_contents( $stream );
 		fclose( $stream );
 
+		// show content of file, created above
+		$stream = ssh2_exec( $this->ch, "cat {$this->temp_file_name}" );
+		stream_set_blocking( $stream, true );
+		$sites_raw = stream_get_contents( $stream );
+		fclose( $stream );
+
+		$sites = explode( "\n", $sites_raw );
+		$sites = array_filter( $sites );
 
 		echo '<pre>';
-		print_r( $outputs );
+		print_r( $sites );
 
 
 		exit;
