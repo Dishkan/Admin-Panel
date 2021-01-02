@@ -37,6 +37,18 @@
                                 <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                             </tr>
                             </thead>
+                            <tfoot>
+                            <tr>
+                                <th>{{ __('Type') }}</th>
+                                <th>{{ __('Website url') }}</th>
+                                <th>{{ __('Dealer name') }}</th>
+                                <th>{{ __('Country') }}</th>
+                                <th>{{ __('City') }}</th>
+                                <th>{{ __('Dealer number') }}</th>
+                                <th>{{ __('Address') }}</th>
+                                <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
+                            </tr>
+                            </tfoot>
                             <tbody>
                             @foreach($sites as $site)
                                 <tr>
