@@ -41,6 +41,7 @@
 <body class="{{ array_key_exists( 'sidebar-mini', $_COOKIE ) ? $_COOKIE['sidebar-mini'] : '' }}">
 <div class="wrapper">
     <div class="fixed-plugin">
+        @if(auth()->check())
         <div class="dropdown show-dropdown">
             <a href="#" data-toggle="dropdown">
                 <i class="fa fa-cog fa-2x"> </i>
@@ -84,6 +85,7 @@
                 </li>
             </ul>
         </div>
+        @endif
     </div>
     @if (auth()->check() && !in_array(request()->route()->getName(), ['welcome', 'page.pricing', 'page.lock', 'page.error']))
         @include('layouts.page_template.auth')

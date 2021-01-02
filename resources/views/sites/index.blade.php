@@ -26,7 +26,7 @@
                         </div>
                         <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
-                            <tr>
+                            <tr style="font-size: 97%;">
                                 <th>{{ __('Type') }}</th>
                                 <th>{{ __('Website url') }}</th>
                                 <th>{{ __('Dealer name') }}</th>
