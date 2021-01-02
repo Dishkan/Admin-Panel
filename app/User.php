@@ -20,6 +20,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -61,10 +62,10 @@ class User extends Authenticatable
     public function profilePicture()
     {
         if ($this->picture) {
-            return "/storage/{$this->picture}";
+	        return Storage::disk( 'public' )->url( $this->picture );
         }
 
-        return 'https://i.pravatar.cc/200';
+       // return 'https://i.pravatar.cc/200';
     }
 
     /**
