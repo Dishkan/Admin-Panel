@@ -18,6 +18,7 @@ class Site extends Model{
 		'type',
 		'place_name',
 		'place_id',
+		'document_root',
 		'old_website_url',
 		'old_website_favicon_src',
 		'old_website_logo_src',

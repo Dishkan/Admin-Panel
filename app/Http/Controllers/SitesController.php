@@ -149,8 +149,8 @@ class SitesController extends Controller{
 	public static function process(){
 
 		// Check if this cron already running
-		if( CronStatuses::is_run( self::$cron_name ) )
-			return;
+		// if( CronStatuses::is_run( self::$cron_name ) )
+		// 	return;
 
 		// Run
 		CronStatuses::run( self::$cron_name );
@@ -181,8 +181,8 @@ class SitesController extends Controller{
 
 			$base_name = preg_replace( '~_~', '-', $base_name );
 			$base_name = strtolower( trim( $base_name ) );
-			$base_name = HelperController::generate_name_from_string( $base_name, $exists_domains, true, true );
-			$res = CloudFlareController::create_ns( $base_name );
+			$base_name = HelperController::generate_name_from_string( $base_name, $exists_domains );
+			$res       = CloudFlareController::create_ns( $base_name );
 
 			if( 'OK' !== $res['status'] ){
 				continue;
@@ -206,22 +206,6 @@ class SitesController extends Controller{
 			$db_host_object = new DBHostSSHController();
 			$db_data        = $db_host_object->create_db_and_user( $base_name );
 
-			CronStatuses::stop( self::$cron_name );
-
-			// set domain to DB
-			$site->update( [
-				'website_url' => $full_domain,
-				'server_ip'   => CloudFlareController::get_server_ip(),
-				'processed'   => 1,
-				'db_name'     => $db_data['db_name'],
-				'db_user'     => $db_data['db_user'],
-				'db_pass'     => $db_data['db_pass'],
-			] );
-
-			// TODO: remove me
-			CronStatuses::stop( self::$cron_name );
-
-			dd( $db_data );
 
 			// ==============
 			// SITES1
@@ -238,6 +222,22 @@ class SitesController extends Controller{
 			// return:
 			//   status OK|ERROR
 
+			$sitesHostSSH  = new SitesHostSSHController();
+			$document_root = $sitesHostSSH->create_folder( $base_name );
+
+			// set domain to DB
+			$site->update( [
+				'website_url'   => $full_domain,
+				'server_ip'     => CloudFlareController::get_server_ip(),
+				'processed'     => 1,
+				'db_name'       => $db_data['db_name'],
+				'db_user'       => $db_data['db_user'],
+				'db_pass'       => $db_data['db_pass'],
+				'document_root' => $document_root,
+			] );
+
+			// TODO: remove me
+			CronStatuses::stop( self::$cron_name );
 		}
 
 		// Stop
