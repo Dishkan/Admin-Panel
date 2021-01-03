@@ -171,6 +171,9 @@ class SitesController extends Controller{
 			return;
 		}
 
+		$db_host_object = new DBHostSSHController();
+		$sitesHostSSH   = new SitesHostSSHController();
+
 		foreach( $not_processed_sites as $site ){
 
 			// generate name from the old website url
@@ -211,8 +214,7 @@ class SitesController extends Controller{
 			//   DB name
 			//   DB username
 			//   DB password
-			$db_host_object = new DBHostSSHController();
-			$db_data        = $db_host_object->create_db_and_user( $base_name );
+			$db_data = $db_host_object->create_db_and_user( $base_name );
 
 
 			// ==============
@@ -229,9 +231,25 @@ class SitesController extends Controller{
 
 			// return:
 			//   status OK|ERROR
-
-			$sitesHostSSH  = new SitesHostSSHController();
 			$document_root = $sitesHostSSH->create_folder( $base_name );
+
+			// Generate and save local VHost file
+			$file_content  = $sitesHostSSH->get_vhost_template_file_content();
+			$vhost_content = strtr( $file_content, [
+				'{{{DOMAIN}}}'   => $full_domain,
+				'{{{DOC_ROOT}}}' => $document_root,
+			] );
+			$vhost_file_name = "999-{$full_domain}.conf";
+			Storage::disk('vhosts')->put( $vhost_file_name, $vhost_content );
+
+			// Send local file to a remote server
+			$sitesHostSSH->ssh_send_file( $vhost_file_name );
+
+			// SSL
+			$sitesHostSSH->SSL_generate( $full_domain );
+
+
+
 
 			// set domain to DB
 			$site->update( [
