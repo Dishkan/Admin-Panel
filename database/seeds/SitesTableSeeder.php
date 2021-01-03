@@ -15,7 +15,7 @@ class SitesTableSeeder extends Seeder
 	    DB::table( 'sites' )->insert( [
 		    'type'            => 'group',
 		    'place_name'      => 'Lamborgini, CA',
-		    'old_website_url' => 'https://yandex.ru/',
+		    'old_website_url' => 'https://lamborgini.com/',
 		    'dealer_name'     => 'Lambo Aventador',
 		    'lead_email'      => 'lambo@gmail.com',
 		    'country'         => 'United States',
@@ -32,7 +32,7 @@ class SitesTableSeeder extends Seeder
 	    DB::table( 'sites' )->insert( [
 		    'type'            => 'oem',
 		    'place_name'      => 'Buggati, LA',
-		    'old_website_url' => 'https://google.com/',
+		    'old_website_url' => 'https://bugatti.com/',
 		    'dealer_name'     => 'Buggati Chiron',
 		    'lead_email'      => 'bugaga@gmail.com',
 		    'country'         => 'United States',
@@ -49,7 +49,7 @@ class SitesTableSeeder extends Seeder
 	    DB::table( 'sites' )->insert( [
 		    'type'            => 'independent',
 		    'place_name'      => 'Mercedes , CA',
-		    'old_website_url' => 'https://facebook.com/',
+		    'old_website_url' => 'https://mercedes-benz.com/',
 		    'dealer_name'     => 'Mercedes Benz',
 		    'lead_email'      => 'mers@gmail.com',
 		    'country'         => 'United States',

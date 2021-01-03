@@ -38,7 +38,6 @@ class DBHostSSHController extends Controller{
 		$db_user = HelperController::generate_name_from_string( $db_user, $this->get_users(),     true );
 
 		// Create Database
-		// TODO: Uncomment it when it's live
 		$this->exec( "CREATE DATABASE $db_name;" );
 
 		// Create User
@@ -56,7 +55,6 @@ class DBHostSSHController extends Controller{
 			'db_user' => $db_user,
 			'db_pass' => $db_pass,
 		];
-
 
 		return $res;
 	}

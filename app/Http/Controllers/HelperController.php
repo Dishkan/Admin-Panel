@@ -10,9 +10,24 @@ class HelperController extends Controller{
 
 	public static function test(){
 
+		/*
 		$sitesHostSSH = new SitesHostSSHController();
-
 		$sitesHostSSH->get_directories();
+		*/
+
+		SitesController::process();
+
+		/*
+		$list = CloudFlareController::list();
+		$list = (array)json_decode( $list );
+		$list = array_keys( $list );
+		foreach( $list as $item ){
+			if( false !== strpos( $item, 'google' ) ){
+				CloudFlareController::delete_ns( $item );
+			}
+		}
+		dd( $list );
+		*/
 
 		exit('here');
 

@@ -7,7 +7,7 @@ class CloudFlareController extends Controller{
 
 	private static $endpoint_url    = 'https://api.cloudflare.com/client/v4/';
 	private static $token           = 'rsVRxM9pVN-FiT6WcdbmC8GImDlJ7JvAgXocWNPh';
-	private static $zone_domain     = 'idweb.io';
+	public  static $zone_domain     = 'idweb.io';
 	private static $zone_id         = '42414f1b8a9adaffa0891ddb95441b56';
 	private static $sites_server_IP = '54.188.129.59';
 
