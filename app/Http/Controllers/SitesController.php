@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Requests\SiteRequest;
+use Illuminate\Support\Facades\Storage;
 
 class SitesController extends Controller{
 
@@ -121,6 +122,13 @@ class SitesController extends Controller{
 	 * @throws \Exception
 	 */
 	public function destroy( Site $site ){
+
+		if( Storage::delete( $site->old_website_favicon_src ) ){
+			$site->delete();
+		}
+		if( Storage::delete( $site->old_website_logo_src ) ){
+			$site->delete();
+		}
 		$site->delete();
 
 		return redirect()->route( 'sites.index' )->withStatus( __( 'Site successfully deleted.' ) );

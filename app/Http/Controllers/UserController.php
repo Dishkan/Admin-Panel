@@ -22,6 +22,8 @@ use App\Role;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use App\Site;
 
 class UserController extends Controller{
 	public function __construct(){
@@ -61,10 +63,11 @@ class UserController extends Controller{
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store( UserRequest $request, User $model ){
+
 		$model->create( $request->merge( [
-			'picture'  => $request->photo ? $request->photo->store( 'profile', 'public' ) : null,
+			'picture'  => $request->profile_photo ? $request->profile_photo->store( 'profile', 'public' ) : null,
 			'password' => Hash::make( $request->get( 'password' ) ),
-		] )->all() );
+		] )->except( [ '_token' ] ) );
 
 		return redirect()->route( 'user.index' )->withStatus( __( 'User successfully created.' ) );
 	}
@@ -92,7 +95,7 @@ class UserController extends Controller{
 	public function update( UserRequest $request, User $user ){
 		$hasPassword = $request->get( 'password' );
 		$user->update( $request->merge( [
-			'picture'  => $request->photo ? $request->photo->store( 'profile', 'public' ) : $user->picture,
+			'picture'  => $request->profile_photo ? $request->profile_photo->store( 'profile', 'public' ) : $user->picture,
 			'password' => Hash::make( $request->get( 'password' ) ),
 		] )->except( [ $hasPassword ? '' : 'password' ] ) );
 		return redirect()->route( 'user.index' )->withStatus( __( 'User successfully updated.' ) );
@@ -106,6 +109,11 @@ class UserController extends Controller{
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function destroy( User $user ){
+
+		if(Storage::delete($user->picture)) {
+			$user->delete();
+		}
+		Site::where( [ 'user_id' => $user ] )->delete();
 		$user->delete();
 
 		return redirect()->route( 'user.index' )->withStatus( __( 'User successfully deleted.' ) );

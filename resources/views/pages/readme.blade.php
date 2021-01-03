@@ -2,7 +2,7 @@
     'namePage' => 'Read me',
     'class' => 'sidebar-mini',
     'activePage' => 'readme',
-    'activeNav' => 'readme',
+    'activeNav' => '',
 ])
 
 @section('content')
