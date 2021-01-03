@@ -112,7 +112,7 @@ class UserController extends Controller{
 		if(Storage::delete($user->picture)) {
 			$user->delete();
 		}
-		
+
 		$user->delete();
 
 		return redirect()->route( 'user.index' )->withStatus( __( 'User successfully deleted.' ) );
