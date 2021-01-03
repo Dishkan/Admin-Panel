@@ -23,7 +23,6 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Site;
 
 class UserController extends Controller{
 	public function __construct(){
@@ -113,7 +112,7 @@ class UserController extends Controller{
 		if(Storage::delete($user->picture)) {
 			$user->delete();
 		}
-		Site::where( [ 'user_id' => $user ] )->delete();
+		
 		$user->delete();
 
 		return redirect()->route( 'user.index' )->withStatus( __( 'User successfully deleted.' ) );
