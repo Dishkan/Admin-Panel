@@ -61,11 +61,8 @@ class User extends Authenticatable
      */
     public function profilePicture()
     {
-        if ($this->picture) {
-	        return Storage::disk( 'public' )->url( $this->picture );
-        }
-
-       // return 'https://i.pravatar.cc/200';
+	    return Storage::disk( 'public' )->url( $this->picture );
+	    // return 'https://i.pravatar.cc/200';
     }
 
     /**

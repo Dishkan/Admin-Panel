@@ -123,12 +123,13 @@ class SitesController extends Controller{
 	 */
 	public function destroy( Site $site ){
 
-		if( Storage::delete( $site->old_website_favicon_src ) ){
-			$site->delete();
+		if( ( new Site )->icon() || ( new Site )->logo() ){
+			Storage::disk( 'public' )->delete( [ $site->old_website_favicon_src, $site->old_website_logo_src ] );
 		}
-		if( Storage::delete( $site->old_website_logo_src ) ){
-			$site->delete();
+		else{
+			dd( 'File does not exists.' );
 		}
+
 		$site->delete();
 
 		return redirect()->route( 'sites.index' )->withStatus( __( 'Site successfully deleted.' ) );

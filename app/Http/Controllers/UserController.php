@@ -24,6 +24,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Site;
+use Exception;
 
 class UserController extends Controller{
 	public function __construct(){
@@ -107,14 +108,18 @@ class UserController extends Controller{
 	 * @param \App\User $user
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws Exception
 	 */
 	public function destroy( User $user ){
 
-		if(Storage::delete($user->picture)) {
-			$user->delete();
+		if( ( new User )->profilePicture() ){
+			Storage::disk( 'public' )->delete( $user->picture );
+		}
+		else{
+			dd( 'File does not exists.' );
 		}
 
-		Site::where('user_id', $user->id)->delete();
+		Site::where( 'user_id', $user->id )->delete();
 		$user->delete();
 
 		return redirect()->route( 'user.index' )->withStatus( __( 'User successfully deleted.' ) );

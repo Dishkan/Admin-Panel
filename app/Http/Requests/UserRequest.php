@@ -6,6 +6,7 @@ use App\Role;
 use App\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\CurrentPasswordCheckRule;
 
 class UserRequest extends FormRequest
 {
@@ -43,12 +44,13 @@ class UserRequest extends FormRequest
 			    'required',
 			    'exists:' . ( new Role )->getTable() . ',id',
 		    ],
-		    'password'      => [
-			    $this->route()->user ? 'nullable' : 'required',
-			    'confirmed',
-			    'min:6',
-		    ],
 		    'profile_photo' => [ 'nullable', 'image' ],
+
+		    'old_password'  => [ 'required', 'min:6', new CurrentPasswordCheckRule ],
+
+		    'password'      => [ 'required', 'min:6', 'confirmed', 'different:old_password' ],
+
+		    'password_confirmation' => [ 'required', 'min:6' ],
 	    ];
     }
 
@@ -61,6 +63,7 @@ class UserRequest extends FormRequest
     {
         return [
             'role_id' => 'role',
+            'old_password' => __('current password'),
         ];
     }
 }

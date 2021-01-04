@@ -83,17 +83,41 @@
 
                                     @include('alerts.feedback', ['field' => 'role_id'])
                                 </div>
-                                <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-password">{{ __('New password') }}</label>
-                                    <input type="password" name="password" id="input-password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('New password') }}" value="" >
-
-                                    @include('alerts.feedback', ['field' => 'password'])
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label" for="input-password-confirmation">{{ __('Confirm new password') }}</label>
-                                    <input type="password" name="password_confirmation" id="input-password-confirmation" class="form-control" placeholder="{{ __('Confirm new password') }}" value="" >
-                                </div>
-
+                                    @include('alerts.success', ['key' => 'password_status'])
+                                    @include('alerts.error_self_update', ['key' => 'not_allow_password'])
+                                    <div class="row">
+                                        <div class="col-md-7 pr-1">
+                                            <div class="form-group {{ $errors->has('password') ? ' has-danger' : '' }}">
+                                                <label>{{__(" Current Password")}}</label>
+                                                <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                       name="old_password" placeholder="{{ __('Current Password') }}"
+                                                       type="password" required>
+                                                @include('alerts.feedback', ['field' => 'old_password'])
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7 pr-1">
+                                            <div class="form-group {{ $errors->has('password') ? ' has-danger' : '' }}">
+                                                <label>{{__(" New password")}}</label>
+                                                <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                       placeholder="{{ __('New Password') }}" type="password"
+                                                       name="password"
+                                                       required>
+                                                @include('alerts.feedback', ['field' => 'password'])
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7 pr-1">
+                                            <div class="form-group {{ $errors->has('password') ? ' has-danger' : '' }}">
+                                                <label>{{__(" Confirm New Password")}}</label>
+                                                <input class="form-control"
+                                                       placeholder="{{ __('Confirm New Password') }}"
+                                                       type="password" name="password_confirmation" required>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save changes') }}</button>
                                 </div>
