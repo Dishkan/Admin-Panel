@@ -92,8 +92,8 @@ class UsersTableSeeder extends Seeder{
 
 		factory( App\User::class )->create( [
 			'id'          => 9,
-			'firstname'   => 'TestMercedes',
-			'lastname'    => 'LastMercedes',
+			'firstname'   => 'TestMercedes and BMW',
+			'lastname'    => 'LastMercedes and BMW',
 			'phonenumber' => '123456784320',
 			'email'       => 'mercedes@datgate.com',
 			'password'    => Hash::make( '123456' ),

@@ -10,7 +10,7 @@ class HelperController extends Controller{
 	public static $chars = '123456789abcdefghijklmnopqrstuvwxyz';
 
 	public static function test(){
-		dd( 'none' );
+		SitesController::process();
 	}
 
 	/**

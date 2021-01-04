@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class SitesController extends Controller{
 
 	public static $cron_name = 'sites_processing';
+	public static $tz        = 'Europe/Kiev';
 
 	/**
 	 * Display a listing of the resource.
@@ -174,8 +175,12 @@ class SitesController extends Controller{
 
 		$db_host_object = new DBHostSSHController();
 		$sitesHostSSH   = new SitesHostSSHController();
+		date_default_timezone_set( self::$tz );
 
+		$result = $cur_log = [];
 		foreach( $not_processed_sites as $site ){
+			// clean current log
+			$cur_log = [];
 
 			// generate name from the old website url
 			$exists_domains = CloudFlareController::list();
@@ -185,26 +190,47 @@ class SitesController extends Controller{
 				$old_web_site_url_parts = parse_url( $site->old_website_url );
 				$host                   = $old_web_site_url_parts['host'];
 				$base_name              = explode( '.', $host )[0];
+
+				// log
+				$cur_log['base_name__info'] = "base_name created from old_website_url: [{$site->old_website_url}]";
 			}
 			// generate name from the dealer name
 			else{
 				$base_name = preg_replace( '~\s~', '-', $site->dealer_name );
+
+				// log
+				$cur_log['base_name__info'] = "base_name created from dealer_name: [{$site->dealer_name}]";
 			}
 
 			$base_name = preg_replace( '~_~', '-', $base_name );
 			$base_name = strtolower( trim( $base_name ) );
-			$base_name = HelperController::generate_name_from_string( $base_name, $exists_domains );
-			$res       = CloudFlareController::create_ns( $base_name );
+
+			$sub_domain = HelperController::generate_name_from_string( $base_name, $exists_domains );
+
+			if( false ){
+				$res = CloudFlareController::create_ns( $sub_domain );
+			}
+			else{
+				$res            = [];
+				$res['status']  = 'OK';
+				$res['message'] = "Successful created [$sub_domain]";
+				$res['domain']  = $sub_domain . '.idweb.io';
+			}
+
+			// log
+			$cur_log['base_name']                                = $base_name;
+			$cur_log['sub_domain']                               = $sub_domain;
+			$cur_log['is_sub_domain_was_changed_from_base_name'] = $sub_domain === $base_name ? 'No' : 'Yes';
+			$cur_log['create_ns__info']                          = $res;
 
 			if( 'OK' !== $res['status'] ){
 				continue;
 			}
-			$full_domain = $res['domain'];
+			$domain = $res['domain'];
 
 			// ==============
 			// DB
 			// ==============
-
 			// Get DB names from DB
 			// if it's exists, add random chars to the end (abc only)
 			// create database uses name `dg_auto_{$site->dealer_name}`
@@ -217,11 +243,12 @@ class SitesController extends Controller{
 			//   DB password
 			$db_data = $db_host_object->create_db_and_user( $base_name );
 
+			// log
+			$cur_log['db_data__info'] = $db_data;
 
 			// ==============
 			// SITES1
 			// ==============
-
 			// Create folder
 			// /var/www/dealer_sites_auto/{$folder_name}
 			// Copy sites files from `/var/www/tmps/dealersite` to `/var/www/dealer_sites_auto/{$folder_name}`
@@ -232,43 +259,64 @@ class SitesController extends Controller{
 
 			// return:
 			//   status OK|ERROR
-			$document_root = $sitesHostSSH->create_folder( $base_name );
+			$document_root = $sitesHostSSH->create_folder( $domain );
+
+			// log
+			$cur_log['document_root'] = $document_root;
+
+			// copy sites files
+			//
+
+			// change `DB_NAME` | `DB_USER` | `DB_PASSWORD`
+			//
 
 			// Generate and save local VHost file
 			$file_content  = $sitesHostSSH->get_vhost_template_file_content();
 			$vhost_content = strtr( $file_content, [
-				'{{{DOMAIN}}}'   => $full_domain,
-				'{{{DOC_ROOT}}}' => $document_root,
+				'{{{REMOTE_ADDR}}}'  => $_SERVER['REMOTE_ADDR'],
+				'{{{CUR_DATETIME}}}' => date( 'd-m-Y H:i:s' ),
+				'{{{TIMEZONE}}}'     => self::$tz,
+				'{{{DOMAIN}}}'       => $domain,
+				'{{{DOC_ROOT}}}'     => $document_root,
 			] );
-			$vhost_file_name = "999-{$full_domain}.conf";
+			$vhost_file_name = "999-{$domain}.conf";
 			Storage::disk('vhosts')->put( $vhost_file_name, $vhost_content );
 
-			// Send local file to a remote server
-			$sitesHostSSH->ssh_send_file( $vhost_file_name );
+			// log
+			$cur_log['vhost_file_content'] = $vhost_content;
 
-			// SSL
-			$sitesHostSSH->SSL_generate( $full_domain );
+			// Send local file to a remote server and generate SSL
+			$is_vhost_file_send = false;
+			$is_ssl_generated   = false;
+			// $is_vhost_file_send = $sitesHostSSH->ssh_send_file( $vhost_file_name );
+			// $is_ssl_generated   = $sitesHostSSH->SSL_generate( $domain );
 
+			// log
+			$cur_log['is_vhost_file_send'] = $is_vhost_file_send ? 'Yes' : 'No';
+			$cur_log['is_ssl_generated']   = $is_ssl_generated   ? 'Yes' : 'No';
 
-
-
-			// set domain to DB
-			$site->update( [
-				'website_url'   => $full_domain,
+			$site_update = [
+				//'processed'     => 1,
+				'website_url'   => $domain,
 				'server_ip'     => CloudFlareController::get_server_ip(),
-				'processed'     => 1,
 				'db_name'       => $db_data['db_name'],
 				'db_user'       => $db_data['db_user'],
 				'db_pass'       => $db_data['db_pass'],
 				'document_root' => $document_root,
-			] );
+			];
 
-			// TODO: remove me
-			CronStatuses::stop( self::$cron_name );
+			// set domain to DB
+			$site->update( $site_update );
+
+			$cur_log['site_update'] = $site_update;
+
+			$result[] = $cur_log;
 		}
 
 		// Stop
 		CronStatuses::stop( self::$cron_name );
+
+		dd( $result );
 	}
 
 

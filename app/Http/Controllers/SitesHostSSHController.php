@@ -46,15 +46,17 @@ class SitesHostSSHController extends Controller{
 	 * Send file via SSH/SFTP from `vhosts` storage to `auto_sites_path` by filename
 	 *
 	 * @param string $filename
+	 *
+	 * @return bool
 	 */
-	public function ssh_send_file( string $filename ):void{
+	public function ssh_send_file( string $filename ):bool{
 
 		if( ! $this->ch ) $this->__ssh_connect();
 
 		$local_filename  = Storage::disk( 'vhosts' )->path( $filename );
 		$remote_filename = "{$this->vhost_path}/{$filename}";
 
-		ssh2_scp_send( $this->ch, $local_filename, $remote_filename, 0644 );
+		return ssh2_scp_send( $this->ch, $local_filename, $remote_filename, 0644 );
 	}
 
 	/**
@@ -66,7 +68,8 @@ class SitesHostSSHController extends Controller{
 		$dir_name      = HelperController::generate_name_from_string( $base_name, $this->get_directories(), false, true );
 		$document_root = "{$this->auto_sites_path}/{$dir_name}";
 
-		$this->ssh_cmd( "mkdir {$document_root}" );
+		// TODO: uncomment me
+		// $this->ssh_cmd( "mkdir {$document_root}" );
 
 		return $document_root;
 	}
@@ -121,9 +124,9 @@ class SitesHostSSHController extends Controller{
 	/**
 	 * @param string $domain
 	 *
-	 * @return string
+	 * @return bool
 	 */
-	public function SSL_generate( string $domain ):string{
+	public function SSL_generate( string $domain ):bool{
 
 		// delete if exists
 		if( $this->is_SSL_exists( $domain ) ){
@@ -132,8 +135,9 @@ class SitesHostSSHController extends Controller{
 		}
 
 		$certbot_cmd = "echo {$this->su_pass} | sudo -S certbot -d {$domain}";
+		$res         = $this->ssh_cmd( $certbot_cmd );
 
-		return $this->ssh_cmd( $certbot_cmd );
+		return false !== strpos( $res, 'Congratulations' );
 	}
 
 	/**
