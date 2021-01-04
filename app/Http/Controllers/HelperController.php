@@ -3,36 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HelperController extends Controller{
 
 	public static $chars = '123456789abcdefghijklmnopqrstuvwxyz';
 
 	public static function test(){
-
-		/*
-		$sitesHostSSH = new SitesHostSSHController();
-		$sitesHostSSH->get_directories();
-		*/
-
-		SitesController::process();
-
-		/*
-		$list = CloudFlareController::list();
-		$list = (array)json_decode( $list );
-		$list = array_keys( $list );
-		foreach( $list as $item ){
-			if( false !== strpos( $item, 'google' ) ){
-				CloudFlareController::delete_ns( $item );
-			}
-		}
-		dd( $list );
-		*/
-
-		exit('here');
-
-		// $EC2 = new DBHostSSHController();
-		// $EC2->create_db_and_user( 'test' );
+		dd( 'none' );
 	}
 
 	/**

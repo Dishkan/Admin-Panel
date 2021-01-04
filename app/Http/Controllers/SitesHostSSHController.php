@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
+
 class SitesHostSSHController extends Controller{
 
 	// Sites
@@ -11,7 +13,13 @@ class SitesHostSSHController extends Controller{
 	protected $sites_priv_key_path;
 
 	protected $auto_sites_path = '/var/www/dealer_sites_auto';
-	protected $temp_file_name  = 'auto_sites';
+	protected $su_pass         = '4LzJp91PPnQREIe';
+
+	// should be exists in the user's home directory
+	protected $temp_file_name      = 'auto_sites';
+	protected $vhost_path          = 'auto-sites-enabled';
+	protected $vhost_template_file = 'vhost-template.conf';
+
 
 	// SSH Connection Handler
 	protected $ch;
@@ -35,13 +43,27 @@ class SitesHostSSHController extends Controller{
 	}
 
 	/**
+	 * Send file via SSH/SFTP from `vhosts` storage to `auto_sites_path` by filename
+	 *
+	 * @param string $filename
+	 */
+	public function ssh_send_file( string $filename ):void{
+
+		if( ! $this->ch ) $this->__ssh_connect();
+
+		$local_filename  = Storage::disk( 'vhosts' )->path( $filename );
+		$remote_filename = "{$this->vhost_path}/{$filename}";
+
+		ssh2_scp_send( $this->ch, $local_filename, $remote_filename, 0644 );
+	}
+
+	/**
 	 * @param string $base_name
 	 *
 	 * @return string
 	 */
-	public function create_folder( string $base_name ): string{
-		$dir_name      = HelperController::generate_name_from_string( $base_name, $this->get_directories() );
-		$dir_name      = $dir_name . '.' . CloudFlareController::$zone_domain;
+	public function create_folder( string $base_name ):string{
+		$dir_name      = HelperController::generate_name_from_string( $base_name, $this->get_directories(), false, true );
 		$document_root = "{$this->auto_sites_path}/{$dir_name}";
 
 		$this->ssh_cmd( "mkdir {$document_root}" );
@@ -54,7 +76,7 @@ class SitesHostSSHController extends Controller{
 	 *
 	 * @return array
 	 */
-	public function get_directories(): array{
+	public function get_directories():array{
 
 		// create file with listing of directories in specific folder
 		$this->ssh_cmd( "ls {$this->auto_sites_path} > {$this->temp_file_name}" );
@@ -73,7 +95,7 @@ class SitesHostSSHController extends Controller{
 	/**
 	 * @return void
 	 */
-	public function set_keys_path(): void{
+	public function set_keys_path():void{
 		$this->sites_pub_key_path  = storage_path( 'keys' ) . '/dg_auto.pub';
 		$this->sites_priv_key_path = storage_path( 'keys' ) . '/dg_auto';
 	}
@@ -81,9 +103,9 @@ class SitesHostSSHController extends Controller{
 	/**
 	 * @param string $cmd
 	 *
-	 * @return false|string
+	 * @return string
 	 */
-	public function ssh_cmd( string $cmd ){
+	public function ssh_cmd( string $cmd ):string{
 
 		if( ! $this->ch ) $this->__ssh_connect();
 
@@ -94,6 +116,45 @@ class SitesHostSSHController extends Controller{
 		fclose( $stream );
 
 		return $output_raw;
+	}
+
+	/**
+	 * @param string $domain
+	 *
+	 * @return string
+	 */
+	public function SSL_generate( string $domain ):string{
+
+		// delete if exists
+		if( $this->is_SSL_exists( $domain ) ){
+			$certbot_cmd = "echo {$this->su_pass} | sudo -S certbot delete --cert-name {$domain}";
+			$this->ssh_cmd( $certbot_cmd );
+		}
+
+		$certbot_cmd = "echo {$this->su_pass} | sudo -S certbot -d {$domain}";
+
+		return $this->ssh_cmd( $certbot_cmd );
+	}
+
+	/**
+	 * @param string $domain
+	 *
+	 * @return bool
+	 */
+	public function is_SSL_exists( string $domain ):bool{
+		$certbot_cmd = "echo {$this->su_pass} | sudo -S certbot certificates -d {$domain}";
+		$output      = $this->ssh_cmd( $certbot_cmd );
+
+		return false !== strpos( $output, "Certificate Name: {$domain}" );
+	}
+
+	/**
+	 * Get template of virtual host configuration file for Apache
+	 *
+	 * @return string
+	 */
+	public function get_vhost_template_file_content():string{
+		return $this->ssh_cmd( "cat {$this->vhost_template_file}" );
 	}
 
 	/**
