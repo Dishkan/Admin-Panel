@@ -26,6 +26,7 @@ class Site extends Model{
 		'processed',
 		'website_url',
 		'server_ip',
+		'vhost_filename',
 		'db_name',
 		'db_user',
 		'db_pass',

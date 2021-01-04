@@ -297,12 +297,13 @@ class SitesController extends Controller{
 
 			$site_update = [
 				//'processed'     => 1,
-				'website_url'   => $domain,
-				'server_ip'     => CloudFlareController::get_server_ip(),
-				'db_name'       => $db_data['db_name'],
-				'db_user'       => $db_data['db_user'],
-				'db_pass'       => $db_data['db_pass'],
-				'document_root' => $document_root,
+				'website_url'    => $domain,
+				'server_ip'      => CloudFlareController::get_server_ip(),
+				'db_name'        => $db_data['db_name'],
+				'db_user'        => $db_data['db_user'],
+				'db_pass'        => $db_data['db_pass'],
+				'document_root'  => $document_root,
+				'vhost_filename' => $vhost_file_name,
 			];
 
 			// set domain to DB
