@@ -49,8 +49,8 @@ class SitesTableSeeder extends Seeder
 	    DB::table( 'sites' )->insert( [
 		    'type'            => 'independent',
 		    'place_name'      => 'Mercedes, CA',
-		    'old_website_url' => 'https://mercedes-benz.com/',
-		    'dealer_name'     => 'Mercedes Benz ',
+		    'old_website_url' => '',
+		    'dealer_name'     => 'Mercedes Benz',
 		    'lead_email'      => 'mercedes@datgate.com',
 		    'country'         => 'US',
 		    'state'           => 'California',
