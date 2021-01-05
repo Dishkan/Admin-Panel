@@ -2217,20 +2217,12 @@ body {
 .sidebar .user .info>a>span,
 .off-canvas-sidebar .user .info>a>span,
 .card-collapse .card .card-header a[data-toggle="collapse"] i {
-    -webkit-transition: all 300ms ease 0s;
-    -moz-transition: all 300ms ease 0s;
-    -o-transition: all 300ms ease 0s;
-    -ms-transition: all 300ms ease 0s;
     transition: all 300ms ease 0s;
 }
 
 .dropdown-toggle:after,
 .bootstrap-switch-label:before,
 .caret {
-    -webkit-transition: all 150ms ease 0s;
-    -moz-transition: all 150ms ease 0s;
-    -o-transition: all 150ms ease 0s;
-    -ms-transition: all 150ms ease 0s;
     transition: all 150ms ease 0s;
 }
 
@@ -2579,10 +2571,6 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
     border: 0;
     box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.2);
     border-radius: 0.125rem;
-    -webkit-transition: all 150ms linear;
-    -moz-transition: all 150ms linear;
-    -o-transition: all 150ms linear;
-    -ms-transition: all 150ms linear;
     transition: all 150ms linear;
     font-size: 14px;
 }
@@ -6462,7 +6450,7 @@ Created using IcoMoon - icomoon.io
 .off-canvas-sidebar .sidebar-wrapper {
     position: relative;
     height: calc(100vh - 75px);
-    overflow: auto;
+    overflow: hidden;
     width: 260px;
     z-index: 4;
     padding-bottom: 100px;
