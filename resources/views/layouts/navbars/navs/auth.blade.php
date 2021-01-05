@@ -17,16 +17,16 @@
       <span class="navbar-toggler-bar navbar-kebab"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
-      <form>
+      <div>
         <div class="input-group no-border">
-          <input type="text" value="" class="form-control" placeholder="Search...">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Search..." />
           <div class="input-group-append">
             <div class="input-group-text">
               <i class="now-ui-icons ui-1_zoom-bold"></i>
             </div>
           </div>
         </div>
-      </form>
+      </div>
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="#pablo">
@@ -71,3 +71,29 @@
   </div>
 </nav>
   <!-- End Navbar -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        fetch_customer_data();
+
+        function fetch_customer_data(query = '')
+        {
+            $.ajax({
+                url:"{{ route('ajax_search') }}",
+                method:'GET',
+                data:{query:query},
+                dataType:'json',
+                success:function(data)
+                {
+                    $('tbody').html(data.table_data);
+                }
+            })
+        }
+
+        $(document).on('keyup', '#search', function(){
+            var query = $(this).val();
+            fetch_customer_data(query);
+        });
+    });
+</script>

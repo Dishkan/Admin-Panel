@@ -177,6 +177,58 @@ class PageController extends Controller{
 
 	}
 
+	function search(Request $request)
+	{
+		if($request->ajax())
+		{
+			$output = '';
+			$query = $request->get('query');
+			if($query != '')
+			{
+				$data = User::where('firstname', 'like', '%'.$query.'%')
+					->orWhere('lastname', 'like', '%'.$query.'%')
+					->orWhere('phonenumber', 'like', '%'.$query.'%')
+					->orWhere('email', 'like', '%'.$query.'%')
+					->get();
+
+			}
+			else
+			{
+				$data = User::orderBy('id', 'firstname')
+					->get();
+			}
+			$total_row = $data->count();
+			if($total_row > 0)
+			{
+				foreach($data as $row)
+				{
+					$output .= '
+        <tr>
+         <td>' . $row->picture . '</td>
+         <td>' . $row->firstname . '</td>
+         <td>' . $row->email . '</td>
+         <td>' . $row->role->name . '</td>
+         <td>' . $row->created_at . '</td>
+        </tr>
+        ';
+				}
+			}
+			else
+			{
+				$output = '
+       <tr>
+        <td align="center" colspan="5">No Data Found</td>
+       </tr>
+       ';
+			}
+			$data = array(
+				'table_data'  => $output,
+			);
+
+			echo json_encode($data);
+		}
+	}
+
 	/**
 	 * Display all the static pages when authenticated
 	 *
