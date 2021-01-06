@@ -55,7 +55,7 @@ class User extends Authenticatable
     /**
      * Get the role of the user
      *
-     * @return \App\Role
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function role()
     {

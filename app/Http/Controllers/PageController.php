@@ -186,7 +186,7 @@ class PageController extends Controller{
 			$query = $request->get('query');
 			if($query)
 			{
-				$data = DB::table('users')->where('firstname', 'like', '%'.$query.'%')
+				$data = User::where('firstname', 'like', '%'.$query.'%')
 					->orWhere('lastname', 'like', '%'.$query.'%')
 					->orWhere('phonenumber', 'like', '%'.$query.'%')
 					->orWhere('email', 'like', '%'.$query.'%')

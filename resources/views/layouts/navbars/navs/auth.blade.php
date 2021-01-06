@@ -27,7 +27,7 @@
           </div>
         </div>
           <div style="margin-top:6px; position:absolute">
-              <ul style="background-color:#367dff;" id="results">
+              <ul style="background-color:#8c8c8c;" id="results">
 
               </ul>
           </div>

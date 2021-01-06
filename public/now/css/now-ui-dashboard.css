@@ -6449,8 +6449,8 @@ Created using IcoMoon - icomoon.io
 .sidebar .sidebar-wrapper,
 .off-canvas-sidebar .sidebar-wrapper {
     position: relative;
-    height: calc(100vh - 75px);
-    overflow: scroll;
+    height: calc(105vh - 75px);
+    overflow: auto;
     width: 260px;
     z-index: 4;
     padding-bottom: 100px;
@@ -7025,7 +7025,7 @@ Created using IcoMoon - icomoon.io
     }
     .sidebar-mini .sidebar,
     .sidebar-mini .sidebar .sidebar-wrapper {
-        width: 80px;
+        width: 95px;
     }
     .sidebar-mini .main-panel {
         width: calc(100% - 80px);
