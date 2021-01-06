@@ -1,8 +1,8 @@
 /*
 Error: File to import not found or unreadable: ../core/mixins/transparency.
-       Load path: D:/www/my.loc/public/now/scss
-        on line 2 of D:/www/my.loc/public/now/scss/now-ui-dashboard/_mixins.scss
-        from line 19 of D:\www\my.loc\public\now\scss\now-ui-dashboard.scss
+       Load path: C:/OpenServer/domains/my.loc/public/now/scss
+        on line 2 of C:/OpenServer/domains/my.loc/public/now/scss/now-ui-dashboard/_mixins.scss
+        from line 19 of C:\OpenServer\domains\my.loc\public\now\scss\now-ui-dashboard.scss
 
 1: /*!
 2: 
@@ -13,8 +13,8 @@ Error: File to import not found or unreadable: ../core/mixins/transparency.
 7:  * Product Page: https://www.creative-tim.com/product/now-ui-dashboard-pro
 
 Backtrace:
-D:/www/my.loc/public/now/scss/now-ui-dashboard/_mixins.scss:2
-D:\www\my.loc\public\now\scss\now-ui-dashboard.scss:19
+C:/OpenServer/domains/my.loc/public/now/scss/now-ui-dashboard/_mixins.scss:2
+C:\OpenServer\domains\my.loc\public\now\scss\now-ui-dashboard.scss:19
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/import_node.rb:67:in `rescue in import'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/import_node.rb:45:in `import'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/import_node.rb:28:in `imported_file'
@@ -51,9 +51,10 @@ C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/visitors/bas
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/visitors/perform.rb:161:in `visit'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/visitors/perform.rb:10:in `visit'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/root_node.rb:36:in `css_tree'
-C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/root_node.rb:20:in `render'
-C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:290:in `render'
-C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:400:in `run'
+C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:307:in `render_with_sourcemap'
+C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:391:in `run'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:63:in `process_result'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:52:in `parse'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:19:in `parse!'
@@ -64,4 +65,4 @@ C:/Program Files (x86)/Koala/bin/sass:22:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: ../core/mixins/transparency.\A        Load path: D:/www/my.loc/public/now/scss\A         on line 2 of D:/www/my.loc/public/now/scss/now-ui-dashboard/_mixins.scss\A         from line 19 of D:\www\my.loc\public\now\scss\now-ui-dashboard.scss\A \A 1: /*!\A 2: \A 3:  =========================================================\A 4:  * Now UI Dashboard Pro - v1.4.1\A 5:  =========================================================\A 6: \A 7:  * Product Page: https://www.creative-tim.com/product/now-ui-dashboard-pro"; }
+  content: "Error: File to import not found or unreadable: ../core/mixins/transparency.\A        Load path: C:/OpenServer/domains/my.loc/public/now/scss\A         on line 2 of C:/OpenServer/domains/my.loc/public/now/scss/now-ui-dashboard/_mixins.scss\A         from line 19 of C:\OpenServer\domains\my.loc\public\now\scss\now-ui-dashboard.scss\A \A 1: /*!\A 2: \A 3:  =========================================================\A 4:  * Now UI Dashboard Pro - v1.4.1\A 5:  =========================================================\A 6: \A 7:  * Product Page: https://www.creative-tim.com/product/now-ui-dashboard-pro"; }

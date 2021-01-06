@@ -9,16 +9,18 @@
     "license": "MIT",
     "require": {
         "php": "^7.3.0",
+        "ext-curl": "*",
         "ext-json": "*",
+        "ext-mysqli": "*",
+        "ext-ssh2": "*",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^8.0",
         "laravel/legacy-factories": "^1.1",
+        "laravel/scout": "^8.5",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "symfony/dom-crawler": "^5.0",
-      "ext-curl": "*",
-      "ext-ssh2": "*",
-      "ext-mysqli": "*"
+        "teamtnt/laravel-scout-tntsearch-driver": "^11.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

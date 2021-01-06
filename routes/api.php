@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\SitewideSearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,13 @@ Route::get('is_email_unique', ['uses' => 'SitesHelperController@isEmailUnique', 
 Route::get('is_phone_unique', ['uses' => 'SitesHelperController@isPhoneUnique', 'as' => 'API_isPhoneUnique' ]);
 Route::get('site-status',     ['uses' => 'SitesHelperController@siteStatus',    'as' => 'API_siteStatus'    ]);
 
+//Testing
+Route::get('/site-search', [SitewideSearchController::class, 'search']);
+
 Route::group( [ 'middleware' => 'api.auth' ], function(){
+
+	//For search function
+	//Route::get('/site-search', [SitewideSearchController::class, 'search']);
 
 	// Sites
 	Route::group( [ 'prefix' => 'sites' ], function(){

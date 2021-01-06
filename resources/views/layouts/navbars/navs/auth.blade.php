@@ -19,14 +19,20 @@
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <div>
         <div class="input-group no-border">
-            <input type="text" name="search" id="search" class="form-control" placeholder="Search..." />
+           <input type="text" id="search-bar" class="form-control" placeholder="Search..." />
           <div class="input-group-append">
             <div class="input-group-text">
               <i class="now-ui-icons ui-1_zoom-bold"></i>
             </div>
           </div>
         </div>
+          <div style="margin-top:6px; position:absolute">
+              <ul style="background-color:#367dff;" id="results">
+
+              </ul>
+          </div>
       </div>
+
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="#pablo">
@@ -71,29 +77,36 @@
   </div>
 </nav>
   <!-- End Navbar -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
-    $(document).ready(function(){
-
-        fetch_customer_data();
-
-        function fetch_customer_data(query = '')
-        {
-            $.ajax({
-                url:"{{ route('ajax_search') }}",
-                method:'GET',
-                data:{query:query},
-                dataType:'json',
-                success:function(data)
-                {
-                    $('tbody').html(data.table_data);
-                }
+    const resultsList = document.getElementById('results');
+    function createLi(searchResult){
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = searchResult.view_link;
+        link.textContent = searchResult.model;
+        const h6 = document.createElement('h6')
+        h6.appendChild(link);
+        const span = document.createElement('span');
+        span.textContent = searchResult.firstname;
+        li.appendChild(h6);
+        li.appendChild(span);
+        return li;
+    }
+    document.getElementById('search-bar').addEventListener('input', function (event){
+        event.preventDefault();
+        const searched = event.target.value;
+        fetch('/api/site-search?search=' + searched, {
+            method: 'GET'
+        }).then((response) => {
+            return response.json();
+        }).then((response) => {
+            console.log({response})
+            const results = response.data;
+            // empty list
+            resultsList.innerHTML = '';
+            results.forEach((result) => {
+                resultsList.appendChild(createLi(result))
             })
-        }
-
-        $(document).on('keyup', '#search', function(){
-            var query = $(this).val();
-            fetch_customer_data(query);
-        });
-    });
+        })
+    })
 </script>

@@ -24,6 +24,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Site;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller{
 	/**
@@ -183,9 +184,9 @@ class PageController extends Controller{
 		{
 			$output = '';
 			$query = $request->get('query');
-			if($query != '')
+			if($query)
 			{
-				$data = User::where('firstname', 'like', '%'.$query.'%')
+				$data = DB::table('users')->where('firstname', 'like', '%'.$query.'%')
 					->orWhere('lastname', 'like', '%'.$query.'%')
 					->orWhere('phonenumber', 'like', '%'.$query.'%')
 					->orWhere('email', 'like', '%'.$query.'%')

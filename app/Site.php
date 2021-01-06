@@ -4,8 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
 
 class Site extends Model{
+	use Searchable;
+
+	const SEARCHABLE_FIELDS = ['id', 'type', 'dealer_name'];
+
+	public function toSearchableArray()
+	{
+		return $this->only(self::SEARCHABLE_FIELDS);
+	}
+
 	protected $fillable = [
 		'dealer_name',
 		'lead_email',
