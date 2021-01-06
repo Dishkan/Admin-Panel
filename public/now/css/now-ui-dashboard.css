@@ -6455,6 +6455,32 @@ Created using IcoMoon - icomoon.io
     z-index: 4;
     padding-bottom: 100px;
 }
+.sidebar-wrapper::-webkit-scrollbar {
+    width: 14px;
+}
+
+.sidebar-wrapper::-webkit-scrollbar-track {
+    background: white;        /* color of the tracking area */
+}
+
+.sidebar-wrapper::-webkit-scrollbar-thumb {
+    background-color: #999999;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid white;  /* creates padding around scroll thumb */
+}
+body::-webkit-scrollbar {
+    width: 14px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+    background: white;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #999999;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 2px solid white;  /* creates padding around scroll thumb */
+}
 
 .sidebar .sidebar-wrapper .dropdown .dropdown-backdrop,
 .off-canvas-sidebar .sidebar-wrapper .dropdown .dropdown-backdrop {
