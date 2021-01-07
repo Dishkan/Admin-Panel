@@ -119,7 +119,7 @@ class UserController extends Controller{
 			dd( 'File does not exists.' );
 		}
 
-		Site::where( 'user_id', $user->id )->delete();
+		Site::where( 'user_id', $user->id )->update(['user_id' => 1]);
 		$user->delete();
 
 		return redirect()->route( 'user.index' )->withStatus( __( 'User successfully deleted.' ) );
