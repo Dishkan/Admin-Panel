@@ -72,6 +72,63 @@
                     <p>{{ __('Overview') }}</p>
                 </a>
             </li>
+            @can('manage-users', App\User::class)
+            <li>
+                <a data-toggle="collapse" href="#hosting">
+                    <i class="now-ui-icons shopping_credit-card"></i>
+                    <p>
+                        {{ __("Hosting Services") }}
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse @if ($activeNav ?? '' == 'hosting') show @endif" id="hosting">
+                    <ul class="nav">
+                        <li class="@if ($activePage == 'credentials') active @endif">
+                            <a href="{{ route('page.index','credentials') }}">
+                                <span class="sidebar-mini-icon">{{ __("C") }}</span>
+                                <span class="sidebar-normal"> {{ __("Credentials") }} </span>
+                            </a>
+                        </li>
+                        <li class="@if ($activePage == 'domain') active @endif">
+                            <a href="{{ route('page.index','domain') }}">
+                                <span class="sidebar-mini-icon">{{ __("PD") }}</span>
+                                <span class="sidebar-normal"> {{ __("Point Domain") }} </span>
+                            </a>
+                        </li>
+                        <li class="@if ($activePage == 'tools') active @endif">
+                            <a href="{{ route('page.index','tools') }}">
+                                <span class="sidebar-mini-icon">{{ __("T") }}</span>
+                                <span class="sidebar-normal"> {{ __("Tools") }} </span>
+                            </a>
+                        </li>
+                        <li class="@if ($activePage == 'restore') active @endif">
+                            <a href="{{ route('page.index','restore') }}">
+                                <span class="sidebar-mini-icon">{{ __("RP") }}</span>
+                                <span class="sidebar-normal"> {{ __("Restore points") }} </span>
+                            </a>
+                        </li>
+                        <li class="@if ($activePage == 'resource') active @endif">
+                            <a href="{{ route('page.index','resource') }}">
+                                <span class="sidebar-mini-icon">{{ __("RU") }}</span>
+                                <span class="sidebar-normal"> {{ __("Resource usage") }} </span>
+                            </a>
+                        </li>
+                        <li class="@if ($activePage == 'logs') active @endif">
+                            <a href="{{ route('page.index','logs') }}">
+                                <span class="sidebar-mini-icon">{{ __("L") }}</span>
+                                <span class="sidebar-normal"> {{ __("Logs") }} </span>
+                            </a>
+                        </li>
+                        <li class="@if ($activePage == 'staging') active @endif">
+                            <a href="{{ route('page.index','staging') }}">
+                                <span class="sidebar-mini-icon">{{ __("SE") }}</span>
+                                <span class="sidebar-normal"> {{ __("Staging Environment") }} </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            @endcan
 
             {{-- USERS --}}
             <li>
@@ -163,7 +220,18 @@
                     </ul>
                 </div>
             </li>
-
+            <li class="@if ($activePage == 'plugins') active @endif">
+                <a href="{{ route('page.index','plugins') }}">
+                    <i class="now-ui-icons ui-2_settings-90"></i>
+                    <p>{{ __(" Plugins ") }}</p>
+                </a>
+            </li>
+            <li class="@if ($activePage == 'seo') active @endif">
+                <a href="{{ route('page.index','seo') }}">
+                    <i class="now-ui-icons business_chart-bar-32"></i>
+                    <p>{{ __(" SEO ") }}</p>
+                </a>
+            </li>
             <li>
                 <a data-toggle="collapse" href="#pagesExamples">
                     <i class="now-ui-icons design_image"></i>
@@ -189,7 +257,6 @@
                     </ul>
                 </div>
             </li>
-
             @if( auth()->user()->isAdmin() )
                 <li>
                     <a data-toggle="collapse" href="#componentsExamples">
@@ -344,6 +411,24 @@
                             </li>
                         </ul>
                     </div>
+                </li>
+                <li class="@if ($activePage == 'wordpress') active @endif">
+                    <a href="{{ route('page.index','wordpress') }}">
+                        <i class="now-ui-icons design-2_ruler-pencil"></i>
+                        <p>{{ __(" Wordpress Themes ") }}</p>
+                    </a>
+                </li>
+                <li class="@if ($activePage == 'backups') active @endif">
+                    <a href="{{ route('page.index','backups') }}">
+                        <i class="now-ui-icons arrows-1_cloud-upload-94"></i>
+                        <p>{{ __(" Backups ") }}</p>
+                    </a>
+                </li>
+                <li class="@if ($activePage == 'security') active @endif">
+                    <a href="{{ route('page.index','security') }}">
+                        <i class="now-ui-icons objects_support-17"></i>
+                        <p>{{ __(" Security ") }}</p>
+                    </a>
                 </li>
                 <li class="@if ($activePage == 'widgets') active @endif">
                     <a href="{{ route('page.index','widgets') }}">

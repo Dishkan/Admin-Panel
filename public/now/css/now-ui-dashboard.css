@@ -7051,7 +7051,7 @@ body::-webkit-scrollbar-thumb {
     }
     .sidebar-mini .sidebar,
     .sidebar-mini .sidebar .sidebar-wrapper {
-        width: 95px;
+        width: 94px;
     }
     .sidebar-mini .main-panel {
         width: calc(100% - 80px);

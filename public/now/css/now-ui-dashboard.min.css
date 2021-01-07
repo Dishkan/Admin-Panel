@@ -1127,7 +1127,7 @@ body::-webkit-scrollbar-thumb{background-color:#999;border-radius:20px;border:2p
 .sidebar-mini .visible-on-sidebar-mini{display:inline-block!important}
 .sidebar-mini .navbar.fixed-top{width:calc(100% - 80px)}
 .sidebar-mini .navbar-minimize{opacity:0}
-.sidebar-mini .sidebar,.sidebar-mini .sidebar .sidebar-wrapper{width:95px}
+.sidebar-mini .sidebar,.sidebar-mini .sidebar .sidebar-wrapper{width:94px}
 .sidebar-mini .main-panel{width:calc(100% - 80px)}
 .sidebar-mini .sidebar{display:block;z-index:1030}
 .sidebar-mini .sidebar .logo a.logo-normal{opacity:0;-webkit-transform:translate3d(-25px,0,0);-moz-transform:translate3d(-25px,0,0);-o-transform:translate3d(-25px,0,0);-ms-transform:translate3d(-25px,0,0);transform:translate3d(-25px,0,0)}
