@@ -24,7 +24,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Site;
-use Illuminate\Support\Facades\DB;
+use Spatie\Searchable\Search;
 
 class PageController extends Controller{
 	/**
@@ -229,7 +229,18 @@ class PageController extends Controller{
 			echo json_encode($data);
 		}
 	}
+	public function search_all(Request $request)
+	{
+		if(!$request->input('query')) {
+			return false;
+		}
+		$searchResults = (new Search())
+			->registerModel(User::class, 'firstname', 'lastname', 'email', 'phonenumber')
+			->registerModel(Site::class, 'dealer_name', 'type', 'lead_email', 'country', 'state', 'city', 'postal_code', 'dealer_number', 'address', 'place_name', 'old_website_url')
+			->perform($request->input('query'));
 
+		return view('search', compact('searchResults'));
+	}
 	/**
 	 * Display all the static pages when authenticated
 	 *

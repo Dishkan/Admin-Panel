@@ -21,18 +21,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Scout\Searchable;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Searchable
 {
-    use Notifiable, Searchable;
-
-	const SEARCHABLE_FIELDS = ['id', 'firstname', 'lastname', 'email'];
-
-	public function toSearchableArray()
-	{
-		return $this->only(self::SEARCHABLE_FIELDS);
-	}
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -102,4 +96,14 @@ class User extends Authenticatable
     {
         return $this->role_id == 3;
     }
+
+	public function getSearchResult(): SearchResult{
+		$url = route('user.edit', $this->id);
+
+		return new SearchResult(
+			$this,
+			$this->firstname,
+			$url
+		);
+	}
 }

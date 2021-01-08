@@ -4,17 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Scout\Searchable;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Site extends Model{
-	use Searchable;
+class Site extends Model implements Searchable{
 
-	const SEARCHABLE_FIELDS = ['id', 'type', 'dealer_name'];
-
-	public function toSearchableArray()
-	{
-		return $this->only(self::SEARCHABLE_FIELDS);
-	}
 
 	protected $fillable = [
 		'dealer_name',
@@ -48,5 +42,15 @@ class Site extends Model{
 
 	public function logo(){
 		return Storage::disk( 'public' )->url( $this->old_website_logo_src );
+	}
+
+	public function getSearchResult(): SearchResult{
+		$url = route('sites.edit', $this->id);
+
+		return new SearchResult(
+			$this,
+			$this->dealer_name,
+			$url
+		);
 	}
 }

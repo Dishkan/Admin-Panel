@@ -17,12 +17,13 @@
       <span class="navbar-toggler-bar navbar-kebab"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
-      <div>
+      <form action="{{ route('search') }}" method="GET">
         <div class="input-group no-border">
-           <input type="text" id="search-bar" class="form-control" placeholder="Search..." />
-          <div class="input-group-append">
+           <input type="text" name="query" id="#" class="form-control" placeholder="Search..." />
+            <div class="input-group-append">
             <div class="input-group-text">
-              <i class="now-ui-icons ui-1_zoom-bold"></i>
+             <!-- <i class="now-ui-icons ui-1_zoom-bold" type="submit"></i> -->
+                <input type="submit" value="Click" />
             </div>
           </div>
         </div>
@@ -31,7 +32,7 @@
 
               </ul>
           </div>
-      </div>
+      </form>
 
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -77,36 +78,3 @@
   </div>
 </nav>
   <!-- End Navbar -->
-<script>
-    const resultsList = document.getElementById('results');
-    function createLi(searchResult){
-        const li = document.createElement('li');
-        const link = document.createElement('a');
-        link.href = searchResult.view_link;
-        link.textContent = searchResult.model;
-        const h6 = document.createElement('h6')
-        h6.appendChild(link);
-        const span = document.createElement('span');
-        span.textContent = searchResult.firstname;
-        li.appendChild(h6);
-        li.appendChild(span);
-        return li;
-    }
-    document.getElementById('search-bar').addEventListener('input', function (event){
-        event.preventDefault();
-        const searched = event.target.value;
-        fetch('/api/site-search?search=' + searched, {
-            method: 'GET'
-        }).then((response) => {
-            return response.json();
-        }).then((response) => {
-            console.log({response})
-            const results = response.data;
-            // empty list
-            resultsList.innerHTML = '';
-            results.forEach((result) => {
-                resultsList.appendChild(createLi(result))
-            })
-        })
-    })
-</script>

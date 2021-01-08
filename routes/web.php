@@ -38,6 +38,7 @@ Route::group( [ 'middleware' =>'dgdev'], function(){
 		Route::resource( 'item',     'ItemController'     );
 		Route::resource( 'role',     'RoleController'     );
 
+		Route::get('search', 'PageController@search_all')->name('search');
 		Route::get('ajax_search', 'PageController@search')->name('ajax_search');
 		Route::get( 'profile',          [ 'as' => 'profile.edit',     'uses' => 'ProfileController@edit'     ] );
 		Route::put( 'profile',          [ 'as' => 'profile.update',   'uses' => 'ProfileController@update'   ] );

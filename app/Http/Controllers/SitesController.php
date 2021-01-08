@@ -9,6 +9,7 @@ use Validator;
 use App\Http\Requests\SiteRequest;
 use Illuminate\Support\Facades\Storage;
 
+
 class SitesController extends Controller{
 
 	public static $cron_name = 'sites_processing';
