@@ -178,7 +178,23 @@ class PageController extends Controller{
 
 	}
 
-	function search(Request $request)
+	/**
+	 * Global search function through entire database
+	 */
+	public function searchAll(Request $request)
+	{
+		if(!$request->input('query')) {
+			return view('search_notfound');
+		}
+		$searchResults = (new Search())
+			->registerModel(User::class, 'firstname', 'lastname', 'email', 'phonenumber')
+			->registerModel(Site::class, 'dealer_name', 'type', 'lead_email', 'country', 'state', 'city', 'postal_code', 'dealer_number', 'address', 'place_name', 'old_website_url')
+			->perform($request->input('query'));
+
+		return view('search', compact('searchResults'));
+	}
+
+	public function ajaxSearch(Request $request)
 	{
 		if($request->ajax())
 		{
@@ -228,18 +244,6 @@ class PageController extends Controller{
 
 			echo json_encode($data);
 		}
-	}
-	public function search_all(Request $request)
-	{
-		if(!$request->input('query')) {
-			return false;
-		}
-		$searchResults = (new Search())
-			->registerModel(User::class, 'firstname', 'lastname', 'email', 'phonenumber')
-			->registerModel(Site::class, 'dealer_name', 'type', 'lead_email', 'country', 'state', 'city', 'postal_code', 'dealer_number', 'address', 'place_name', 'old_website_url')
-			->perform($request->input('query'));
-
-		return view('search', compact('searchResults'));
 	}
 	/**
 	 * Display all the static pages when authenticated
