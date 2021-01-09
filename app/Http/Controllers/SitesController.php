@@ -25,7 +25,10 @@ class SitesController extends Controller{
 	public function index( Site $sites ){
 		$user = \auth()->user();
 
-		$sites = $user->isAdmin() || $user->isMember() ? $sites->where((['user_id'=>$user->id]))->paginate(10) : '';
+		$sites = $user->isMember() ? $sites->where((['user_id'=>$user->id]))->paginate(10) : $sites->paginate(10);
+
+		//$sites = $user->isAdmin() || $user->isMember() ? $sites->paginate(10) : $sites->where(['user_id'=>$user->id])->get();
+
 		return view( 'sites.index', [ 'sites' => $sites ] );
 	}
 
