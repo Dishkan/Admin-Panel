@@ -34,6 +34,13 @@
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Dealer number') }}</th>
                                 <th>{{ __('Address') }}</th>
+                                @if( auth()->user()->isAdmin() )
+                                <th>{{ __('Document Root') }}</th>
+                                <th>{{ __('Server ip') }}</th>
+                                <th>{{ __('Db name') }}</th>
+                                <th>{{ __('Db user') }}</th>
+                                <th>{{ __('Db pass') }}</th>
+                                @endif
                                 <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                             </tr>
                             </thead>
@@ -59,6 +66,13 @@
                                     <td>{{$site->city}}</td>
                                     <td>{{$site->dealer_number}}</td>
                                     <td>{{$site->address}}</td>
+                                    @if( auth()->user()->isAdmin() )
+                                    <td>{{$site->document_root}}</td>
+                                    <td>{{$site->server_ip}}</td>
+                                    <td>{{$site->db_name}}</td>
+                                    <td>{{$site->db_user}}</td>
+                                    <td>{{$site->db_pass}}</td>
+                                    @endif
                                     <td class="text-right">
                                             <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
                                                class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
