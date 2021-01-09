@@ -232,6 +232,12 @@
                     <p>{{ __(" SEO ") }}</p>
                 </a>
             </li>
+            <li class="@if ($activePage == 'wordpress') active @endif">
+                <a href="{{ route('page.index','wordpress') }}">
+                    <i class="now-ui-icons design-2_ruler-pencil"></i>
+                    <p>{{ __(" Wordpress Themes ") }}</p>
+                </a>
+            </li>
             <li>
                 <a data-toggle="collapse" href="#pagesExamples">
                     <i class="now-ui-icons design_image"></i>
@@ -411,12 +417,6 @@
                             </li>
                         </ul>
                     </div>
-                </li>
-                <li class="@if ($activePage == 'wordpress') active @endif">
-                    <a href="{{ route('page.index','wordpress') }}">
-                        <i class="now-ui-icons design-2_ruler-pencil"></i>
-                        <p>{{ __(" Wordpress Themes ") }}</p>
-                    </a>
                 </li>
                 <li class="@if ($activePage == 'backups') active @endif">
                     <a href="{{ route('page.index','backups') }}">

@@ -11,9 +11,7 @@
 |
 */
 
-use App\Http\Controllers\SitewideSearchController;
-
-Route::group( [ 'middleware' =>'dgdev'], function(){
+//Route::group( [ 'middleware' =>'dgdev'], function(){
 
 	Route::get( '/', function(){
 		return redirect()->route( 'login' );
@@ -48,5 +46,5 @@ Route::group( [ 'middleware' =>'dgdev'], function(){
 
 	} );
 
-} );
+//} );
 
