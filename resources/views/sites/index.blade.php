@@ -53,6 +53,13 @@
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Dealer number') }}</th>
                                 <th>{{ __('Address') }}</th>
+                                @if( auth()->user()->isAdmin() )
+                                    <th>{{ __('Document Root') }}</th>
+                                    <th>{{ __('Server ip') }}</th>
+                                    <th>{{ __('Db name') }}</th>
+                                    <th>{{ __('Db user') }}</th>
+                                    <th>{{ __('Db pass') }}</th>
+                                @endif
                                 <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                             </tr>
                             </tfoot>
