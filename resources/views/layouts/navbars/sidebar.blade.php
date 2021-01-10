@@ -263,7 +263,7 @@
                     </ul>
                 </div>
             </li>
-            @if( auth()->user()->isAdmin() )
+            @can('manage-users', App\User::class)
                 <li>
                     <a data-toggle="collapse" href="#componentsExamples">
                         <i class="now-ui-icons education_atom"></i>
@@ -454,7 +454,7 @@
                         <p>{{ __(" Read me") }}</p>
                     </a>
                 </li>
-            @endif
+            @endcan
         </ul>
 
     </div>
