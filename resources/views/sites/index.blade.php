@@ -41,6 +41,8 @@
                             <tfoot>
                             <tr>
                                 @if( auth()->user()->isAdmin() )
+                                    <th>{{ __('Website url') }}</th>
+                                    <th>{{ __('Dealer name') }}</th>
                                     <th>{{ __('Document Root') }}</th>
                                     <th>{{ __('Server ip') }}</th>
                                     <th>{{ __('Db name') }}</th>
@@ -52,11 +54,13 @@
                             @foreach($sites as $site)
                                 @if( auth()->user()->isAdmin() )
                                 <tr>
-                                        <td>{{$site->document_root}}</td>
-                                        <td>{{$site->server_ip}}</td>
-                                        <td>{{$site->db_name}}</td>
-                                        <td>{{$site->db_user}}</td>
-                                        <td>{{$site->db_pass}}</td>
+                                    <td>{{$site->old_website_url}}</td>
+                                    <td>{{$site->dealer_name}}</td>
+                                    <td>{{$site->document_root}}</td>
+                                    <td>{{$site->server_ip}}</td>
+                                    <td>{{$site->db_name}}</td>
+                                    <td>{{$site->db_user}}</td>
+                                    <td>{{$site->db_pass}}</td>
                                     <td class="text-right">
                                         <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
                                            class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
