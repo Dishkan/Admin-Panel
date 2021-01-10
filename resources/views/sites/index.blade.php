@@ -13,7 +13,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('sites.create') }}">{{ __('Add site') }}</a>
+                        <a class="btn btn-primary btn-round text-white pull-right"
+                           href="{{ route('sites.create') }}">{{ __('Add site') }}</a>
                         <h4 class="card-title">{{ __('Site list') }}</h4>
                         <div class="col-12 mt-2">
                             @include('alerts.success')
@@ -34,34 +35,50 @@
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Dealer number') }}</th>
                                 <th>{{ __('Address') }}</th>
-                                @if( auth()->user()->isAdmin() )
-                                <th>{{ __('Document Root') }}</th>
-                                <th>{{ __('Server ip') }}</th>
-                                <th>{{ __('Db name') }}</th>
-                                <th>{{ __('Db user') }}</th>
-                                <th>{{ __('Db pass') }}</th>
-                                @endif
                                 <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>{{ __('Type') }}</th>
-                                <th>{{ __('Website url') }}</th>
-                                <th>{{ __('Dealer name') }}</th>
-                                <th>{{ __('Country') }}</th>
-                                <th>{{ __('City') }}</th>
-                                <th>{{ __('Dealer number') }}</th>
-                                <th>{{ __('Address') }}</th>
                                 @if( auth()->user()->isAdmin() )
                                     <th>{{ __('Document Root') }}</th>
                                     <th>{{ __('Server ip') }}</th>
                                     <th>{{ __('Db name') }}</th>
                                     <th>{{ __('Db user') }}</th>
                                     <th>{{ __('Db pass') }}</th>
+                                    <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                                 @endif
-                                <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                             </tr>
+                            @foreach($sites as $site)
+                                @if( auth()->user()->isAdmin() )
+                                <tr>
+                                        <td>{{$site->document_root}}</td>
+                                        <td>{{$site->server_ip}}</td>
+                                        <td>{{$site->db_name}}</td>
+                                        <td>{{$site->db_user}}</td>
+                                        <td>{{$site->db_pass}}</td>
+                                    <td class="text-right">
+                                        <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
+                                           class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
+
+                                            <i class="now-ui-icons ui-2_settings-90"></i>
+
+                                        </a>
+                                        <form action="{{ route('sites.destroy', $site) }}" method="post"
+                                              style="display:inline-block;" class="delete-form">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="button" rel="tooltip"
+                                                    class="btn btn-danger btn-icon btn-sm delete-button"
+                                                    data-original-title="" title=""
+                                                    onclick="dt.showSwal('warning-message-and-confirmation')">
+                                                <i class="now-ui-icons ui-1_simple-remove"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endif
+                            @endforeach
                             </tfoot>
                             <tbody>
                             @foreach($sites as $site)
@@ -73,31 +90,24 @@
                                     <td>{{$site->city}}</td>
                                     <td>{{$site->dealer_number}}</td>
                                     <td>{{$site->address}}</td>
-                                    @if( auth()->user()->isAdmin() )
-                                    <td>{{$site->document_root}}</td>
-                                    <td>{{$site->server_ip}}</td>
-                                    <td>{{$site->db_name}}</td>
-                                    <td>{{$site->db_user}}</td>
-                                    <td>{{$site->db_pass}}</td>
-                                    @endif
                                     <td class="text-right">
-                                            <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
-                                               class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
+                                        <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
+                                           class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
 
-                                                <i class="now-ui-icons ui-2_settings-90"></i>
+                                            <i class="now-ui-icons ui-2_settings-90"></i>
 
-                                            </a>
-                                            <form action="{{ route('sites.destroy', $site) }}" method="post"
-                                                  style="display:inline-block;" class="delete-form">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="button" rel="tooltip"
-                                                        class="btn btn-danger btn-icon btn-sm delete-button"
-                                                        data-original-title="" title=""
-                                                        onclick="dt.showSwal('warning-message-and-confirmation')">
-                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
-                                                </button>
-                                            </form>
+                                        </a>
+                                        <form action="{{ route('sites.destroy', $site) }}" method="post"
+                                              style="display:inline-block;" class="delete-form">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="button" rel="tooltip"
+                                                    class="btn btn-danger btn-icon btn-sm delete-button"
+                                                    data-original-title="" title=""
+                                                    onclick="dt.showSwal('warning-message-and-confirmation')">
+                                                <i class="now-ui-icons ui-1_simple-remove"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -122,7 +132,8 @@
                                     @endfor
                                     @if ($sites->currentPage() !== $sites->lastPage())
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $sites->url($sites->currentPage()+1) }}">Next</a>
+                                            <a class="page-link"
+                                               href="{{ $sites->url($sites->currentPage()+1) }}">Next</a>
                                         </li>
                                     @endif
                                 </ul>
@@ -141,67 +152,67 @@
 
 @push('js')
     <script>
-        $(document).ready(function() {
-            $(".delete-button").click(function(){
+        $( document ).ready( function(){
+            $( ".delete-button" ).click( function(){
                 var clickedButton = $( this );
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    type: 'warning',
-                    showCancelButton: true,
+                Swal.fire( {
+                    title             : 'Are you sure?',
+                    text              : "You won't be able to revert this!",
+                    type              : 'warning',
+                    showCancelButton  : true,
                     confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: 'Yes, delete it!',
-                    buttonsStyling: false
-                }).then((result) => {
-                    if (result.value) {
-                        clickedButton.parents(".delete-form").submit();
+                    cancelButtonClass : 'btn btn-danger',
+                    confirmButtonText : 'Yes, delete it!',
+                    buttonsStyling    : false
+                } ).then( ( result ) => {
+                    if( result.value ){
+                        clickedButton.parents( ".delete-form" ).submit();
                     }
-                })
+                } )
 
-            })
-            $('#datatable').DataTable({
-                info: false,
-                paging : false,
+            } )
+            $( '#datatable' ).DataTable( {
+                info      : false,
+                paging    : false,
                 lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, "All"]
+                    [ 10, 25, 50, -1 ],
+                    [ 10, 25, 50, "All" ]
                 ],
                 responsive: true,
-                language: {
-                    search: "_INPUT_",
+                language  : {
+                    search           : "_INPUT_",
                     searchPlaceholder: "Search records",
                 }
 
-            });
+            } );
 
-            var table = $('#datatable').DataTable();
+            var table = $( '#datatable' ).DataTable();
 
             // Edit record
-            table.on('click', '.edit', function() {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
+            table.on( 'click', '.edit', function(){
+                $tr = $( this ).closest( 'tr' );
+                if( $( $tr ).hasClass( 'child' ) ){
+                    $tr = $tr.prev( '.parent' );
                 }
 
-                var data = table.row($tr).data();
-                alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
-            });
+                var data = table.row( $tr ).data();
+                alert( 'You press on Row: ' + data[ 0 ] + ' ' + data[ 1 ] + ' ' + data[ 2 ] + '\'s row.' );
+            } );
 
             // Delete a record
-            table.on('click', '.remove', function(e) {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
+            table.on( 'click', '.remove', function( e ){
+                $tr = $( this ).closest( 'tr' );
+                if( $( $tr ).hasClass( 'child' ) ){
+                    $tr = $tr.prev( '.parent' );
                 }
-                table.row($tr).remove().draw();
+                table.row( $tr ).remove().draw();
                 e.preventDefault();
-            });
+            } );
 
             //Like record
-            table.on('click', '.like', function() {
-                alert('You clicked on Like button');
-            });
-        });
+            table.on( 'click', '.like', function(){
+                alert( 'You clicked on Like button' );
+            } );
+        } );
     </script>
 @endpush
