@@ -56,11 +56,11 @@
                                 <tr>
                                     <td>{{$site->old_website_url}}</td>
                                     <td>{{$site->dealer_name}}</td>
-                                    <td>{{$site->document_root}}</td>
-                                    <td>{{$site->server_ip}}</td>
-                                    <td>{{$site->db_name}}</td>
-                                    <td>{{$site->db_user}}</td>
-                                    <td>{{$site->db_pass}}</td>
+                                    <td>{{$site->document_root ? $site->document_root : 'Empty'}}</td>
+                                    <td>{{$site->server_ip ? $site->server_ip : 'Empty'}}</td>
+                                    <td>{{$site->db_name ? $site->db_name : 'Empty'}}</td>
+                                    <td>{{$site->db_user ? $site->db_user : 'Empty'}}</td>
+                                    <td>{{$site->db_pass ? $site->db_pass : 'Empty'}}</td>
                                     <td class="text-right">
                                         <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
                                            class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
