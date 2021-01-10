@@ -10,7 +10,8 @@ class HelperController extends Controller{
 	public static $chars = '123456789abcdefghijklmnopqrstuvwxyz';
 
 	public static function test(){
-		SitesController::process();
+		//SitesController::process();
+		SitesController::delete_sites();
 	}
 
 	/**

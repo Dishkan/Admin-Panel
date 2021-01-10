@@ -9,7 +9,6 @@ use Spatie\Searchable\SearchResult;
 
 class Site extends Model implements Searchable{
 
-
 	protected $fillable = [
 		'dealer_name',
 		'lead_email',
@@ -27,13 +26,18 @@ class Site extends Model implements Searchable{
 		'old_website_favicon_src',
 		'old_website_logo_src',
 		'user_id',
-		'processed',
 		'website_url',
 		'server_ip',
 		'vhost_filename',
+		'vhost_ssl_filename',
 		'db_name',
 		'db_user',
 		'db_pass',
+		'processed',
+		'ssl_generated',
+		'to_remove',
+		'removed',
+		'creates_error_message',
 	];
 
 	public function icon(){

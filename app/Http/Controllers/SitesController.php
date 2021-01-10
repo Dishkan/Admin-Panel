@@ -12,8 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class SitesController extends Controller{
 
-	public static $cron_name = 'sites_processing';
-	public static $tz        = 'Europe/Kiev';
+	public static $cron_name           = 'sites_processing';
+	public static $cron_ssl_generating = 'sites_ssl_generating';
+	public static $cron_name_deleting  = 'sites_deleting';
+	public static $tz                  = 'Europe/Kiev';
+	public static $debug               = false;
 
 	/**
 	 * Display a listing of the resource.
@@ -153,6 +156,15 @@ class SitesController extends Controller{
 	}
 
 	/**
+	 * Return Collection with sites to remove
+	 *
+	 * @return mixed
+	 */
+	public static function get_to_remove(){
+		return Site::where( [ 'to_remove' => 1 ] )->get();
+	}
+
+	/**
 	 * Process not created sites
 	 *
 	 * @return mixed|void
@@ -160,8 +172,8 @@ class SitesController extends Controller{
 	public static function process(){
 
 		// Check if this cron already running
-		// if( CronStatuses::is_run( self::$cron_name ) )
-		// 	return;
+		if( CronStatuses::is_run( self::$cron_name ) )
+	        return;
 
 		// Run
 		CronStatuses::run( self::$cron_name );
@@ -208,15 +220,7 @@ class SitesController extends Controller{
 
 			$sub_domain = HelperController::generate_name_from_string( $base_name, $exists_domains );
 
-			if( false ){
-				$res = CloudFlareController::create_ns( $sub_domain );
-			}
-			else{
-				$res            = [];
-				$res['status']  = 'OK';
-				$res['message'] = "Successful created [$sub_domain]";
-				$res['domain']  = $sub_domain . '.idweb.io';
-			}
+			$res = CloudFlareController::create_ns( $sub_domain );
 
 			// log
 			$cur_log['base_name']                                = $base_name;
@@ -225,6 +229,7 @@ class SitesController extends Controller{
 			$cur_log['create_ns__info']                          = $res;
 
 			if( 'OK' !== $res['status'] ){
+				$site->update( ['creates_error_message' => json_encode( $res, JSON_UNESCAPED_SLASHES )] );
 				continue;
 			}
 			$domain = $res['domain'];
@@ -271,7 +276,7 @@ class SitesController extends Controller{
 			// change `DB_NAME` | `DB_USER` | `DB_PASSWORD`
 			//
 
-			// Generate and save local VHost file
+			// Generate and save local VHost file 80 port
 			$file_content  = $sitesHostSSH->get_vhost_template_file_content();
 			$vhost_content = strtr( $file_content, [
 				'{{{REMOTE_ADDR}}}'  => $_SERVER['REMOTE_ADDR'],
@@ -280,31 +285,43 @@ class SitesController extends Controller{
 				'{{{DOMAIN}}}'       => $domain,
 				'{{{DOC_ROOT}}}'     => $document_root,
 			] );
-			$vhost_file_name = "999-{$domain}.conf";
-			Storage::disk('vhosts')->put( $vhost_file_name, $vhost_content );
+			$vhost_filename = "999-{$domain}.conf";
+			Storage::disk('vhosts')->put( $vhost_filename, $vhost_content );
+
+			// Generate and save local VHost file with SSL 443 port
+			$file_ssl_content  = $sitesHostSSH->get_vhost_template_file_ssl_content();
+			$vhost_ssl_content = strtr( $file_ssl_content, [
+				'{{{REMOTE_ADDR}}}'  => $_SERVER['REMOTE_ADDR'],
+				'{{{CUR_DATETIME}}}' => date( 'd-m-Y H:i:s' ),
+				'{{{TIMEZONE}}}'     => self::$tz,
+				'{{{DOMAIN}}}'       => $domain,
+				'{{{DOC_ROOT}}}'     => $document_root,
+			] );
+			$vhost_ssl_filename = "999-{$domain}-le-ssl.conf";
+			Storage::disk('vhosts')->put( $vhost_ssl_filename, $vhost_ssl_content );
 
 			// log
-			$cur_log['vhost_file_content'] = $vhost_content;
+			$cur_log['vhost_file_content']     = $vhost_content;
+			$cur_log['vhost_file_ssl_content'] = $vhost_ssl_content;
 
 			// Send local file to a remote server and generate SSL
-			$is_vhost_file_send = false;
-			$is_ssl_generated   = false;
-			// $is_vhost_file_send = $sitesHostSSH->ssh_send_file( $vhost_file_name );
-			// $is_ssl_generated   = $sitesHostSSH->SSL_generate( $domain );
+			$is_vhost_file_send     = $sitesHostSSH->ssh_send_file( $vhost_filename );
+			$is_vhost_file_ssl_send = $sitesHostSSH->ssh_send_file( $vhost_ssl_filename );
 
 			// log
-			$cur_log['is_vhost_file_send'] = $is_vhost_file_send ? 'Yes' : 'No';
-			$cur_log['is_ssl_generated']   = $is_ssl_generated   ? 'Yes' : 'No';
+			$cur_log['is_vhost_file_send']     = $is_vhost_file_send     ? 'Yes' : 'No';
+			$cur_log['is_vhost_file_ssl_send'] = $is_vhost_file_ssl_send ? 'Yes' : 'No';
 
 			$site_update = [
-				//'processed'     => 1,
-				'website_url'    => $domain,
-				'server_ip'      => CloudFlareController::get_server_ip(),
-				'db_name'        => $db_data['db_name'],
-				'db_user'        => $db_data['db_user'],
-				'db_pass'        => $db_data['db_pass'],
-				'document_root'  => $document_root,
-				'vhost_filename' => $vhost_file_name,
+				'processed'          => self::$debug ? 0 : 1,
+				'website_url'        => $domain,
+				'server_ip'          => CloudFlareController::get_server_ip(),
+				'db_name'            => $db_data['db_name'],
+				'db_user'            => $db_data['db_user'],
+				'db_pass'            => $db_data['db_pass'],
+				'document_root'      => $document_root,
+				'vhost_filename'     => $vhost_filename,
+				'vhost_ssl_filename' => $vhost_ssl_filename,
 			];
 
 			// set domain to DB
@@ -319,7 +336,88 @@ class SitesController extends Controller{
 		CronStatuses::stop( self::$cron_name );
 
 		dd( $result );
+
 	}
 
+	/**
+	 *
+	 */
+	public static function delete_sites(){
+		if( CronStatuses::is_run( self::$cron_name_deleting ) )
+			return;
+
+		// Run
+		//CronStatuses::run( self::$cron_name_deleting );
+
+		// get sites to remove
+		$to_remove = self::get_to_remove();
+
+		if( $to_remove->isEmpty() ){
+			CronStatuses::stop( self::$cron_name_deleting );
+			return;
+		}
+
+		$sitesHostSSH = new SitesHostSSHController();
+		$dbHost       = new DBHostSSHController();
+		$server_ip    = CloudFlareController::get_server_ip();
+
+		foreach( $to_remove as $site_to_remove ){
+
+			$update = [];
+
+			// 1 - Remove the virtual host configurations files only
+			$vhost_path     = $sitesHostSSH->vhost_path . '/' . $site_to_remove->vhost_filename;
+			$vhost_ssl_path = $sitesHostSSH->vhost_path . '/' . $site_to_remove->vhost_ssl_filename;
+			$sitesHostSSH->ssh_cmd( "rm $vhost_path" );
+			$sitesHostSSH->ssh_cmd( "rm $vhost_ssl_path" );
+			$update['vhost_filename'] = $update['vhost_ssl_filename'] = '';
+
+			// 2 - Remove SSL if exists
+			if( $site_to_remove->ssl_generated ){
+				$sitesHostSSH->ssh_cmd( "sudo certbot delete -d {$site_to_remove->website_url}" );
+				$update['ssl_generated'] = 0;
+			}
+
+			// 3 - Remove the folder which is document root
+			if( $site_to_remove->document_root && !empty( $site_to_remove->document_root ) ){
+				$sitesHostSSH->ssh_cmd( "rm -rf {$site_to_remove->document_root}" );
+				$update['document_root'] = '';
+			}
+
+			// 4 - Remove database
+			if( $site_to_remove->db_name ){
+				$dbHost->delete_database( $site_to_remove->db_name );
+				$update['db_name'] = '';
+			}
+
+			// 5 - Remove database user
+			if( $site_to_remove->db_user ){
+				$dbHost->delete_user( "'{$site_to_remove->db_user}'@'{$server_ip}'" );
+				$update['db_user'] = $update['db_pass'] = '';
+			}
+
+			// 6 - Remove NS record
+			if( $site_to_remove->website_url ){
+				CloudFlareController::delete_ns( $site_to_remove->website_url );
+				$update['website_url'] = '';
+			}
+
+			$update['removed'] = 1;
+
+			// update data in internal DB
+			$site_to_remove->update( $update );
+		}
+
+		// 7 - Flush Redis cache on the server
+		$sitesHostSSH->ssh_cmd( "redis-cli -a {$sitesHostSSH->redis_pass} FLUSHALL" );
+
+// 8 - Reload Apache
+//$sitesHostSSH->ssh_cmd( "sudo apachectl reload" );
+
+		// Stop
+		CronStatuses::stop( self::$cron_name_deleting );
+
+		dd( $to_remove );
+	}
 
 }

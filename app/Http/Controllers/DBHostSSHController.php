@@ -21,7 +21,7 @@ class DBHostSSHController extends Controller{
 	/**
 	 * @return void
 	 */
-	public function __mysql_connect(){
+	public function __mysql_connect():void{
 		$this->db_mysql_ch = mysqli_connect( $this->db_server_host, $this->db_server_user, $this->db_mysql_pass, 'mysql' );
 	}
 
@@ -30,15 +30,15 @@ class DBHostSSHController extends Controller{
 	 *
 	 * @return array
 	 */
-	public function create_db_and_user( string $base_name ){
-		$db_name = 'dg_auto_' . $base_name;
-		$db_user = 'u_'       . $db_name;
+	public function create_db_and_user( string $base_name ):array{
+		$db_name = 'adg_auto_' . $base_name;
+		$db_user = 'au_'       . $db_name;
 
 		$db_name = HelperController::generate_name_from_string( $db_name, $this->get_databases(), true );
 		$db_user = HelperController::generate_name_from_string( $db_user, $this->get_users(),     true );
 
 		// Create Database
-		$this->exec( "CREATE DATABASE $db_name;" );
+		$this->exec( "CREATE DATABASE {$db_name};" );
 
 		// Create User
 		$db_pass             = HelperController::generate_password();
@@ -50,15 +50,30 @@ class DBHostSSHController extends Controller{
 		// Grant Privileges
 		$this->exec( "GRANT ALL PRIVILEGES ON *.{$db_name} TO {$user_name_with_host};" );
 
-		$res = [
+		return [
 			'db_name' => $db_name,
 			'db_user' => $db_user,
 			'db_pass' => $db_pass,
 		];
-
-		return $res;
 	}
 
+	/**
+	 * @param string $username with host in the next format 'u_dg_auto_test'@'1.1.1.1'
+	 *
+	 * @return string
+	 */
+	public function delete_user( string $username ):string{
+		return $this->exec( "DROP USER {$username};" );
+	}
+
+	/**
+	 * @param string $database
+	 *
+	 * @return string
+	 */
+	public function delete_database( string $database ):string{
+		return $this->exec( "DROP TABLE {$database};" );
+	}
 
 	/*=============
 	||  HELPERS  ||
@@ -69,7 +84,7 @@ class DBHostSSHController extends Controller{
 	 *
 	 * @return array
 	 */
-	public function get_users(){
+	public function get_users():array{
 
 		$users_raw = $this->query( 'SELECT user FROM user' );
 
@@ -86,7 +101,7 @@ class DBHostSSHController extends Controller{
 	 *
 	 * @return array
 	 */
-	public function get_databases(){
+	public function get_databases():array{
 
 		$dbs_raw = $this->query( 'SHOW DATABASES' );
 		$databases = [];
@@ -102,7 +117,7 @@ class DBHostSSHController extends Controller{
 	 *
 	 * @return array
 	 */
-	public function query( $query ){
+	public function query( $query ):array{
 
 		if( !$this->db_mysql_ch ) $this->__mysql_connect();
 
@@ -121,12 +136,10 @@ class DBHostSSHController extends Controller{
 	 *
 	 * @return string
 	 */
-	public function exec( $query ){
+	public function exec( $query ):string{
 		if( !$this->db_mysql_ch ) $this->__mysql_connect();
 
-		// TODO: Uncomment it when it's live
-		// mysqli_query( $this->db_mysql_ch, $query );
-		mysqli_query( $this->db_mysql_ch, 'select time()' );
+		mysqli_query( $this->db_mysql_ch, $query );
 
 		return mysqli_error( $this->db_mysql_ch );
 	}

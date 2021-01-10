@@ -15,6 +15,16 @@ class CronStatusesSeeder extends Seeder{
 		] );
 
 		DB::table( 'cron_statuses' )->insert( [
+			'name'   => 'sites_ssl_generating',
+			'status' => 0,
+		] );
+
+		DB::table( 'cron_statuses' )->insert( [
+			'name'   => 'sites_deleting',
+			'status' => 0,
+		] );
+
+		DB::table( 'cron_statuses' )->insert( [
 			'name'   => 'domain_processing',
 			'status' => 0,
 		] );

@@ -28,16 +28,24 @@ class CreateSitesTable extends Migration{
 			$table->string( 'postal_code', 10 )->nullable();
 			$table->string( 'dealer_number' )->nullable();
 			$table->string( 'address', 250 )->nullable();
-			$table->boolean( 'processed' )->default( 0 );
+
+			$table->boolean( 'processed' )->default( false );
+			$table->boolean( 'ssl_generated' )->default( false );
+			$table->boolean( 'to_remove' )->default( false );
+			$table->boolean( 'removed' )->default( false );
 
 			// Hosting data
 			$table->string( 'document_root', 255 )->nullable();
 			$table->string( 'vhost_filename', 255 )->nullable();
+			$table->string( 'vhost_ssl_filename', 255 )->nullable();
 			$table->string( 'website_url', 255 )->nullable();
 			$table->string( 'server_ip', 15 )->nullable();
 			$table->string( 'db_name' )->nullable();
 			$table->string( 'db_user' )->nullable();
 			$table->string( 'db_pass' )->nullable();
+
+			// Service data
+			$table->text( 'creates_error_message' )->nullable();
 
 			$table->integer( 'user_id' )->unsigned()->default( 1 );
 			$table->foreign( 'user_id' )->references( 'id' )->on( 'users' );

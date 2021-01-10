@@ -114,7 +114,7 @@ class CloudFlareController extends Controller{
 	 *
 	 * @return array
 	 */
-	static function create_ns( string $ns ){
+	static function create_ns( string $ns ):array{
 
 		$result = [];
 
@@ -185,7 +185,13 @@ class CloudFlareController extends Controller{
 	 *
 	 * @return array
 	 */
-	static function delete_ns( string $ns ){
+	static function delete_ns( string $ns ):array{
+
+		// if zone exists on the ns
+		// remove zone dynamically
+		if( false !== strpos( $ns, self::$zone_domain ) ){
+			$ns = str_replace( '.' . self::$zone_domain, '', $ns );
+		}
 
 		$list   = (array)json_decode( self::list() );
 		$result = [];
@@ -251,7 +257,7 @@ class CloudFlareController extends Controller{
 	/**
 	 * @return string
 	 */
-	static function get_server_ip(){
+	static function get_server_ip():string{
 		// TODO: create logic to get this info based on environment
 		return self::$sites_server_IP;
 	}
@@ -259,7 +265,7 @@ class CloudFlareController extends Controller{
 	/**
 	 * @return string
 	 */
-	static function get_zone_domain(){
+	static function get_zone_domain():string{
 		// TODO: create logic to get this info based on environment
 		return self::$sites_server_IP;
 	}

@@ -12,13 +12,14 @@ class SitesHostSSHController extends Controller{
 	protected $sites_pub_key_path;
 	protected $sites_priv_key_path;
 
-	protected $auto_sites_path = '/var/www/dealer_sites_auto';
-	protected $su_pass         = '4LzJp91PPnQREIe';
+	public $auto_sites_path = '/var/www/dealer_sites_auto';
+	public $redis_pass      = 'r0CO7ki98903m4I';
 
 	// should be exists in the user's home directory
-	protected $temp_file_name      = 'auto_sites';
-	protected $vhost_path          = 'auto-sites-enabled';
-	protected $vhost_template_file = 'vhost-template.conf';
+	public    $vhost_path              = 'auto-sites-enabled';
+	protected $temp_file_name          = 'auto_sites';
+	protected $vhost_template_file     = 'vhost-template.conf';
+	protected $vhost_template_file_ssl = 'vhost-template-le-ssl.conf';
 
 
 	// SSH Connection Handler
@@ -68,8 +69,7 @@ class SitesHostSSHController extends Controller{
 		$dir_name      = HelperController::generate_name_from_string( $base_name, $this->get_directories(), false, true );
 		$document_root = "{$this->auto_sites_path}/{$dir_name}";
 
-		// TODO: uncomment me
-		// $this->ssh_cmd( "mkdir {$document_root}" );
+		$this->ssh_cmd( "mkdir {$document_root}" );
 
 		return $document_root;
 	}
@@ -115,7 +115,7 @@ class SitesHostSSHController extends Controller{
 		// create file with listing of directories in specific folder
 		$stream = ssh2_exec( $this->ch, $cmd );
 		stream_set_blocking( $stream, true );
-		$output_raw = stream_get_contents( $stream );
+		$output_raw = stream_get_contents( $stream, 4096 );
 		fclose( $stream );
 
 		return $output_raw;
@@ -130,11 +130,11 @@ class SitesHostSSHController extends Controller{
 
 		// delete if exists
 		if( $this->is_SSL_exists( $domain ) ){
-			$certbot_cmd = "echo {$this->su_pass} | sudo -S certbot delete --cert-name {$domain}";
+			$certbot_cmd = "sudo certbot delete --cert-name {$domain}";
 			$this->ssh_cmd( $certbot_cmd );
 		}
 
-		$certbot_cmd = "echo {$this->su_pass} | sudo -S certbot -d {$domain}";
+		$certbot_cmd = "sudo certbot -d {$domain}";
 		$res         = $this->ssh_cmd( $certbot_cmd );
 
 		return false !== strpos( $res, 'Congratulations' );
@@ -146,7 +146,7 @@ class SitesHostSSHController extends Controller{
 	 * @return bool
 	 */
 	public function is_SSL_exists( string $domain ):bool{
-		$certbot_cmd = "echo {$this->su_pass} | sudo -S certbot certificates -d {$domain}";
+		$certbot_cmd = "sudo certbot certificates -d {$domain}";
 		$output      = $this->ssh_cmd( $certbot_cmd );
 
 		return false !== strpos( $output, "Certificate Name: {$domain}" );
@@ -159,6 +159,15 @@ class SitesHostSSHController extends Controller{
 	 */
 	public function get_vhost_template_file_content():string{
 		return $this->ssh_cmd( "cat {$this->vhost_template_file}" );
+	}
+
+	/**
+	 * Get template of virtual host configuration for SSL file for Apache
+	 *
+	 * @return string
+	 */
+	public function get_vhost_template_file_ssl_content():string{
+		return $this->ssh_cmd( "cat {$this->vhost_template_file_ssl}" );
 	}
 
 	/**
