@@ -54,6 +54,17 @@
                                                         <a type="button" href="{{route("role.edit",$role)}}" rel="tooltip" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
                                                             <i class="now-ui-icons ui-2_settings-90"></i>
                                                         </a>
+                                                        <form action="{{ route('role.destroy', $role) }}" method="post"
+                                                              style="display:inline-block;" class="delete-form">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="button" rel="tooltip"
+                                                                    class="btn btn-danger btn-icon btn-sm delete-button"
+                                                                    data-original-title="" title=""
+                                                                    onclick="dt.showSwal('warning-message-and-confirmation')">
+                                                                <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                            </button>
+                                                        </form>
                                                     @endcan
                                                 @endif
                                             </td>
@@ -62,6 +73,31 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @if ($roles->lastPage() > 1)
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    @if ($roles->currentPage() !== 1)
+                                        <li class="page-item ">
+                                            <a class="page-link" href="{{ $roles->url(($roles->currentPage()-1)) }}">Previous</a>
+                                        </li>
+                                    @endif
+                                    @for ($i = 1; $i <= $roles->lastPage(); $i++)
+                                        <li class="page-item {{$roles->currentPage() == $i ? 'active' : ''}}">
+                                            @if ($roles->currentPage() == $i)
+                                                <a class="page-link">{{ $i }}</a>
+                                            @else
+                                                <a class="page-link " href="{{ $roles->url($i) }}">{{ $i }}</a>
+                                            @endif
+                                        </li>
+                                    @endfor
+                                    @if ($roles->currentPage() !== $roles->lastPage())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $roles->url($roles->currentPage()+1) }}">Next</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        @endif
                     </div>
                     <!-- end content-->
                 </div>
@@ -94,19 +130,20 @@
       })
 
       })
-      $('#datatable').DataTable({
-        "pagingType": "full_numbers",
-        "lengthMenu": [
-          [10, 25, 50, -1],
-          [10, 25, 50, "All"]
-        ],
-        responsive: true,
-        language: {
-          search: "_INPUT_",
-          searchPlaceholder: "Search records",
-        }
+        $('#datatable').DataTable({
+            info: false,
+            paging : false,
+            lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            responsive: true,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search records",
+            }
 
-      });
+        });
 
       var table = $('#datatable').DataTable();
 

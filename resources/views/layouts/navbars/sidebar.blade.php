@@ -232,6 +232,12 @@
                     <p>{{ __(" SEO ") }}</p>
                 </a>
             </li>
+            <li class="@if ($activePage == 'wordpress') active @endif">
+                <a href="{{ route('page.index','wordpress') }}">
+                    <i class="now-ui-icons design-2_ruler-pencil"></i>
+                    <p>{{ __(" Wordpress Themes ") }}</p>
+                </a>
+            </li>
             <li>
                 <a data-toggle="collapse" href="#pagesExamples">
                     <i class="now-ui-icons design_image"></i>
@@ -257,7 +263,7 @@
                     </ul>
                 </div>
             </li>
-            @if( auth()->user()->isAdmin() )
+            @can('manage-users', App\User::class)
                 <li>
                     <a data-toggle="collapse" href="#componentsExamples">
                         <i class="now-ui-icons education_atom"></i>
@@ -412,12 +418,6 @@
                         </ul>
                     </div>
                 </li>
-                <li class="@if ($activePage == 'wordpress') active @endif">
-                    <a href="{{ route('page.index','wordpress') }}">
-                        <i class="now-ui-icons design-2_ruler-pencil"></i>
-                        <p>{{ __(" Wordpress Themes ") }}</p>
-                    </a>
-                </li>
                 <li class="@if ($activePage == 'backups') active @endif">
                     <a href="{{ route('page.index','backups') }}">
                         <i class="now-ui-icons arrows-1_cloud-upload-94"></i>
@@ -454,7 +454,7 @@
                         <p>{{ __(" Read me") }}</p>
                     </a>
                 </li>
-            @endif
+            @endcan
         </ul>
 
     </div>

@@ -43,4 +43,9 @@ class RolePolicy
     {
         return $user->isAdmin();
     }
+
+    public function delete(User $user, Role $role)
+    {
+        return $user->isAdmin();
+    }
 }

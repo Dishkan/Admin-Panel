@@ -38,7 +38,7 @@ class RoleController extends Controller
     {
         $this->authorize('manage-users', User::class);
 
-        return view('roles.index', ['roles' => $model->all()]);
+        return view('roles.index', ['roles' => $model->paginate(10)]);
     }
 
     /**
@@ -87,5 +87,10 @@ class RoleController extends Controller
     {
         $role->update($request->all());
         return redirect()->route('role.index')->withStatus(__('Role successfully updated.'));
+    }
+
+    public function destroy(Role $role) {
+    	$role->delete();
+	    return redirect()->route( 'role.index' )->withStatus( __( 'Role successfully deleted.' ) );
     }
 }
