@@ -238,9 +238,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <i class="now-ui-icons objects_planet"></i>
                                                     </div>
                                                 </div>
-                                                <input id="old_website_url" name="old_website_url" class="form-control"
+                                                <input id="website_url" name="website_url" class="form-control"
                                                        type="text" placeholder="Enter Your Old Website URL"
-                                                       value="{{ old('old_website_url') }}"/>
+                                                       value="{{ old('website_url') }}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -651,7 +651,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                         if( place_data.website ){
                             let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
-                            let $oldWebSiteInput = $( 'input[name=old_website_url]' )
+                            let $oldWebSiteInput = $( 'input[name=website_url]' )
                             $oldWebSiteInput.val( hostname )
                             $oldWebSiteInput.trigger( 'change' )
                         }
@@ -755,7 +755,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             let $types                 = $( '.types_js' )
             let $inputs_types          = $types.find( '.choice' )
             let $nextBtn               = $form.find( 'input[name=next]' )
-            let $old_website_url_input = $form.find( '#old_website_url' )
+            let $website_url_input = $form.find( '#website_url' )
             let $email_input           = $form.find( 'input[name="person_email"]' )
             let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
 
@@ -828,7 +828,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                 } );
             } )
 
-            $old_website_url_input.on( 'change', function( el ){
+            $website_url_input.on( 'change', function( el ){
                 let $the = $( this )
                 let val  = $the.val()
 

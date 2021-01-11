@@ -44,7 +44,7 @@ class SiteRequest extends FormRequest
 		    ],
 		    'address'         => 'required|max:255',
 		    'place_name'      => 'required|max:255',
-		    'old_website_url' => 'required|max:255',
+		    'website_url' => 'required|max:255',
 		    'site_icon_src'   => [ 'nullable', 'image' ],
 		    'logo_src'        => [ 'nullable', 'image' ],
 	    ];
