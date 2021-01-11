@@ -52,7 +52,6 @@
                                     <th>{{ __('Db user') }}</th>
                                     <th>{{ __('Db pass') }}</th>
                                     <th>{{ __('Status') }}</th>
-                                    <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                                 @endif
                             </tr>
                             @foreach($sites as $site)
@@ -65,25 +64,6 @@
                                     <td>{{$site->db_user ? $site->db_user : 'Empty'}}</td>
                                     <td>{{$site->db_pass ? $site->db_pass : 'Empty'}}</td>
                                     <td style="background-color: {{$site->status == 200 ? 'green' : 'yellow'}}">{{$site->status}}</td>
-                                    <td class="text-right">
-                                        <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
-                                           class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
-
-                                            <i class="now-ui-icons ui-2_settings-90"></i>
-
-                                        </a>
-                                        <form action="{{ route('sites.destroy', $site) }}" method="post"
-                                              style="display:inline-block;" class="delete-form">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button" rel="tooltip"
-                                                    class="btn btn-danger btn-icon btn-sm delete-button"
-                                                    data-original-title="" title=""
-                                                    onclick="dt.showSwal('warning-message-and-confirmation')">
-                                                <i class="now-ui-icons ui-1_simple-remove"></i>
-                                            </button>
-                                        </form>
-                                    </td>
                                 </tr>
                                 @endif
                             @endforeach
