@@ -86,6 +86,7 @@
                             </tfoot>
                             <tbody>
                             @foreach($sites as $site)
+                                @if($site->to_remove == 0)
                                 <tr>
                                     <td>{{$site->type}}</td>
                                     <td>{{$site->old_website_url}}</td>
@@ -114,6 +115,7 @@
                                         </form>
                                     </td>
                                 </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>

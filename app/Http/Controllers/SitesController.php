@@ -133,7 +133,7 @@ class SitesController extends Controller{
 			dd( 'File does not exists.' );
 		}
 
-		$site->delete();
+		$site->update(['to_remove' => 1]);
 
 		return redirect()->route( 'sites.index' )->withStatus( __( 'Site successfully deleted.' ) );
 	}
