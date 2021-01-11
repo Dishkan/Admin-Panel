@@ -12,11 +12,8 @@ use Illuminate\Support\Facades\Storage;
 
 class SitesController extends Controller{
 
-	public static $cron_name           = 'sites_processing';
-	public static $cron_ssl_generating = 'sites_ssl_generating';
-	public static $cron_name_deleting  = 'sites_deleting';
-	public static $tz                  = 'Europe/Kiev';
-	public static $debug               = false;
+	public static $tz    = 'Europe/Kiev';
+	public static $debug = false;
 
 	/**
 	 * Display a listing of the resource.
@@ -148,58 +145,43 @@ class SitesController extends Controller{
 	 */
 
 	/**
-	 * Return Collection with not created sites on the server
-	 *
-	 * @return mixed
-	 */
-	public static function get_not_created(){
-		return Site::where( [ 'processed' => 0 ] )->get();
-	}
-
-	/**
-	 * Return Collection with sites to remove
-	 *
-	 * @return mixed
-	 */
-	public static function get_to_remove(){
-		return Site::where( [ 'to_remove' => 1 ] )->get();
-	}
-
-	/**
-	 * Process not created sites
+	 * Process not created sites with status 0 and set 1
+	 * DO:
+	 *     create empty site folder
+	 *     create Apache Virtual hosts files for 80 and 443
 	 *
 	 * @return mixed|void
 	 */
-	public static function process(){
+	public static function process_just_created(){
+		$cron_name      = 'vhost_and_folder_processing';
+		$process_status = 0;
+		$done_status    = 1;
 
-		// Check if this cron already running
-		if( CronStatuses::is_run( self::$cron_name ) )
-	        return;
+// Check if this cron already running
+// if( CronStatuses::is_run( $cron_name ) )
+//     return;
 
 		// Run
-		CronStatuses::run( self::$cron_name );
+		CronStatuses::run( $cron_name );
 
-		// get not processed/created
-		$not_processed_sites = self::get_not_created();
+		// get just created
+		$sites = Site::where( [ 'status'=>$process_status, 'to_remove'=>0, 'removed'=>0, 'creates_error'=>0 ] )->get();
 
-		if( $not_processed_sites->isEmpty() ){
-			CronStatuses::stop( self::$cron_name );
+		if( $sites->isEmpty() ){
+			CronStatuses::stop( $cron_name );
 			return;
 		}
 
-		$db_host_object = new DBHostSSHController();
+		$db_host_object = new DBHostController();
 		$sitesHostSSH   = new SitesHostSSHController();
 		date_default_timezone_set( self::$tz );
 
 		$result = $cur_log = [];
-		foreach( $not_processed_sites as $site ){
+		foreach( $sites as $site ){
 			// clean current log
 			$cur_log = [];
 
 			// generate name from the old website url
-			$exists_domains = CloudFlareController::list();
-			$exists_domains = (array)json_decode( $exists_domains );
-			$exists_domains = array_keys( $exists_domains );
 			if( $site->old_website_url ){
 				$old_web_site_url_parts = parse_url( $site->old_website_url );
 				$host                   = $old_web_site_url_parts['host'];
@@ -219,21 +201,27 @@ class SitesController extends Controller{
 			$base_name = preg_replace( '~_~', '-', $base_name );
 			$base_name = strtolower( trim( $base_name ) );
 
-			$sub_domain = HelperController::generate_name_from_string( $base_name, $exists_domains );
-
-			$res = CloudFlareController::create_ns( $sub_domain );
-
 			// log
-			$cur_log['base_name']                                = $base_name;
-			$cur_log['sub_domain']                               = $sub_domain;
-			$cur_log['is_sub_domain_was_changed_from_base_name'] = $sub_domain === $base_name ? 'No' : 'Yes';
-			$cur_log['create_ns__info']                          = $res;
+			$cur_log['base_name'] = $base_name;
 
+			// ==============
+			// NS
+			// ==============
+			$exists_domains = CloudFlareController::list();
+			$exists_domains = (array)json_decode( $exists_domains );
+			$exists_domains = array_keys( $exists_domains );
+			$sub_domain     = HelperController::generate_name_from_string( $base_name, $exists_domains );
+			$res            = CloudFlareController::create_ns( $sub_domain );
 			if( 'OK' !== $res['status'] ){
-				$site->update( ['creates_error_message' => json_encode( $res, JSON_UNESCAPED_SLASHES )] );
+				$res[] = 'Can not create subdomain';
+				$site->update( [
+					'last_error'    => json_encode( $res, JSON_UNESCAPED_SLASHES ),
+					'creates_error' => 1,
+				] );
 				continue;
 			}
 			$domain = $res['domain'];
+
 
 			// ==============
 			// DB
@@ -258,11 +246,6 @@ class SitesController extends Controller{
 			// ==============
 			// Create folder
 			// /var/www/dealer_sites_auto/{$folder_name}
-			// Copy sites files from `/var/www/tmps/dealersite` to `/var/www/dealer_sites_auto/{$folder_name}`
-			// Change `DB_NAME` | `DB_USER` | `DB_PASSWORD` in `/var/www/dealer_sites_auto/{$folder_name}/wp-config.php`
-			// Create Apache config uses $folder_name
-			// Run `certbot -d {$folder_name}`
-			// Run `redis-cli -a r0CO7ki98903m4I FLUSHALL`
 
 			// return:
 			//   status OK|ERROR
@@ -270,12 +253,6 @@ class SitesController extends Controller{
 
 			// log
 			$cur_log['document_root'] = $document_root;
-
-			// copy sites files
-			//
-
-			// change `DB_NAME` | `DB_USER` | `DB_PASSWORD`
-			//
 
 			// Generate and save local VHost file 80 port
 			$file_content  = $sitesHostSSH->get_vhost_template_file_content();
@@ -306,16 +283,17 @@ class SitesController extends Controller{
 			$cur_log['vhost_file_ssl_content'] = $vhost_ssl_content;
 
 			// Send local file to a remote server and generate SSL
-			$is_vhost_file_send     = $sitesHostSSH->ssh_send_file( $vhost_filename );
-			$is_vhost_file_ssl_send = $sitesHostSSH->ssh_send_file( $vhost_ssl_filename );
+			$is_vhost_file_send     = $sitesHostSSH->ssh_send_vhost_file( $vhost_filename );
+			$is_vhost_file_ssl_send = $sitesHostSSH->ssh_send_vhost_file( $vhost_ssl_filename );
 
 			// log
 			$cur_log['is_vhost_file_send']     = $is_vhost_file_send     ? 'Yes' : 'No';
 			$cur_log['is_vhost_file_ssl_send'] = $is_vhost_file_ssl_send ? 'Yes' : 'No';
 
 			$site_update = [
-				'processed'          => self::$debug ? 0 : 1,
-				'website_url'        => $domain,
+				'status'             => $done_status,
+				'base_name'          => $base_name,
+				'website_url'        => $res['domain'],
 				'server_ip'          => CloudFlareController::get_server_ip(),
 				'db_name'            => $db_data['db_name'],
 				'db_user'            => $db_data['db_user'],
@@ -334,15 +312,180 @@ class SitesController extends Controller{
 		}
 
 		// Stop
-		CronStatuses::stop( self::$cron_name );
+		CronStatuses::stop( $cron_name );
 
 		dd( $result );
+	}
 
+	/**
+	 * Process sites with status 1 and set 2
+	 * DO:
+	 *     copy sites files
+	 *     replace DB credentials in wp-config.php
+	 */
+	public static function process_without_files(){
+		$cron_name      = 'files_processing';
+		$process_status = 1;
+		$done_status    = 2;
+
+//if( CronStatuses::is_run( $cron_name ) )
+//	return;
+
+		CronStatuses::run( $cron_name );
+
+		$sites = Site::where( [ 'status'=>$process_status, 'to_remove'=>0, 'removed'=>0, 'creates_error'=>0 ] )->get();
+
+		if( $sites->isEmpty() ){
+			CronStatuses::stop( $cron_name );
+			return;
+		}
+
+		$sitesHostSSH = new SitesHostSSHController();
+		date_default_timezone_set( self::$tz );
+		foreach( $sites as $site ){
+
+			if( !$sitesHostSSH->copy_files_from_tmpl( $site->document_root ) ){
+				$site->update([
+					'creates_error' => 1,
+					'last_error'    => "Cannot copy the files, Folder {$site->document_root} does not exists"
+				]);
+				continue;
+			}
+
+			if( !$sitesHostSSH->replace_db_credentials( $site ) ){
+				$site->update([
+					'creates_error' => 1,
+					'last_error'    => "Cannot replace credentials in wp-config.php in folder {$site->document_root}"
+				]);
+				continue;
+			}
+
+			$sitesHostSSH->ssh_cmd( "sudo chown -R www-data:11112 {$site->document_root}" );
+
+			// if OK
+			$site->update([
+				'status'        => $done_status,
+				'creates_error' => 0,
+				'last_error'    => ''
+			]);
+		}
+
+		CronStatuses::stop( $cron_name );
+	}
+
+	/**
+	 * Process sites with status 2 and set 3
+	 * DO:
+	 *     import DB
+	 *     replace 2 options in DB
+	 *     clear Redis cache
+	 */
+	public static function process_with_empty_db(){
+		$cron_name      = 'db_processing';
+		$process_status = 2;
+		$done_status    = 3;
+
+		if( CronStatuses::is_run( $cron_name ) )
+			return;
+
+		CronStatuses::run( $cron_name );
+
+		$sites = Site::where( [ 'status'=>$process_status, 'to_remove'=>0, 'removed'=>0, 'creates_error'=>0 ] )->get();
+
+		if( $sites->isEmpty() ){
+			CronStatuses::stop( $cron_name );
+			return;
+		}
+
+		$result = $cur_log = [];
+		foreach( $sites as $site ){
+
+			// process here
+			// TODO: Start here
+
+		}
+
+		CronStatuses::stop( $cron_name );
+	}
+
+	/**
+	 * Process sites with status 3 and set 4
+	 * DO:
+	 *     generate SSL for HTTPS
+	 *     change configs for vhost 443
+	 */
+	public static function process_without_SSL(){
+		$cron_name      = 'certbot_processing';
+		$process_status = 3;
+		$done_status    = 4;
+
+		if( CronStatuses::is_run( $cron_name ) )
+			return;
+
+		CronStatuses::run( $cron_name );
+
+		$sites = Site::where( [ 'status'=>$process_status, 'to_remove'=>0, 'removed'=>0, 'creates_error'=>0 ] )->get();
+
+		if( $sites->isEmpty() ){
+			CronStatuses::stop( $cron_name );
+			return;
+		}
+
+		$sitesHostSSH = new SitesHostSSHController();
+		foreach( $sites as $site ){
+			if( !$sitesHostSSH->SSL_generate( $site->website_url ) ){
+				$site->update([
+					'creates_error' => 1,
+					'last_error'    => "Cannot generate SSL for domain {$site->website_url}"
+				]);
+				continue;
+			}
+
+			// if OK
+			$site->update([
+				'status'        => $done_status,
+				'creates_error' => 0,
+				'last_error'    => ''
+			]);
+		}
+
+		CronStatuses::stop( $cron_name );
+	}
+
+	/**
+	 * Process sites with status 4 and set 100
+	 * In this function we gonna check if inventory is adjusted and other things
+	 * like theme is set, title is not empty
+	 * google key is set
+	 */
+	public static function finalize_processing(){
+		$cron_name      = 'finalize_processing';
+		$process_status = 4;
+		$done_status    = 100;
+
+		if( CronStatuses::is_run( $cron_name ) )
+			return;
+
+		CronStatuses::run( $cron_name );
+
+		$sites = Site::where( [ 'status'=>$process_status, 'to_remove'=>0, 'removed'=>0, 'creates_error'=>0 ] )->get();
+
+		if( $sites->isEmpty() ){
+			CronStatuses::stop( $cron_name );
+			return;
+		}
+
+		foreach( $sites as $site ){
+			$site->update( ['status'=>100] );
+		}
+
+		CronStatuses::stop( $cron_name );
 	}
 
 	/**
 	 *
 	 */
+	/*
 	public static function delete_sites(){
 		if( CronStatuses::is_run( self::$cron_name_deleting ) )
 			return;
@@ -420,5 +563,6 @@ class SitesController extends Controller{
 
 		dd( $to_remove );
 	}
+	*/
 
 }

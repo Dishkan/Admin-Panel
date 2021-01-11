@@ -10,32 +10,27 @@ class CronStatusesSeeder extends Seeder{
 	 */
 	public function run(){
 		DB::table( 'cron_statuses' )->insert( [
-			'name'   => 'sites_processing',
+			'name'   => 'vhost_and_folder_processing',
 			'status' => 0,
 		] );
 
 		DB::table( 'cron_statuses' )->insert( [
-			'name'   => 'sites_ssl_generating',
+			'name'   => 'files_processing',
 			'status' => 0,
 		] );
 
 		DB::table( 'cron_statuses' )->insert( [
-			'name'   => 'sites_deleting',
+			'name'   => 'db_processing',
 			'status' => 0,
 		] );
 
 		DB::table( 'cron_statuses' )->insert( [
-			'name'   => 'domain_processing',
+			'name'   => 'certbot_processing',
 			'status' => 0,
 		] );
 
 		DB::table( 'cron_statuses' )->insert( [
-			'name'   => 'theme_updating',
-			'status' => 0,
-		] );
-
-		DB::table( 'cron_statuses' )->insert( [
-			'name'   => 'security_updating',
+			'name'   => 'finalize_processing',
 			'status' => 0,
 		] );
 	}

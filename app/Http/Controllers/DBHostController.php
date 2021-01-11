@@ -4,25 +4,27 @@ namespace App\Http\Controllers;
 
 use mysqli;
 
-class DBHostSSHController extends Controller{
+class DBHostController extends Controller{
 
 	// DB
 	protected $db_mysql_ch;
-	protected $db_server_host;
-	protected $db_server_user;
-	protected $db_mysql_pass;
+
+	public static $db_server_host = '100.21.64.57';
+	public static $db_server_user = 'dg_auto';
+	public static $db_mysql_pass  = '4LzJp91PPnQREIe';
+
+	// Templates
+	protected $tmpl_db_name = 'adg_tmpl';
 
 	public function __construct(){
-		$this->db_server_host = '100.21.64.57';
-		$this->db_server_user = 'dg_auto';
-		$this->db_mysql_pass  = '4LzJp91PPnQREIe';
+
 	}
 
 	/**
 	 * @return void
 	 */
 	public function __mysql_connect():void{
-		$this->db_mysql_ch = mysqli_connect( $this->db_server_host, $this->db_server_user, $this->db_mysql_pass, 'mysql' );
+		$this->db_mysql_ch = mysqli_connect( self::$db_server_host, self::$db_server_user, self::$db_mysql_pass, 'mysql' );
 	}
 
 	/**
@@ -31,6 +33,13 @@ class DBHostSSHController extends Controller{
 	 * @return array
 	 */
 	public function create_db_and_user( string $base_name ):array{
+
+		// Simple Sanitizing For Database Syntax
+		$base_name = str_replace( '-', ' ', $base_name );
+		$base_name = preg_replace( '~\s+~', '_', trim( $base_name ) );
+		$base_name = preg_replace('/[^A-Za-z0-9_]/', '', $base_name);
+		$base_name = preg_replace( '~^_~', '', $base_name );
+
 		$db_name = 'adg_auto_' . $base_name;
 		$db_user = 'au_'       . $db_name;
 

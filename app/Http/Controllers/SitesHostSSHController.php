@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\This;
+use App\Site;
 
 class SitesHostSSHController extends Controller{
 
@@ -14,13 +16,20 @@ class SitesHostSSHController extends Controller{
 
 	public $auto_sites_path = '/var/www/dealer_sites_auto';
 	public $redis_pass      = 'r0CO7ki98903m4I';
+	public $redis_host      = '54.188.129.59';
+	public $redis_port      = 6379;
 
 	// should be exists in the user's home directory
 	public    $vhost_path              = 'auto-sites-enabled';
 	protected $temp_file_name          = 'auto_sites';
 	protected $vhost_template_file     = 'vhost-template.conf';
 	protected $vhost_template_file_ssl = 'vhost-template-le-ssl.conf';
+	public $wpconfig_template_file  = 'wp-config-template.php';
+	public $wpconfig_filename       = 'wp-config.php';
+	public $wpconfig_storage        = 'wpconfigs';
 
+	// templates
+	protected $tmpl_site_path = '/var/www/dealer_sites_auto/tmpl.idweb.io';
 
 	// SSH Connection Handler
 	protected $ch;
@@ -50,7 +59,7 @@ class SitesHostSSHController extends Controller{
 	 *
 	 * @return bool
 	 */
-	public function ssh_send_file( string $filename ):bool{
+	public function ssh_send_vhost_file( string $filename ):bool{
 
 		if( ! $this->ch ) $this->__ssh_connect();
 
@@ -61,12 +70,27 @@ class SitesHostSSHController extends Controller{
 	}
 
 	/**
+	 * Send file via SSH/SFTP from `from` to 'destination'
+	 *
+	 * @param string $from
+	 * @param string $to
+	 *
+	 * @return bool
+	 */
+	public function ssh_send_file( string $from, string $to ):bool{
+
+		if( ! $this->ch ) $this->__ssh_connect();
+
+		return ssh2_scp_send( $this->ch, $from, $to, 0644 );
+	}
+
+	/**
 	 * @param string $base_name
 	 *
 	 * @return string
 	 */
 	public function create_folder( string $base_name ):string{
-		$dir_name      = HelperController::generate_name_from_string( $base_name, $this->get_directories(), false, true );
+		$dir_name      = HelperController::generate_name_from_string( $base_name, $this->get_sites_directories(), false, true );
 		$document_root = "{$this->auto_sites_path}/{$dir_name}";
 
 		$this->ssh_cmd( "mkdir {$document_root}" );
@@ -79,7 +103,7 @@ class SitesHostSSHController extends Controller{
 	 *
 	 * @return array
 	 */
-	public function get_directories():array{
+	public function get_sites_directories():array{
 
 		// create file with listing of directories in specific folder
 		$this->ssh_cmd( "ls {$this->auto_sites_path} > {$this->temp_file_name}" );
@@ -122,6 +146,70 @@ class SitesHostSSHController extends Controller{
 	}
 
 	/**
+	 * @param string $document_root
+	 *
+	 * @return bool
+	 */
+	public function copy_files_from_tmpl( string $document_root ):bool{
+
+		$dir = last( explode( '/', $document_root ) );
+		if( ! in_array( $dir, $this->get_sites_directories() ) ){
+			return false;
+		}
+
+		$this->ssh_cmd( "cp -R {$this->tmpl_site_path}/. {$document_root}" );
+		$this->ssh_cmd( "cp {$this->tmpl_site_path}/.htaccess {$document_root}" );
+
+		$tmp_file          = 'site_folder_listing.tmp';
+		$check_files_names = [ '.htaccess', 'content', 'core', 'index.php', 'wp-config.php', 'wp-config-extend.php' ];
+
+		// get just copied filenames from the server for check
+		$this->ssh_cmd( "ls -a {$document_root} > {$tmp_file}" );
+		$res = $this->ssh_cmd( "cat $tmp_file" );
+		$res = explode( "\n", $res );
+		$res = array_map( 'strtolower', $res );
+		$res = array_filter( $res, function( $item ){
+			return !in_array( $item, ['.', '..', ''] );
+		});
+
+		// check
+		return count( array_intersect( $check_files_names, $res ) ) >= count( $check_files_names );
+	}
+
+	/**
+	 * Generate file content from template and send `wp-config.php` to the server
+	 *
+	 * @param $site
+	 *
+	 * @return bool
+	 */
+	public function replace_db_credentials( $site ):bool{
+
+		// Generate and save locally wp-config.php file
+		$file_content     = $this->get_wpconfig_template_file_content();
+		$wpconfig_content = strtr( $file_content, [
+			'{{{REMOTE_ADDR}}}'  => $_SERVER['REMOTE_ADDR'],
+			'{{{CUR_DATETIME}}}' => date( 'd-m-Y H:i:s' ),
+			'{{{TIMEZONE}}}'     => SitesController::$tz,
+			'{{{DB_NAME}}}'      => $site->db_name,
+			'{{{DB_USER}}}'      => $site->db_user,
+			'{{{DB_PASS}}}'      => $site->db_pass,
+			'{{{DB_HOST}}}'      => DBHostController::$db_server_host,
+			'{{{REDIS_HOST}}}'   => $this->redis_host,
+			'{{{REDIS_PASS}}}'   => $this->redis_pass,
+			'{{{REDIS_PORT}}}'   => $this->redis_port,
+		] );
+		// save this file to local storage
+		Storage::disk( $this->wpconfig_storage )->put( $this->wpconfig_filename, $wpconfig_content );
+
+		$local_path  = Storage::disk( $this->wpconfig_storage )->path( $this->wpconfig_filename );
+		$remote_path = "{$site->document_root}/$this->wpconfig_filename";
+
+		// send file to
+		return $this->ssh_send_file( $local_path, $remote_path );
+	}
+
+	/**
 	 * @param string $domain
 	 *
 	 * @return bool
@@ -159,6 +247,15 @@ class SitesHostSSHController extends Controller{
 	 */
 	public function get_vhost_template_file_content():string{
 		return $this->ssh_cmd( "cat {$this->vhost_template_file}" );
+	}
+
+	/**
+	 * Get template of wp-config.php
+	 *
+	 * @return string
+	 */
+	public function get_wpconfig_template_file_content():string{
+		return $this->ssh_cmd( "cat {$this->wpconfig_template_file}" );
 	}
 
 	/**

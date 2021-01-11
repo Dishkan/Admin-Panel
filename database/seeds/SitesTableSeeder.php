@@ -27,6 +27,7 @@ class SitesTableSeeder extends Seeder
 		    'user_id'         => 7,
 		    'created_at'      => now(),
 		    'updated_at'      => now(),
+		    'status'          => 0,
 	    ] );
 
 	    DB::table( 'sites' )->insert( [
@@ -44,6 +45,7 @@ class SitesTableSeeder extends Seeder
 		    'user_id'         => 8,
 		    'created_at'      => now(),
 		    'updated_at'      => now(),
+		    'status'          => 500,
 	    ] );
 
 	    DB::table( 'sites' )->insert( [
@@ -61,6 +63,7 @@ class SitesTableSeeder extends Seeder
 		    'user_id'         => 9,
 		    'created_at'      => now(),
 		    'updated_at'      => now(),
+		    'status'          => 500,
 	    ] );
 
 	    DB::table( 'sites' )->insert( [
@@ -78,6 +81,7 @@ class SitesTableSeeder extends Seeder
 		    'user_id'         => 9,
 		    'created_at'      => now(),
 		    'updated_at'      => now(),
+		    'status'          => 500,
 	    ] );
 
     }

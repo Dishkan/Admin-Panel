@@ -21,23 +21,27 @@ class Site extends Model implements Searchable{
 		'type',
 		'place_name',
 		'place_id',
+		'website_url', // Dealer cannot edit but can see
+
+		// Next fields only for admin
+		'base_name',
 		'document_root',
 		'old_website_url',
 		'old_website_favicon_src',
 		'old_website_logo_src',
 		'user_id',
-		'website_url',
 		'server_ip',
 		'vhost_filename',
 		'vhost_ssl_filename',
 		'db_name',
 		'db_user',
 		'db_pass',
-		'processed',
-		'ssl_generated',
+		'creates_error',
+		'last_error',
 		'to_remove',
 		'removed',
-		'creates_error_message',
+		'ssl_generated',
+		'status',
 	];
 
 	public function icon(){

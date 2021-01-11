@@ -10,8 +10,29 @@ class HelperController extends Controller{
 	public static $chars = '123456789abcdefghijklmnopqrstuvwxyz';
 
 	public static function test(){
-		//SitesController::process();
-		SitesController::delete_sites();
+
+		/*
+		$s = new SitesHostSSHController();
+		var_dump( $s->ssh_send_file(  Storage::disk( $s->wpconfig_storage )->path( $s->wpconfig_filename ), '/var/www/dealer_sites_auto/mercedes-benz.idweb.io/' . $s->wpconfig_filename ) );
+		exit;
+		*/
+
+		// 0 - TEST PASSED
+		// SitesController::process_just_created();
+
+		// 1 - TEST PASSED
+		// SitesController::process_without_files();
+
+		// 2 - TEST
+		SitesController::process_with_empty_db();
+
+		// 3 - TEST
+		// SitesController::process_without_SSL();
+
+		// 3 - TEST
+		// SitesController::finalize_processing();
+
+		//SitesController::delete_sites();
 	}
 
 	/**
