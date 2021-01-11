@@ -385,8 +385,8 @@ class SitesController extends Controller{
 		$process_status = 2;
 		$done_status    = 3;
 
-		if( CronStatuses::is_run( $cron_name ) )
-			return;
+//if( CronStatuses::is_run( $cron_name ) )
+//	return;
 
 		CronStatuses::run( $cron_name );
 
@@ -397,11 +397,23 @@ class SitesController extends Controller{
 			return;
 		}
 
-		$result = $cur_log = [];
+		$dbHost = new DBHostController();
 		foreach( $sites as $site ){
 
-			// process here
-			// TODO: Start here
+			if( !$dbHost->copy_db_from_template_to( $site->db_name, $site->website_url ) ){
+				$site->update([
+					'creates_error' => 1,
+					'last_error'    => 'Cannot import DB'
+				]);
+				continue;
+			}
+
+			// OK
+			$site->update([
+				'status'        => $done_status,
+				'creates_error' => 0,
+				'last_error'    => ''
+			]);
 
 		}
 

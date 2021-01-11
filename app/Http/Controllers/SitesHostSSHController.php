@@ -8,7 +8,9 @@ use App\Site;
 
 class SitesHostSSHController extends Controller{
 
-	// Sites
+	// SSH Connection Handler
+	protected $ch;
+
 	protected $sites_server_host;
 	protected $sites_server_user;
 	protected $sites_pub_key_path;
@@ -30,9 +32,6 @@ class SitesHostSSHController extends Controller{
 
 	// templates
 	protected $tmpl_site_path = '/var/www/dealer_sites_auto/tmpl.idweb.io';
-
-	// SSH Connection Handler
-	protected $ch;
 
 	protected $login_res;
 

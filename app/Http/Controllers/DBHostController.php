@@ -9,12 +9,21 @@ class DBHostController extends Controller{
 	// DB
 	protected $db_mysql_ch;
 
+	// SSH
+	protected $ssh_ch;
+	protected $login_res;
+
+	// keys
+	protected $db_pub_key_path;
+	protected $db_priv_key_path;
+
 	public static $db_server_host = '100.21.64.57';
 	public static $db_server_user = 'dg_auto';
 	public static $db_mysql_pass  = '4LzJp91PPnQREIe';
 
 	// Templates
-	protected $tmpl_db_name = 'adg_tmpl';
+	protected $tmpl_db_name    = 'adg_tmpl';
+	protected $tmp_db_filename = 'db_auto_temp.sql';
 
 	public function __construct(){
 
@@ -58,6 +67,7 @@ class DBHostController extends Controller{
 
 		// Grant Privileges
 		$this->exec( "GRANT ALL PRIVILEGES ON *.{$db_name} TO {$user_name_with_host};" );
+		$this->exec( "GRANT ALL PRIVILEGES ON *.{$db_name} TO ". self::$db_server_user .';' );
 
 		return [
 			'db_name' => $db_name,
@@ -82,6 +92,34 @@ class DBHostController extends Controller{
 	 */
 	public function delete_database( string $database ):string{
 		return $this->exec( "DROP TABLE {$database};" );
+	}
+
+	/**
+	 * @param string $db_name_dest
+	 * @param string $website_url
+	 *
+	 * @return bool
+	 */
+	public function copy_db_from_template_to( string $db_name_dest, string $website_url ):bool{
+
+		// dump
+		$this->ssh_cmd( "mysqldump {$this->tmpl_db_name} > {$this->tmp_db_filename}" );
+
+		// import
+		$this->ssh_cmd( "mysql {$db_name_dest} < {$this->tmp_db_filename}" );
+
+		$website_url = 'https://' . $website_url;
+
+		// Replace 2 options
+		$this->exec( "UPDATE {$db_name_dest}.wp_options SET option_value = '{$website_url}/core' WHERE option_name = 'siteurl'" );
+		$this->exec( "UPDATE {$db_name_dest}.wp_options SET option_value = '{$website_url}'      WHERE option_name = 'home'"    );
+
+		$res = $this->query( "SELECT option_value FROM {$db_name_dest}.wp_options WHERE option_name = 'home' " );
+
+		// TODO: Continue Here
+		dd( $res );
+
+		return true;
 	}
 
 	/*=============
@@ -154,9 +192,48 @@ class DBHostController extends Controller{
 	}
 
 	/**
+	 * @return void
+	 */
+	public function __ssh_connect(){
+		// this function will set `$sites_pub_key_path` and `$sites_priv_key_path` vars
+		$this->set_keys_path();
+
+		$this->ssh_ch    = ssh2_connect( self::$db_server_host, 22, [ 'hostkey' => 'ssh-rsa' ] );
+		$this->login_res = ssh2_auth_pubkey_file( $this->ssh_ch, self::$db_server_user, $this->db_pub_key_path, $this->db_priv_key_path );
+	}
+
+	/**
+	 * @param string $cmd
+	 *
+	 * @return string
+	 */
+	public function ssh_cmd( string $cmd ):string{
+
+		if( ! $this->ssh_ch ) $this->__ssh_connect();
+
+		// create file with listing of directories in specific folder
+		$stream = ssh2_exec( $this->ssh_ch, $cmd );
+		stream_set_blocking( $stream, true );
+		$output_raw = stream_get_contents( $stream, 4096 );
+		fclose( $stream );
+
+		return $output_raw;
+	}
+
+
+	/**
+	 * @return void
+	 */
+	public function set_keys_path():void{
+		$this->db_pub_key_path  = storage_path( 'keys' ) . '/dg_auto.pub';
+		$this->db_priv_key_path = storage_path( 'keys' ) . '/dg_auto';
+	}
+
+	/**
 	 * Disconnect from MySQL
 	 */
 	public function __destruct(){
 		if( $this->db_mysql_ch instanceof MySQLi ) mysqli_close( $this->db_mysql_ch );
+		if( is_resource( $this->ssh_ch ) ) ssh2_disconnect( $this->ssh_ch );
 	}
 }
