@@ -40,9 +40,9 @@
                                     <input type="text" name="place_name" id="input-place-name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Place name') }}" value="{{ old('place_name', $site->place_name) }}"  required autofocus>
 
                                 </div>
-                                <div class="form-group{{ $errors->has('old_website_url') ? ' has-danger' : '' }}">
+                                <div class="form-group{{ $errors->has('website_url') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-website-url">{{ __('Website') }}</label>
-                                    <input type="text" name="old_website_url" id="input-website-url" class="form-control{{ $errors->has('old_website_url') ? ' is-invalid' : '' }}" placeholder="{{ __('Website url') }}" value="{{ old('old_website_url', $site->old_website_url) }}"  required autofocus>
+                                    <input type="text" name="website_url" id="input-website-url" class="form-control{{ $errors->has('website_url') ? ' is-invalid' : '' }}" placeholder="{{ __('Website url') }}" value="{{ old('website_url', $site->website_url) }}"  required autofocus>
                                 </div>
                                 <div class="form-group{{ $errors->has('lead_email') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-lead-email">{{ __('Lead email') }}</label>
