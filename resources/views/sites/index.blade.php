@@ -34,33 +34,37 @@
                                 <th>{{ __('Country') }}</th>
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Dealer number') }}</th>
+                                @if( auth()->user()->isAdmin() )
                                 <th>{{ __('Address') }}</th>
+                                @else
+                                <th>{{ __('Status') }}</th>
+                                @endif
                                 <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 @if( auth()->user()->isAdmin() )
-                                    <th>{{ __('Website url') }}</th>
                                     <th>{{ __('Dealer name') }}</th>
                                     <th>{{ __('Document Root') }}</th>
                                     <th>{{ __('Server ip') }}</th>
                                     <th>{{ __('Db name') }}</th>
                                     <th>{{ __('Db user') }}</th>
                                     <th>{{ __('Db pass') }}</th>
+                                    <th>{{ __('Status') }}</th>
                                     <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                                 @endif
                             </tr>
                             @foreach($sites as $site)
                                 @if( auth()->user()->isAdmin() )
                                 <tr>
-                                    <td>{{$site->old_website_url}}</td>
                                     <td>{{$site->dealer_name}}</td>
                                     <td>{{$site->document_root ? $site->document_root : 'Empty'}}</td>
                                     <td>{{$site->server_ip ? $site->server_ip : 'Empty'}}</td>
                                     <td>{{$site->db_name ? $site->db_name : 'Empty'}}</td>
                                     <td>{{$site->db_user ? $site->db_user : 'Empty'}}</td>
                                     <td>{{$site->db_pass ? $site->db_pass : 'Empty'}}</td>
+                                    <td style="background-color: {{$site->status == 200 ? 'green' : 'yellow'}}">{{$site->status}}</td>
                                     <td class="text-right">
                                         <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
                                            class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
@@ -94,8 +98,12 @@
                                     <td>{{$site->country}}</td>
                                     <td>{{$site->city}}</td>
                                     <td>{{$site->dealer_number}}</td>
+                                    @if( auth()->user()->isAdmin() )
                                     <td>{{$site->address}}</td>
-                                    <td class="text-right">
+                                    @else
+                                    <td style="background-color: {{$site->status == 200 ? 'green' : 'yellow'}}">{{$site->status}}</td>
+                                    @endif
+                                        <td class="text-right">
                                         <a type="button" href="{{route("sites.edit",$site->id)}}" rel="tooltip"
                                            class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
 
