@@ -73,7 +73,7 @@
                                 @if($site->to_remove == 0)
                                 <tr>
                                     <td>{{$site->type}}</td>
-                                    <td>{{$site->website_url}}</td>
+                                    <td>{{$site->old_website_url}}</td>
                                     <td>{{$site->dealer_name}}</td>
                                     <td>{{$site->country}}</td>
                                     <td>{{$site->city}}</td>
