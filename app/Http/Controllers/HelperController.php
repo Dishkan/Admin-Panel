@@ -11,6 +11,10 @@ class HelperController extends Controller{
 
 	public static function test(){
 
+		// $dbHost = new DBHostController();
+		// $res = $dbHost->query();
+
+
 		/*
 		$s = new SitesHostSSHController();
 		var_dump( $s->ssh_send_file(  Storage::disk( $s->wpconfig_storage )->path( $s->wpconfig_filename ), '/var/www/dealer_sites_auto/mercedes-benz.idweb.io/' . $s->wpconfig_filename ) );
@@ -23,8 +27,8 @@ class HelperController extends Controller{
 		// 1 - TEST PASSED
 		// SitesController::process_without_files();
 
-		// 2 - TEST
-		SitesController::process_with_empty_db();
+		// 2 - TEST PASSED
+		// SitesController::process_with_empty_db();
 
 		// 3 - TEST
 		// SitesController::process_without_SSL();
@@ -33,6 +37,8 @@ class HelperController extends Controller{
 		// SitesController::finalize_processing();
 
 		//SitesController::delete_sites();
+
+		dd( 'Your IP ' . $_SERVER['REMOTE_ADDR'] . ' logged to journal');
 	}
 
 	/**

@@ -360,8 +360,6 @@ class SitesController extends Controller{
 				continue;
 			}
 
-			$sitesHostSSH->ssh_cmd( "sudo chown -R www-data:11112 {$site->document_root}" );
-
 			// if OK
 			$site->update([
 				'status'        => $done_status,
@@ -369,6 +367,8 @@ class SitesController extends Controller{
 				'last_error'    => ''
 			]);
 		}
+
+		$sitesHostSSH->ssh_cmd( "sudo chown -R www-data:11112 {$sitesHostSSH->auto_sites_path}" );
 
 		CronStatuses::stop( $cron_name );
 	}
@@ -400,7 +400,7 @@ class SitesController extends Controller{
 		$dbHost = new DBHostController();
 		foreach( $sites as $site ){
 
-			if( !$dbHost->copy_db_from_template_to( $site->db_name, $site->website_url ) ){
+			if( !$dbHost->copy_db_from_template_to( $site ) ){
 				$site->update([
 					'creates_error' => 1,
 					'last_error'    => 'Cannot import DB'
@@ -431,8 +431,8 @@ class SitesController extends Controller{
 		$process_status = 3;
 		$done_status    = 4;
 
-		if( CronStatuses::is_run( $cron_name ) )
-			return;
+//if( CronStatuses::is_run( $cron_name ) )
+//	return;
 
 		CronStatuses::run( $cron_name );
 
@@ -456,6 +456,7 @@ class SitesController extends Controller{
 			// if OK
 			$site->update([
 				'status'        => $done_status,
+				'ssl_generated' => 1,
 				'creates_error' => 0,
 				'last_error'    => ''
 			]);

@@ -159,6 +159,9 @@ class SitesHostSSHController extends Controller{
 		$this->ssh_cmd( "cp -R {$this->tmpl_site_path}/. {$document_root}" );
 		$this->ssh_cmd( "cp {$this->tmpl_site_path}/.htaccess {$document_root}" );
 
+		// remove /var/www/dealer_sites_auto/{{DOCUMENT_ROOT}}/content/object-cache.php
+		$this->ssh_cmd( "rm {$document_root}/content/object-cache.php" );
+
 		$tmp_file          = 'site_folder_listing.tmp';
 		$check_files_names = [ '.htaccess', 'content', 'core', 'index.php', 'wp-config.php', 'wp-config-extend.php' ];
 
@@ -217,11 +220,11 @@ class SitesHostSSHController extends Controller{
 
 		// delete if exists
 		if( $this->is_SSL_exists( $domain ) ){
-			$certbot_cmd = "sudo certbot delete --cert-name {$domain}";
+			$certbot_cmd = "sudo certbot -n delete --cert-name {$domain}";
 			$this->ssh_cmd( $certbot_cmd );
 		}
 
-		$certbot_cmd = "sudo certbot -d {$domain}";
+		$certbot_cmd = "sudo certbot -n --apache -d {$domain}";
 		$res         = $this->ssh_cmd( $certbot_cmd );
 
 		return false !== strpos( $res, 'Congratulations' );
