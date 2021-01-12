@@ -59,15 +59,16 @@ class DBHostController extends Controller{
 		$this->exec( "CREATE DATABASE {$db_name};" );
 
 		// Create User
-		$db_pass             = HelperController::generate_password();
-		$server_ip           = CloudFlareController::get_server_ip();
-		$user_name_with_host = "'{$db_user}'@'{$server_ip}'";
-		$query               = "CREATE USER {$user_name_with_host} IDENTIFIED WITH mysql_native_password BY '{$db_pass}';";
+		$db_pass                     = HelperController::generate_password();
+		$server_ip                   = CloudFlareController::get_server_ip();
+		$user_name_with_host         = "'{$db_user}'@'{$server_ip}'";
+		$dg_auto_user_name_with_host = "'" . self::$db_server_user . "'@'localhost'";
+		$query                       = "CREATE USER {$user_name_with_host} IDENTIFIED WITH mysql_native_password BY '{$db_pass}';";
 		$this->exec( $query );
 
-		// Grant Privileges
-		$this->exec( "GRANT ALL PRIVILEGES ON *.{$db_name} TO {$user_name_with_host};" );
-		$this->exec( "GRANT ALL PRIVILEGES ON *.{$db_name} TO ". self::$db_server_user .';' );
+		// Grant for created user and for 'dg_auto'@'localhost' user
+		$this->exec( "GRANT ALL PRIVILEGES ON {$db_name}.* TO {$user_name_with_host}, {$dg_auto_user_name_with_host};" );
+		$this->exec( 'FLUSH PRIVILEGES' );
 
 		return [
 			'db_name' => $db_name,
@@ -95,31 +96,42 @@ class DBHostController extends Controller{
 	}
 
 	/**
-	 * @param string $db_name_dest
-	 * @param string $website_url
+	 * @param $site
 	 *
 	 * @return bool
 	 */
-	public function copy_db_from_template_to( string $db_name_dest, string $website_url ):bool{
+	public function copy_db_from_template_to( $site ):bool{
 
 		// dump
 		$this->ssh_cmd( "mysqldump {$this->tmpl_db_name} > {$this->tmp_db_filename}" );
 
 		// import
-		$this->ssh_cmd( "mysql {$db_name_dest} < {$this->tmp_db_filename}" );
+		$this->ssh_cmd( "mysql {$site->db_name} < {$this->tmp_db_filename}" );
 
-		$website_url = 'https://' . $website_url;
+		// Grant privileges
+		$server_ip                   = CloudFlareController::get_server_ip();
+		$user_name_with_host         = "'{$site->db_user}'@'{$server_ip}'";
+		$dg_auto_user_name_with_host = "'" . self::$db_server_user . "'@'localhost'";
 
-		// Replace 2 options
-		$this->exec( "UPDATE {$db_name_dest}.wp_options SET option_value = '{$website_url}/core' WHERE option_name = 'siteurl'" );
-		$this->exec( "UPDATE {$db_name_dest}.wp_options SET option_value = '{$website_url}'      WHERE option_name = 'home'"    );
+		// Grant for site db user and 'dg_auto'@'localhost'
+		$this->exec( "GRANT ALL PRIVILEGES ON {$site->db_name}.* TO {$user_name_with_host}, {$dg_auto_user_name_with_host};" );
+		$this->exec( 'FLUSH PRIVILEGES' );
 
-		$res = $this->query( "SELECT option_value FROM {$db_name_dest}.wp_options WHERE option_name = 'home' " );
+		// Replace `siteurl` and `home`
+		$website_url = 'https://' . $site->website_url;
+		$this->exec( "UPDATE {$site->db_name}.wp_options SET option_value = '{$website_url}/core' WHERE option_name = 'siteurl'" );
+		$this->exec( "UPDATE {$site->db_name}.wp_options SET option_value = '{$website_url}'      WHERE option_name = 'home'"    );
 
-		// TODO: Continue Here
-		dd( $res );
 
-		return true;
+		// TODO: Add another options based on the settings
+		//
+		//
+		//
+
+
+		// TODO: Refactor it later
+		$res = $this->query( "SELECT option_value FROM {$site->db_name}.wp_options WHERE option_name = 'home' " );
+		return isset( $res[0][0] ) && $website_url === $res[0][0];
 	}
 
 	/*=============
