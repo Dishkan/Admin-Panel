@@ -27,6 +27,9 @@ Route::group( [ 'middleware' => 'api.auth' ], function(){
 	// Sites
 	Route::group( [ 'prefix' => 'sites' ], function(){
 		Route::get( 'process', ['uses' => 'SitesController@process','as' => 'API_Sites_process'] );
+
+		// For Builder
+		Route::get( 'data', ['uses' => 'SitesController@site_data_by_id','as' => 'API_Sites_get_site_data_by_id'] );
 	} );
 
 	// CloudFlare
