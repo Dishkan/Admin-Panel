@@ -208,7 +208,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                                 <div class="tab-pane @if( 'account' === $activeStep ) active @endif" id="account">
 
-                                    <h5 class="info-text"> Let's start with the basic information</h5>
+                                    <h5 class="info-text">Let's start with the basic information</h5>
 
 
                                     <div class="row justify-content-center">
@@ -254,38 +254,57 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                         </div>
                                     </div>
 
-
                                     <div class="row justify-content-center">
-
-                                        <div class="col-sm-4">
-                                            <div class="picture-container">
-                                                <div class="picture">
-                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"
-                                                         src="{{asset('now/img/default-avatar.png')}}"
-                                                         class="picture-src"
-                                                         id="logo" title=""/>
-                                                    <input name="logo_src" type="file" id="logo_input"
-                                                           class="wizard-picture" value="{{ old('logo_src') }}">
+                                        <div class="col-lg-5 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons tech_mobile"></i>
+                                                    </div>
                                                 </div>
-                                                <h6 class="description">Logo</h6>
+                                                <input required type="text" placeholder="Phone" value="{{ old('dealer_number') }}"
+                                                       class="form-control" name="dealer_number">
                                             </div>
                                         </div>
-
-                                        <div class="col-sm-4">
-                                            <div class="picture-container">
-                                                <div class="picture">
-                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"
-                                                         src="{{asset('now/img/default-avatar.png')}}"
-                                                         class="picture-src"
-                                                         id="site_icon" title=""/>
-                                                    <input name="site_icon_src" type="file" id="site_icon_input"
-                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">
-                                                </div>
-                                                <h6 class="description">Site Icon</h6>
+                                        <div class="col-lg-5 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <button>Verify</button>
                                             </div>
                                         </div>
-
                                     </div>
+
+
+{{--                                    <div class="row justify-content-center">--}}
+
+{{--                                        <div class="col-sm-4">--}}
+{{--                                            <div class="picture-container">--}}
+{{--                                                <div class="picture">--}}
+{{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
+{{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
+{{--                                                         class="picture-src"--}}
+{{--                                                         id="logo" title=""/>--}}
+{{--                                                    <input name="logo_src" type="file" id="logo_input"--}}
+{{--                                                           class="wizard-picture" value="{{ old('logo_src') }}">--}}
+{{--                                                </div>--}}
+{{--                                                <h6 class="description">Logo</h6>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+
+{{--                                        <div class="col-sm-4">--}}
+{{--                                            <div class="picture-container">--}}
+{{--                                                <div class="picture">--}}
+{{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
+{{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
+{{--                                                         class="picture-src"--}}
+{{--                                                         id="site_icon" title=""/>--}}
+{{--                                                    <input name="site_icon_src" type="file" id="site_icon_input"--}}
+{{--                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">--}}
+{{--                                                </div>--}}
+{{--                                                <h6 class="description">Site Icon</h6>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+
+{{--                                    </div>--}}
 
 
                                     <div class="row justify-content-center">
@@ -400,24 +419,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                 </div>
                                                 <input required type="text" placeholder="Address" value="{{ old('address') }}"
                                                        class="form-control" name="address">
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-10 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons tech_mobile"></i>
-                                                    </div>
-                                                </div>
-                                                <input required type="text" placeholder="Phone" value="{{ old('dealer_number') }}"
-                                                       class="form-control" name="dealer_number">
                                             </div>
 
                                         </div>
@@ -695,7 +696,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 $input.val( place_data.name )
                             }
                             else if( 'dealer_number' === inputs[ o ] ){
-                                $input.val( place_data.formatted_dealer_number )
+                                $input.val( place_data.formatted_phone_number )
                             }
                             else{
                                 $input.val( place_data_conv[ inputs[ o ] ] )
