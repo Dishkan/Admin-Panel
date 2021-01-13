@@ -56,7 +56,7 @@ class DBHostController extends Controller{
 		$db_user = HelperController::generate_name_from_string( $db_user, $this->get_users(),     true );
 
 		// Create Database
-		$this->exec( "CREATE DATABASE {$db_name};" );
+		$this->exec( "CREATE DATABASE `{$db_name}`;" );
 
 		// Create User
 		$db_pass                     = HelperController::generate_password();
@@ -67,8 +67,8 @@ class DBHostController extends Controller{
 		$this->exec( $query );
 
 		// Grant for created user and for 'dg_auto'@'localhost' user
-		$this->exec( "GRANT ALL PRIVILEGES ON {$db_name}.* TO {$user_name_with_host}, {$dg_auto_user_name_with_host};" );
-		$this->exec( 'FLUSH PRIVILEGES' );
+		$this->exec( "GRANT ALL PRIVILEGES ON `{$db_name}`.* TO {$user_name_with_host}, {$dg_auto_user_name_with_host};" );
+		$this->exec( 'FLUSH PRIVILEGES;' );
 
 		return [
 			'db_name' => $db_name,
@@ -92,7 +92,7 @@ class DBHostController extends Controller{
 	 * @return string
 	 */
 	public function delete_database( string $database ):string{
-		return $this->exec( "DROP TABLE {$database};" );
+		return $this->exec( "DROP TABLE `{$database}`;" );
 	}
 
 	/**
@@ -114,8 +114,8 @@ class DBHostController extends Controller{
 		$dg_auto_user_name_with_host = "'" . self::$db_server_user . "'@'localhost'";
 
 		// Grant for site db user and 'dg_auto'@'localhost'
-		$this->exec( "GRANT ALL PRIVILEGES ON {$site->db_name}.* TO {$user_name_with_host}, {$dg_auto_user_name_with_host};" );
-		$this->exec( 'FLUSH PRIVILEGES' );
+		$this->exec( "GRANT ALL PRIVILEGES ON `{$site->db_name}`.* TO {$user_name_with_host}, {$dg_auto_user_name_with_host};" );
+		$this->exec( 'FLUSH PRIVILEGES;' );
 
 		// Replace `siteurl` and `home`
 		$website_url = 'https://' . $site->website_url;
@@ -145,7 +145,7 @@ class DBHostController extends Controller{
 	 */
 	public function get_users():array{
 
-		$users_raw = $this->query( 'SELECT user FROM user' );
+		$users_raw = $this->query( 'SELECT `user` FROM `user`' );
 
 		$users = [];
 		foreach( $users_raw as $item ){

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Requests\SiteRequest;
 use Illuminate\Support\Facades\Storage;
+use App\User;
 
 
 class SitesController extends Controller{
@@ -136,6 +137,29 @@ class SitesController extends Controller{
 		$site->update(['to_remove' => 1]);
 
 		return redirect()->route( 'sites.index' )->withStatus( __( 'Site successfully deleted.' ) );
+	}
+
+	/**
+	 * @param Request $request
+	 *
+	 * @return false|string
+	 */
+	public function site_data_by_id( Request $request ){
+		$site_data = Site::where( ['id'=>$request->id] )->first();
+
+		if( is_null( $site_data ) ){
+			return json_encode( ['site_not_exists'] );
+		}
+
+		$site_data = $site_data->toArray();
+
+		$user_id = $site_data['user_id'];
+		unset( $site_data['user_id'] );
+
+		$user_data = User::where(['id'=>$user_id])->first()->toArray();
+		$site_data['user'] = $user_data;
+
+		return json_encode( $site_data, JSON_UNESCAPED_SLASHES );
 	}
 
 

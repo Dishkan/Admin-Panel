@@ -10,6 +10,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 ?>
 
 @section('content')
+
     <script>
         console.log( '<?= $activeStep ?>' )
     </script>
@@ -166,7 +167,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                     <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
-                                            <div class="row inputstype" role="tablist">
+                                            <div class="row" role="tablist">
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="1">
                                                         <input required type="checkbox"
@@ -207,231 +208,223 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                                 <div class="tab-pane @if( 'account' === $activeStep ) active @endif" id="account">
 
-                                    <h5 class="info-text"> Let's start with the basic information</h5>
+                                    <h5 class="info-text">Let's start with the basic information</h5>
 
-                                    <div class="inputsfield">
-                                        <div class="row justify-content-center">
-                                            <div class="col-lg-10 mt-3">
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons location_bookmark"></i>
-                                                        </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-10 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons location_bookmark"></i>
                                                     </div>
-                                                    <input id="pac-input" class="form-control" type="text"
-                                                           placeholder="Enter a location"
-                                                           value="{{ old('place_name') }}"/>
-                                                    <input name="place_name" type="hidden" id="place_name"
-                                                           value="{{ old('place_name') }}">
-                                                    <input name="place_id" type="hidden" id="place_id">
                                                 </div>
+                                                <input id="pac-input" class="form-control"  type="text"
+                                                       placeholder="Enter a location" value="{{ old('place_name') }}"/>
+                                                <input name="place_name" type="hidden" id="place_name"
+                                                       value="{{ old('place_name') }}">
+                                                <input name="place_id" type="hidden" id="place_id">
                                             </div>
-                                        </div>
-
-                                        <h4 style="margin:15px 0 0 0" class="info-text">OR</h4>
-
-                                        <div class="row justify-content-center">
-                                            <div class="col-lg-10 mt-3">
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons objects_planet"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input id="old_website_url" name="old_website_url"
-                                                           class="form-control"
-                                                           type="text" placeholder="Enter Your Old Website URL"
-                                                           value="{{ old('old_website_url') }}"/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row justify-content-center">
-                                            <div class="col-lg-10 mt-3">
-                                                {{-- MAP --}}
-                                                <div style="height:10em" id="map"></div>
-                                                {{-- /MAP --}}
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row justify-content-center">
-
-                                            <div class="col-sm-4">
-                                                <div class="picture-container">
-                                                    <div class="picture">
-                                                        <img data-default="{{asset('now/img/default-avatar.png')}}"
-                                                             src="{{asset('now/img/default-avatar.png')}}"
-                                                             class="picture-src"
-                                                             id="logo" title=""/>
-                                                        <input name="logo_src" type="file" id="logo_input"
-                                                               class="wizard-picture" value="{{ old('logo_src') }}">
-                                                    </div>
-                                                    <h6 class="description">Logo</h6>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                                <div class="picture-container">
-                                                    <div class="picture">
-                                                        <img data-default="{{asset('now/img/default-avatar.png')}}"
-                                                             src="{{asset('now/img/default-avatar.png')}}"
-                                                             class="picture-src"
-                                                             id="site_icon" title=""/>
-                                                        <input name="site_icon_src" type="file" id="site_icon_input"
-                                                               class="wizard-picture"
-                                                               value="{{ old('site_icon_src') }}">
-                                                    </div>
-                                                    <h6 class="description">Site Icon</h6>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="row justify-content-center">
-
-                                            <div class="col-lg-5 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons education_paper"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text" class="form-control"
-                                                           placeholder="Dealership Name" name="dealer_name"
-                                                           value="{{ old('dealer_name') }}">
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-lg-5 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons ui-1_email-85"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text"
-                                                           placeholder="Lead Emails, comma separated"
-                                                           value="{{ old('lead_emails') }}"
-                                                           class="form-control" name="lead_emails">
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="row justify-content-center">
-
-                                            <div class="col-lg-5 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons business_globe"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text" placeholder="Country"
-                                                           value="{{ old('country') }}"
-                                                           class="form-control" name="country">
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-lg-5 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons business_chart-pie-36"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text" placeholder="State"
-                                                           value="{{ old('state') }}"
-                                                           class="form-control" name="state">
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="row justify-content-center">
-
-                                            <div class="col-lg-5 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons location_map-big"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text" placeholder="City"
-                                                           value="{{ old('city') }}"
-                                                           class="form-control" name="city">
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-lg-5 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons ui-1_email-85"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text" placeholder="Postal Code"
-                                                           value="{{ old('postal_code') }}"
-                                                           class="form-control" name="postal_code">
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="row justify-content-center">
-
-                                            <div class="col-lg-10 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons location_pin"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text" placeholder="Address"
-                                                           value="{{ old('address') }}"
-                                                           class="form-control" name="address">
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="row justify-content-center">
-
-                                            <div class="col-lg-10 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons tech_mobile"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text" placeholder="Phone"
-                                                           value="{{ old('dealer_number') }}"
-                                                           class="form-control" name="dealer_number">
-                                                </div>
-
-                                            </div>
-
                                         </div>
                                     </div>
+
+                                    <h4 style="margin:15px 0 0 0" class="info-text">OR</h4>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-10 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons objects_planet"></i>
+                                                    </div>
+                                                </div>
+                                                <input id="website_url" name="website_url" class="form-control"
+                                                       type="text" placeholder="Enter Your Old Website URL"
+                                                       value="{{ old('website_url') }}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-10 mt-3">
+                                            {{-- MAP --}}
+                                            <div style="height:10em" id="map"></div>
+                                            {{-- /MAP --}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-5 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons tech_mobile"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" placeholder="Phone" value="{{ old('dealer_number') }}"
+                                                       class="form-control" name="dealer_number">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <button>Verify</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    {{--                                    <div class="row justify-content-center">--}}
+
+                                    {{--                                        <div class="col-sm-4">--}}
+                                    {{--                                            <div class="picture-container">--}}
+                                    {{--                                                <div class="picture">--}}
+                                    {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
+                                    {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
+                                    {{--                                                         class="picture-src"--}}
+                                    {{--                                                         id="logo" title=""/>--}}
+                                    {{--                                                    <input name="logo_src" type="file" id="logo_input"--}}
+                                    {{--                                                           class="wizard-picture" value="{{ old('logo_src') }}">--}}
+                                    {{--                                                </div>--}}
+                                    {{--                                                <h6 class="description">Logo</h6>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+
+                                    {{--                                        <div class="col-sm-4">--}}
+                                    {{--                                            <div class="picture-container">--}}
+                                    {{--                                                <div class="picture">--}}
+                                    {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
+                                    {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
+                                    {{--                                                         class="picture-src"--}}
+                                    {{--                                                         id="site_icon" title=""/>--}}
+                                    {{--                                                    <input name="site_icon_src" type="file" id="site_icon_input"--}}
+                                    {{--                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">--}}
+                                    {{--                                                </div>--}}
+                                    {{--                                                <h6 class="description">Site Icon</h6>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+
+                                    {{--                                    </div>--}}
+
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons education_paper"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" class="form-control"
+                                                       placeholder="Dealership Name" name="dealer_name"
+                                                       value="{{ old('dealer_name') }}">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons ui-1_email-85"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" placeholder="Lead Emails, comma separated"
+                                                       value="{{ old('lead_emails') }}"
+                                                       class="form-control" name="lead_emails">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons business_globe"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" placeholder="Country" value="{{ old('country') }}"
+                                                       class="form-control" name="country">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons business_chart-pie-36"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" placeholder="State" value="{{ old('state') }}"
+                                                       class="form-control" name="state">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons location_map-big"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" placeholder="City" value="{{ old('city') }}"
+                                                       class="form-control" name="city">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-5 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons ui-1_email-85"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" placeholder="Postal Code"
+                                                       value="{{ old('postal_code') }}"
+                                                       class="form-control" name="postal_code">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-lg-10 mt-3">
+
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons location_pin"></i>
+                                                    </div>
+                                                </div>
+                                                <input required type="text" placeholder="Address" value="{{ old('address') }}"
+                                                       class="form-control" name="address">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
                                     {{--
                                     <div class="row justify-content-center">
 
@@ -549,8 +542,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                         <div class="card-footer">
                             <div class="pull-right">
-                                <input onclick="add_make_input()" type='button'
-                                       class='btn btn-next btn-fill btn-rose btn-wd' name='next'
+                                <input type='button' class='btn btn-next btn-fill btn-rose btn-wd' name='next'
                                        value='Next'/>
                                 <input type='submit' class='btn btn-finish btn-fill btn-rose btn-wd' name='finish'
                                        value='Finish'/>
@@ -660,7 +652,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                         if( place_data.website ){
                             let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
-                            let $oldWebSiteInput = $( 'input[name=old_website_url]' )
+                            let $oldWebSiteInput = $( 'input[name=website_url]' )
                             $oldWebSiteInput.val( hostname )
                             $oldWebSiteInput.trigger( 'change' )
                         }
@@ -704,7 +696,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 $input.val( place_data.name )
                             }
                             else if( 'dealer_number' === inputs[ o ] ){
-                                $input.val( place_data.formatted_dealer_number )
+                                $input.val( place_data.formatted_phone_number )
                             }
                             else{
                                 $input.val( place_data_conv[ inputs[ o ] ] )
@@ -764,7 +756,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             let $types                 = $( '.types_js' )
             let $inputs_types          = $types.find( '.choice' )
             let $nextBtn               = $form.find( 'input[name=next]' )
-            let $old_website_url_input = $form.find( '#old_website_url' )
+            let $website_url_input = $form.find( '#website_url' )
             let $email_input           = $form.find( 'input[name="person_email"]' )
             let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
 
@@ -837,7 +829,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                 } );
             } )
 
-            $old_website_url_input.on( 'change', function( el ){
+            $website_url_input.on( 'change', function( el ){
                 let $the = $( this )
                 let val  = $the.val()
 
