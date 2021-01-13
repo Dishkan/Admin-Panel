@@ -1,4 +1,5 @@
 dt = {
+
     initPickColor: function(){
         $( '.pick-class-label' ).click( function(){
             var new_class   = $( this ).attr( 'new-class' );
@@ -804,10 +805,10 @@ dt = {
             }
         } );
 
-        var cardStatsMiniLineColor = "#fff",
-            cardStatsMiniDotColor  = "#fff";
+        var cardStatsMiniLineColor = '#fff',
+            cardStatsMiniDotColor  = '#fff';
 
-        ctx = document.getElementById( 'activeUsers' ).getContext( "2d" );
+        ctx = document.getElementById( 'activeUsers' ).getContext( '2d' );
 
         gradientStroke = ctx.createLinearGradient( 500, 0, 100, 0 );
         gradientStroke.addColorStop( 0, '#80b6f4' );
@@ -1153,8 +1154,8 @@ dt = {
                 var $total  = navigation.find( 'li' ).length;
                 var $wizard = navigation.closest( '.card-wizard' );
 
-                first_li    = navigation.find( 'li:first-child a' ).html();
-                $moving_div = $( "<div class='moving-tab'></div>" );
+                let first_li    = navigation.find( 'li:first-child a' ).html();
+                let $moving_div = $( "<div class='moving-tab'></div>" );
                 $moving_div.append( first_li );
                 $( '.card-wizard .wizard-navigation' ).append( $moving_div );
 
@@ -1191,7 +1192,7 @@ dt = {
                     $( $wizard ).find( '.btn-finish' ).hide();
                 }
 
-                button_text = navigation.find( 'li:nth-child(' + $current + ') a' ).html();
+                let button_text = navigation.find( 'li:nth-child(' + $current + ') a' ).html();
 
                 setTimeout( function(){
                     $( '.moving-tab' ).html( button_text );
@@ -1248,10 +1249,10 @@ dt = {
         function readURL( input ){
             if( input.files && input.files[ 0 ] ){
                 var reader = new FileReader();
-                let $input = $(input)
+                let $input = $( input )
 
                 reader.onload = function( e ){
-                    $input.closest('.picture').find('img').attr( 'src', e.target.result ).fadeIn( 'slow' );
+                    $input.closest( '.picture' ).find( 'img' ).attr( 'src', e.target.result ).fadeIn( 'slow' );
                 }
                 reader.readAsDataURL( input.files[ 0 ] );
             }
@@ -1259,9 +1260,9 @@ dt = {
 
         $( window ).resize( function(){
             $( '.card-wizard' ).each( function(){
-                $wizard = $( this );
+                let $wizard = $( this );
 
-                index = $wizard.bootstrapWizard( 'currentIndex' );
+                let index = $wizard.bootstrapWizard( 'currentIndex' );
                 refreshAnimation( $wizard, index );
 
                 $( '.moving-tab' ).css( {
@@ -1271,15 +1272,13 @@ dt = {
         } );
 
         function refreshAnimation( $wizard, index ){
-            $total    = $wizard.find( '.nav li' ).length;
-            $li_width = 100 / $total;
-
-            total_steps    = $wizard.find( '.nav li' ).length;
-            move_distance  = $wizard.find( '.nav' ).width() / total_steps;
-            index_temp     = index;
-            vertical_level = 0;
-
-            mobile_device = $( document ).width() < 600 && $total > 3;
+            let $total         = $wizard.find( '.nav li' ).length;
+            let $li_width      = 100 / $total;
+            let total_steps    = $wizard.find( '.nav li' ).length;
+            let move_distance  = $wizard.find( '.nav' ).width() / total_steps;
+            let index_temp     = index;
+            let vertical_level = 0;
+            let mobile_device  = $( document ).width() < 600 && $total > 3;
 
             if( mobile_device ){
                 move_distance = $wizard.width() / 2;
@@ -1289,8 +1288,8 @@ dt = {
 
             $wizard.find( '.nav li' ).css( 'width', $li_width + '%' );
 
-            step_width    = move_distance;
-            move_distance = move_distance * index_temp;
+            let step_width = move_distance;
+            move_distance  = move_distance * index_temp;
 
             // $current = index + 1;
             //
@@ -1379,7 +1378,6 @@ dt = {
             },
         } );
     },
-
 
     initGoogleMaps: function(){
         var myLatlng   = new google.maps.LatLng( 40.748817, -73.985428 );
@@ -1724,15 +1722,15 @@ dt = {
     showNotification: function( from, align, message, icon, timer ){
         let color = 'primary';
 
-        if( !message ){
+        if( ! message ){
             message = "Welcome to <b>Now Ui Dashboard Pro</b> - a beautiful freebie for every web developer."
         }
 
-        if( !icon ){
+        if( ! icon ){
             icon = "now-ui-icons ui-1_bell-53"
         }
 
-        if( !timer ){
+        if( ! timer ){
             timer = 1000
         }
 

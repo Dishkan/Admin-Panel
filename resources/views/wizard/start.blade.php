@@ -685,14 +685,12 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
 @push('js')
     <script>
-        $("#person_phonenumber").mask("(999) 999-9999");
 
         function verifyFunc(){
             if( $( '#person_phonenumber' ).val() !== "" ){
                 $( '#verification' ).prop( 'disabled', false );
             }
         }
-
 
         $( '.show_popup' ).click( function(){
             var popup_id = $( '#' + $( this ).attr( "rel" ) );
@@ -893,6 +891,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             let $email_input           = $form.find( 'input[name="person_email"]' )
             let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
             let $datalist              = $form.find( 'input[name="make"]' )
+
+            $phone_input.mask( '(999) 999-9999' );
 
 			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
             $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
