@@ -95,6 +95,7 @@
 </div>
 <!--   Core JS Files   -->
 <script src="{{ asset('now') }}/js/core/jquery.min.js"></script>
+<script src="{{ asset('now')}}/js/plugins/jquery.maskedinput.js" type="text/javascript"></script>
 <script src="{{ asset('now') }}/js/core/popper.min.js"></script>
 <script src="{{ asset('now') }}/js/core/bootstrap.min.js"></script>
 <script src="{{ asset('now') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>

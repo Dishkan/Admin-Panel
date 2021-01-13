@@ -22,6 +22,7 @@ class Site extends Model implements Searchable{
 		'place_name',
 		'place_id',
 		'website_url', // Dealer cannot edit but can see
+		'make',
 
 		// Next fields only for admin
 		'base_name',
