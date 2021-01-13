@@ -92,7 +92,7 @@ class DBHostController extends Controller{
 	 * @return string
 	 */
 	public function delete_database( string $database ):string{
-		return $this->exec( "DROP TABLE {$database};" );
+		return $this->exec( "DROP TABLE `{$database}`;" );
 	}
 
 	/**
