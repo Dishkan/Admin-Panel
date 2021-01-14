@@ -1,8 +1,8 @@
 @extends('layouts.wizard', [
-    'namePage'        => 'Dealer Wizard',
-    'class'           => 'login-page sidebar-mini ',
-    'activePage'      => 'wizard',
-    'backgroundImage' => asset('now') . '/img/jet.jpg',
+'namePage'        => 'Dealer Wizard',
+'class'           => 'login-page sidebar-mini ',
+'activePage'      => 'wizard',
+'backgroundImage' => asset('now') . '/img/jet.jpg',
 ])
 
 <?php
@@ -16,6 +16,67 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
     </script>
 
     <style>
+        /* Button used to open the contact form - fixed at the bottom of the page */
+
+        /* The popup form - hidden by default */
+        .form-popup {
+            overflow: auto;
+            display: none;
+            position: absolute;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+            background-color: yellow;
+            top: 40%;
+            left: 50%;
+            right: 50%;
+            margin-left:-210px;
+            margin-top:-50px;
+        }
+
+        /* Add styles to the form container */
+        .form-container {
+            max-width: 300px;
+            padding: 10px;
+            background-color: white;
+        }
+
+        /* Full-width input fields */
+        .form-container input[type=text], .form-container input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        /* When the inputs get focus, do something */
+        .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        /* Set a style for the submit/login button */
+        .form-container .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom:10px;
+            opacity: 0.8;
+        }
+
+        /* Add a red background color to the cancel button */
+        .form-container .cancel {
+            background-color: red;
+        }
+
+        /* Add some hover effects to buttons */
+        .form-container .btn:hover, .open-button:hover {
+            opacity: 1;
+        }
+        /* the end of add it manually button   */
 
         textarea{
             width:100%;
@@ -224,11 +285,37 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 Build Your Dealer Site
                             </h3>
                             <h3 class="description">This information will let us know more about you.</h3>
+                            <div class="wizard-navigation">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link @if( 'type' === $activeStep ) active @endif" href="#type"
+                                           data-toggle="tab" role="tab"
+                                           aria-controls="about" aria-selected="true">
+                                            <i class="now-ui-icons users_circle-08"></i> Type
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @if ( 'account' === $activeStep ) active @endif"
+                                           href="#account" data-toggle="tab"
+                                           role="tab" aria-controls="account" aria-selected="false">
+                                            <i class="now-ui-icons ui-1_settings-gear-63"></i> Account
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @if( 'finish' === $activeStep ) active @endif" href="#finish"
+                                           data-toggle="tab"
+                                           role="tab" aria-controls="finish" aria-selected="false">
+                                            <i class="now-ui-icons ui-1_check"></i> Finish
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+
                         <div class="card-body">
                             <div class="tab-content">
 
-                                <div class="tab-pane @if( 'type' === $activeStep || 'account' === $activeStep || 'finish' === $activeStep) active @endif" id="type">
+                                <div class="tab-pane @if( 'type' === $activeStep ) active @endif" id="type">
                                     <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
@@ -253,19 +340,19 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
                                                         <h6>New Cars</h6>
+                                                        <input list="dtlist" id="datalist" name="make" >
+                                                        <datalist id="dtlist">
+                                                            @foreach($makes as $make)
+                                                                <option>{{$make}}</option>
+                                                            @endforeach
+                                                        </datalist>
                                                     </div>
-                                                    <input list="dtlist" id="datalist" name="make" value="{{ old('make')  }}">
-                                                    <datalist id="dtlist">
-                                                        @foreach($makes as $make)
-                                                            <option>{{$make}}</option>
-                                                        @endforeach
-                                                    </datalist>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
                                                         <input class="type"  type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
-                                                               value="indmakependent">
+                                                               value="independent">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">
                                                         </div>
@@ -275,11 +362,72 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center types_js">
+                                </div>
 
+                                <div class="row justify-content-center types_js">
+                                    <button id="manual" style="background-color: #008CBA; font-size: 90%" class="open-button" onclick="openForm()">Add it manually</button>
+
+                                    <div class="form-popup" id="myForm">
+                                        <form action="" class="form-container">
+                                            <h5>Adding it mannually?</h5>
+                                            <input id="place_name" class="form-control" type="text"
+                                                   placeholder="Enter a location" value="{{ old('place_name') }}"/>
+                                            <input id="old_website_url" name="old_website_url" class="form-control"
+                                                   type="text" placeholder="Enter Your Old Website URL"
+                                                   value="{{ old('old_website_url') }}"/>
+                                            <input required type="text" placeholder="Phone"
+                                                   value="{{ old('dealer_number') }}"
+                                                   class="form-control" name="dealer_number">
+                                            <input required type="text" class="form-control"
+                                                   placeholder="Dealership Name" name="dealer_name"
+                                                   value="{{ old('dealer_name') }}">
+                                            <input required type="text" placeholder="Lead Emails, comma separated"
+                                                   value="{{ old('lead_emails') }}"
+                                                   class="form-control" name="lead_emails">
+                                            <input required type="text" placeholder="Country"
+                                                   value="{{ old('country') }}"
+                                                   class="form-control" name="country">
+                                            <input required type="text" placeholder="State"
+                                                   value="{{ old('state') }}"
+                                                   class="form-control" name="state">
+                                            <input required type="text" placeholder="City" value="{{ old('city') }}"
+                                                   class="form-control" name="city">
+                                            <input required type="text" placeholder="Postal Code"
+                                                   value="{{ old('postal_code') }}"
+                                                   class="form-control" name="postal_code">
+                                            <input required type="text" placeholder="Address"
+                                                   value="{{ old('address') }}"
+                                                   class="form-control" name="address">
+                                            <input type="text" class="form-control"
+                                                   value="{{ old('person_firstname') }}"
+                                                   placeholder="First Name (required)" name="person_firstname"
+                                                   required>
+                                            <input type="text" placeholder="Last Name (required)"
+                                                   value="{{ old('person_lastname') }}"
+                                                   class="form-control" name="person_lastname" required>
+                                            <input type="email" placeholder="Email (required)"
+                                                   class="form-control"
+                                                   value="{{ old('person_email') }}"
+                                                   name="person_email" required>
+                                            <input onchange="verifyFunc()" id="person_phonenumber" placeholder="Phone (required)" class="form-control"
+                                                   name="person_phonenumber"
+                                                   value="{{ old('person_phonenumber') }}" required>
+
+                                            <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                   placeholder="{{ __('Password') }}" type="password"
+                                                   name="person_password" value="{{ old( 'person_password' ) }}"
+                                                   required>
+                                            <input class="form-control" placeholder="{{ __('Confirm Password') }}"
+                                                   type="password" name="person_password_confirmation"
+                                                   value="{{ old( 'person_password_confirmation' ) }}" required>
+
+                                            <button type="submit" class="btn">Submit</button>
+                                            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                                        </form>
                                     </div>
+                                </div>
 
-                                <div class="tab-pane" id="account">
+                                <div class="tab-pane @if( 'account' === $activeStep ) active @endif" id="account">
 
                                     <h5 class="info-text">Let's start with the basic information</h5>
 
@@ -318,6 +466,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                         </div>
                                     </div>
 
+
                                     <div class="row justify-content-center">
                                         <div class="col-lg-10 mt-3">
                                             {{-- MAP --}}
@@ -325,7 +474,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             {{-- /MAP --}}
                                         </div>
                                     </div>
-
 
                                     <div class="row justify-content-center">
                                         <div class="col-lg-5 mt-3">
@@ -538,9 +686,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                                 </div>
 
-                                <div class="tab-pane" id="finish">
-                                    <h5 class="info-text">User Account</h5>
-
+                                <div class="tab-pane @if( 'finish' === $activeStep ) active @endif" id="finish">
                                     <div class="row justify-content-center">
 
                                         <div class="col-sm-6 mt-3">
@@ -616,7 +762,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             <div class="input-group form-control-lg">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
-                                                        <i class="now-ui-icons objects_key-25"></i>
+                                                        <i class="now-ui-icons objects_key-25"></i></i>
                                                     </div>
                                                 </div>
                                                 <input class="form-control" placeholder="{{ __('Confirm Password') }}"
@@ -631,9 +777,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 </div>
 
                             </div>
-
-
-                            </div>
+                        </div>
 
                         <div class="card-footer">
                             <div class="pull-right">
@@ -665,6 +809,13 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
 @push('js')
     <script>
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
 
         function verifyFunc(){
             if( $( '#person_phonenumber' ).val() !== "" ){
@@ -689,8 +840,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initMap(){
-
-            $('#map').hide()
 
             if( ! document.getElementById( 'map' ) ){
                 return
@@ -869,15 +1018,12 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             let $types                 = $( '.types_js' )
             let $inputs_types          = $types.find( '.choice' )
             let $nextBtn               = $form.find( 'input[name=next]' )
-            let $finishBtn             = $form.find( 'input[name=finish]' )
             let $old_website_url_input = $form.find( '#old_website_url' )
             let $email_input           = $form.find( 'input[name="person_email"]' )
             let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
-            let $dealer_input          = $form.find( 'input[name="dealer_number"]' )
             let $datalist              = $form.find( 'input[name="make"]' )
 
             $phone_input.mask( '(999) 999-9999' );
-            $dealer_input.mask( '(999) 999-9999' );
 
 			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
             $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
@@ -887,9 +1033,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
             $inputs_types.on( 'click', function( el ){
 
-                $finishBtn.show()
+                $( '#next' ).prop( 'disabled', false );
 
-               // $( '#next' ).prop( 'disabled', false );
+                $( '#manual' ).hide();
 
                 let $el          = $( el.currentTarget )
                 let clickedIndex = $el.data( 'index' )
@@ -905,7 +1051,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                 }
 
                 $el.closest( 'form' ).find( '.card-footer' ).css( 'padding', '10px' )
-                $nextBtn.hide()
+                $nextBtn.show()
 
                 // disable for all the rest
                 $inputs_types.each( function( choice, el_in ){
