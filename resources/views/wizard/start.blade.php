@@ -224,37 +224,11 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 Build Your Dealer Site
                             </h3>
                             <h3 class="description">This information will let us know more about you.</h3>
-                            <div class="wizard-navigation">
-                                <ul class="nav nav-pills">
-                                    <li class="nav-item">
-                                        <a class="nav-link @if( 'type' === $activeStep ) active @endif" href="#type"
-                                           data-toggle="tab" role="tab"
-                                           aria-controls="about" aria-selected="true">
-                                            <i class="now-ui-icons users_circle-08"></i> Type
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link @if ( 'account' === $activeStep ) active @endif"
-                                           href="#account" data-toggle="tab"
-                                           role="tab" aria-controls="account" aria-selected="false">
-                                            <i class="now-ui-icons ui-1_settings-gear-63"></i> Account
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link @if( 'finish' === $activeStep ) active @endif" href="#finish"
-                                           data-toggle="tab"
-                                           role="tab" aria-controls="finish" aria-selected="false">
-                                            <i class="now-ui-icons ui-1_check"></i> Finish
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
-
                         <div class="card-body">
                             <div class="tab-content">
 
-                                <div class="tab-pane @if( 'type' === $activeStep ) active @endif" id="type">
+                                <div class="tab-pane @if( 'type' === $activeStep || 'account' === $activeStep || 'finish' === $activeStep) active @endif" id="type">
                                     <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
@@ -279,13 +253,13 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
                                                         <h6>New Cars</h6>
-                                                        <input list="dtlist" id="datalist" name="make" >
-                                                        <datalist id="dtlist">
-                                                            @foreach($makes as $make)
-                                                                <option>{{$make}}</option>
-                                                            @endforeach
-                                                        </datalist>
                                                     </div>
+                                                    <input list="dtlist" id="datalist" name="make" >
+                                                    <datalist id="dtlist">
+                                                        @foreach($makes as $make)
+                                                            <option>{{$make}}</option>
+                                                        @endforeach
+                                                    </datalist>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
@@ -301,9 +275,11 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="row justify-content-center types_js">
 
-                                <div class="tab-pane @if( 'account' === $activeStep ) active @endif" id="account">
+                                    </div>
+
+                                <div class="tab-pane" id="account">
 
                                     <h5 class="info-text">Let's start with the basic information</h5>
 
@@ -342,7 +318,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                         </div>
                                     </div>
 
-
                                     <div class="row justify-content-center">
                                         <div class="col-lg-10 mt-3">
                                             {{-- MAP --}}
@@ -350,6 +325,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             {{-- /MAP --}}
                                         </div>
                                     </div>
+
 
                                     <div class="row justify-content-center">
                                         <div class="col-lg-5 mt-3">
@@ -373,7 +349,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                                                 <div class="popup" id="popup1">
                                                     <div class="object">
-                                                        <form action="{{ route('verify') }}" method="POST">
+                                                        <form action="" method="POST">
                                                             <p>Verification code: </p>
                                                             <p><input type="text" name="codename"></p>
                                                             <input type="submit" value="Send">
@@ -562,7 +538,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                                 </div>
 
-                                <div class="tab-pane @if( 'finish' === $activeStep ) active @endif" id="finish">
+                                <div class="tab-pane" id="finish">
+                                    <h5 class="info-text">User Account</h5>
+
                                     <div class="row justify-content-center">
 
                                         <div class="col-sm-6 mt-3">
@@ -638,7 +616,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             <div class="input-group form-control-lg">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
-                                                        <i class="now-ui-icons objects_key-25"></i></i>
+                                                        <i class="now-ui-icons objects_key-25"></i>
                                                     </div>
                                                 </div>
                                                 <input class="form-control" placeholder="{{ __('Confirm Password') }}"
@@ -653,7 +631,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 </div>
 
                             </div>
-                        </div>
+
+
+                            </div>
 
                         <div class="card-footer">
                             <div class="pull-right">
@@ -709,6 +689,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initMap(){
+
+            $('#map').hide()
 
             if( ! document.getElementById( 'map' ) ){
                 return
@@ -887,12 +869,15 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             let $types                 = $( '.types_js' )
             let $inputs_types          = $types.find( '.choice' )
             let $nextBtn               = $form.find( 'input[name=next]' )
+            let $finishBtn             = $form.find( 'input[name=finish]' )
             let $old_website_url_input = $form.find( '#old_website_url' )
             let $email_input           = $form.find( 'input[name="person_email"]' )
             let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
+            let $dealer_input          = $form.find( 'input[name="dealer_number"]' )
             let $datalist              = $form.find( 'input[name="make"]' )
 
             $phone_input.mask( '(999) 999-9999' );
+            $dealer_input.mask( '(999) 999-9999' );
 
 			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
             $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
@@ -902,7 +887,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
             $inputs_types.on( 'click', function( el ){
 
-                $( '#next' ).prop( 'disabled', false );
+                $finishBtn.show()
+
+               // $( '#next' ).prop( 'disabled', false );
 
                 let $el          = $( el.currentTarget )
                 let clickedIndex = $el.data( 'index' )
@@ -918,7 +905,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                 }
 
                 $el.closest( 'form' ).find( '.card-footer' ).css( 'padding', '10px' )
-                $nextBtn.show()
+                $nextBtn.hide()
 
                 // disable for all the rest
                 $inputs_types.each( function( choice, el_in ){

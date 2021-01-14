@@ -45,15 +45,6 @@ class PageController extends Controller{
 		return view( 'pages.lock' );
 	}
 
-	public function generateCode( Request $request ){
-		if( $request->isMethod( 'POST' ) ){
-			$input = $request->except( [ '_token' ] );
-			dd($input);
-			$input['codename'];
-
-		}
-	}
-
 	/**
 	 * Display dealer WIZARD page
 	 */
@@ -77,29 +68,31 @@ class PageController extends Controller{
 			$user_data = $_user_data;
 
 			$validator = Validator::make( $input, [
-				'person_firstname'   => 'required|max:255',
-				'person_lastname'    => 'required|max:255',
-				'person_email'       => 'required|email|max:255|unique:users,email',
-				'person_phonenumber' => [
+				'person_firstname'             => 'required|max:255',
+				'person_lastname'              => 'required|max:255',
+				'person_email'                 => 'required|email|max:255|unique:users,email',
+				'person_phonenumber'           => [
 					'required',
 					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
 					'unique:users,phonenumber',
 				],
-				'type'               => 'required',
-				'dealer_name'        => 'required|max:255',
-				'lead_emails'        => 'required|email|max:255|unique:sites,lead_email',
-				'country'            => 'required|max:255',
-				'state'              => 'required|max:255',
-				'city'               => 'required|max:255',
-				'postal_code'        => 'required',
-				'dealer_number'      => [
+				'type'                         => 'required',
+				'dealer_name'                  => 'required|max:255',
+				'lead_emails'                  => 'required|email|max:255|unique:sites,lead_email',
+				'country'                      => 'required|max:255',
+				'state'                        => 'required|max:255',
+				'city'                         => 'required|max:255',
+				'postal_code'                  => 'required',
+				'dealer_number'                => [
 					'required',
 					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
 					'unique:sites,dealer_number',
 				],
-				'address'            => 'required|max:255',
-				'place_name'         => 'max:255',
-				'old_website_url'    => 'required|max:255',
+				'address'                      => 'required|max:255',
+				'place_name'                   => 'max:255',
+				'old_website_url'              => 'required|max:255',
+				'person_password'              => [ 'required', 'min:6', 'confirmed'],
+				'person_password_confirmation' => [ 'required', 'min:6' ],
 			] );
 
 			$steps_inputs = [

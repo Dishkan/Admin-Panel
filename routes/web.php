@@ -21,8 +21,6 @@ Route::group( [ 'middleware' =>'dgdev'], function(){
 	Route::get( '/home', 'HomeController@index' )->name( 'home' );
 
 	Route::any( '/wizard',  'PageController@wizard'  )->name( 'wizard' );
-	Route::any( '/verify',  'PageController@generateCode'  )->name( 'verify' );
-
 
 	Route::get( 'pricing', 'PageController@pricing' )->name( 'page.pricing' );
 	Route::get( 'lock',    'PageController@lock'    )->name( 'page.lock'    );
