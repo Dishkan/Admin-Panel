@@ -1,8 +1,8 @@
 @extends('layouts.wizard', [
-'namePage'        => 'Dealer Wizard',
-'class'           => 'login-page sidebar-mini ',
-'activePage'      => 'wizard',
-'backgroundImage' => asset('now') . '/img/jet.jpg',
+    'namePage'        => 'Dealer Wizard',
+    'class'           => 'login-page sidebar-mini ',
+    'activePage'      => 'wizard',
+    'backgroundImage' => asset('now') . '/img/jet.jpg',
 ])
 
 <?php
@@ -16,67 +16,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
     </script>
 
     <style>
-        /* Button used to open the contact form - fixed at the bottom of the page */
-
-        /* The popup form - hidden by default */
-        .form-popup {
-            overflow: auto;
-            display: none;
-            position: absolute;
-            border: 3px solid #f1f1f1;
-            z-index: 9;
-            background-color: yellow;
-            top: 40%;
-            left: 50%;
-            right: 50%;
-            margin-left:-210px;
-            margin-top:-50px;
-        }
-
-        /* Add styles to the form container */
-        .form-container {
-            max-width: 300px;
-            padding: 10px;
-            background-color: white;
-        }
-
-        /* Full-width input fields */
-        .form-container input[type=text], .form-container input[type=password] {
-            width: 100%;
-            padding: 15px;
-            margin: 5px 0 22px 0;
-            border: none;
-            background: #f1f1f1;
-        }
-
-        /* When the inputs get focus, do something */
-        .form-container input[type=text]:focus, .form-container input[type=password]:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-
-        /* Set a style for the submit/login button */
-        .form-container .btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 16px 20px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            margin-bottom:10px;
-            opacity: 0.8;
-        }
-
-        /* Add a red background color to the cancel button */
-        .form-container .cancel {
-            background-color: red;
-        }
-
-        /* Add some hover effects to buttons */
-        .form-container .btn:hover, .open-button:hover {
-            opacity: 1;
-        }
-        /* the end of add it manually button   */
 
         textarea{
             width:100%;
@@ -107,7 +46,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             outline:none !important
         }
 
-        input, textarea {
+        input, textarea{
             color:#494949;
             border:1px solid #e3e3e3;
             border-radius:3px;
@@ -131,8 +70,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         }
 
         .blue_btn{
-            top: -14px;
-            left: -18px;
+            top:-14px;
+            left:-18px;
             background-color:#55acee;
             box-shadow:0px 5px 0px 0px #3C93D5;
         }
@@ -153,9 +92,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             display:none;
             position:fixed;
             z-index:1000;
-            top: 40%;
-            left: 50%;
-            right: 50%;
+            top:40%;
+            left:50%;
+            right:50%;
             margin-left:-210px;
             margin-top:-50px;
             width:50%;
@@ -285,44 +224,19 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 Build Your Dealer Site
                             </h3>
                             <h3 class="description">This information will let us know more about you.</h3>
-                            <div class="wizard-navigation">
-                                <ul class="nav nav-pills">
-                                    <li class="nav-item">
-                                        <a class="nav-link @if( 'type' === $activeStep ) active @endif" href="#type"
-                                           data-toggle="tab" role="tab"
-                                           aria-controls="about" aria-selected="true">
-                                            <i class="now-ui-icons users_circle-08"></i> Type
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link @if ( 'account' === $activeStep ) active @endif"
-                                           href="#account" data-toggle="tab"
-                                           role="tab" aria-controls="account" aria-selected="false">
-                                            <i class="now-ui-icons ui-1_settings-gear-63"></i> Account
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link @if( 'finish' === $activeStep ) active @endif" href="#finish"
-                                           data-toggle="tab"
-                                           role="tab" aria-controls="finish" aria-selected="false">
-                                            <i class="now-ui-icons ui-1_check"></i> Finish
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
-
                         <div class="card-body">
                             <div class="tab-content">
 
-                                <div class="tab-pane @if( 'type' === $activeStep ) active @endif" id="type">
+                                <div class="tab-pane @if( 'type' === $activeStep || 'account' === $activeStep || 'finish' === $activeStep) active @endif"
+                                     id="type">
                                     <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
                                             <div class="row" role="tablist">
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="1">
-                                                        <input class="type"  type="checkbox"
+                                                        <input class="type" type="checkbox"
                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
                                                                value="group">
                                                         <div class="icon">
@@ -332,27 +246,29 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div class="datalist choice" data-toggle="wizard-checkbox" data-index="2">
-                                                        <input class="type"  type="checkbox"
+                                                    <div class="datalist choice" data-toggle="wizard-checkbox"
+                                                         data-index="2">
+                                                        <input class="type" type="checkbox"
                                                                {{ 'oem' === old('type') ? 'checked' : '' }} name="type"
                                                                value="oem">
                                                         <div id="iconimg" class="icon">
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
                                                         <h6>New Cars</h6>
-                                                        <input list="dtlist" id="datalist" name="make" >
-                                                        <datalist id="dtlist">
-                                                            @foreach($makes as $make)
-                                                                <option>{{$make}}</option>
-                                                            @endforeach
-                                                        </datalist>
                                                     </div>
+                                                    <input list="dtlist" id="datalist" name="make"
+                                                           value="{{ old('make')  }}">
+                                                    <datalist id="dtlist">
+                                                        @foreach($makes as $make)
+                                                            <option>{{$make}}</option>
+                                                        @endforeach
+                                                    </datalist>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
-                                                        <input class="type"  type="checkbox"
+                                                        <input class="type" type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
-                                                               value="independent">
+                                                               value="indmakependent">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">
                                                         </div>
@@ -362,436 +278,401 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row justify-content-center types_js">
-                                    <button id="manual" style="background-color: #008CBA; font-size: 90%" class="open-button" onclick="openForm()">Add it manually</button>
-
-                                    <div class="form-popup" id="myForm">
-                                        <form action="" class="form-container">
-                                            <h5>Adding it mannually?</h5>
-                                            <input id="place_name" class="form-control" type="text"
-                                                   placeholder="Enter a location" value="{{ old('place_name') }}"/>
-                                            <input id="old_website_url" name="old_website_url" class="form-control"
-                                                   type="text" placeholder="Enter Your Old Website URL"
-                                                   value="{{ old('old_website_url') }}"/>
-                                            <input required type="text" placeholder="Phone"
-                                                   value="{{ old('dealer_number') }}"
-                                                   class="form-control" name="dealer_number">
-                                            <input required type="text" class="form-control"
-                                                   placeholder="Dealership Name" name="dealer_name"
-                                                   value="{{ old('dealer_name') }}">
-                                            <input required type="text" placeholder="Lead Emails, comma separated"
-                                                   value="{{ old('lead_emails') }}"
-                                                   class="form-control" name="lead_emails">
-                                            <input required type="text" placeholder="Country"
-                                                   value="{{ old('country') }}"
-                                                   class="form-control" name="country">
-                                            <input required type="text" placeholder="State"
-                                                   value="{{ old('state') }}"
-                                                   class="form-control" name="state">
-                                            <input required type="text" placeholder="City" value="{{ old('city') }}"
-                                                   class="form-control" name="city">
-                                            <input required type="text" placeholder="Postal Code"
-                                                   value="{{ old('postal_code') }}"
-                                                   class="form-control" name="postal_code">
-                                            <input required type="text" placeholder="Address"
-                                                   value="{{ old('address') }}"
-                                                   class="form-control" name="address">
-                                            <input type="text" class="form-control"
-                                                   value="{{ old('person_firstname') }}"
-                                                   placeholder="First Name (required)" name="person_firstname"
-                                                   required>
-                                            <input type="text" placeholder="Last Name (required)"
-                                                   value="{{ old('person_lastname') }}"
-                                                   class="form-control" name="person_lastname" required>
-                                            <input type="email" placeholder="Email (required)"
-                                                   class="form-control"
-                                                   value="{{ old('person_email') }}"
-                                                   name="person_email" required>
-                                            <input onchange="verifyFunc()" id="person_phonenumber" placeholder="Phone (required)" class="form-control"
-                                                   name="person_phonenumber"
-                                                   value="{{ old('person_phonenumber') }}" required>
-
-                                            <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                   placeholder="{{ __('Password') }}" type="password"
-                                                   name="person_password" value="{{ old( 'person_password' ) }}"
-                                                   required>
-                                            <input class="form-control" placeholder="{{ __('Confirm Password') }}"
-                                                   type="password" name="person_password_confirmation"
-                                                   value="{{ old( 'person_password_confirmation' ) }}" required>
-
-                                            <button type="submit" class="btn">Submit</button>
-                                            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-                                        </form>
+                                    <div class="row justify-content-center types_js">
+                                        <input style="width: 30%; background-color: #008CBA; color: white;"
+                                               value="Add it manually" type="button" onclick="$('#showManual').show()"/>
                                     </div>
-                                </div>
+                                    <div id="showManual">
+                                        <div class="tab-pane" id="account">
 
-                                <div class="tab-pane @if( 'account' === $activeStep ) active @endif" id="account">
-
-                                    <h5 class="info-text">Let's start with the basic information</h5>
-
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-10 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons location_bookmark"></i>
-                                                    </div>
-                                                </div>
-                                                <input id="pac-input" class="form-control" type="text"
-                                                       placeholder="Enter a location" value="{{ old('place_name') }}"/>
-                                                <input name="place_name" type="hidden" id="place_name"
-                                                       value="{{ old('place_name') }}">
-                                                <input name="place_id" type="hidden" id="place_id">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <h4 style="margin:15px 0 0 0" class="info-text">OR</h4>
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-10 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons objects_planet"></i>
-                                                    </div>
-                                                </div>
-                                                <input id="old_website_url" name="old_website_url" class="form-control"
-                                                       type="text" placeholder="Enter Your Old Website URL"
-                                                       value="{{ old('old_website_url') }}"/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            <h5 class="info-text">Let's start with the basic information</h5>
 
 
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-10 mt-3">
-                                            {{-- MAP --}}
-                                            <div style="height:10em" id="map"></div>
-                                            {{-- /MAP --}}
-                                        </div>
-                                    </div>
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-5 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons tech_mobile"></i>
-                                                    </div>
-                                                </div>
-                                                <input required type="text" placeholder="Phone"
-                                                       value="{{ old('dealer_number') }}"
-                                                       class="form-control" name="dealer_number">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-5 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <!-- disabled="true" is working but with js function onchange I coudnt change value to false. Code examples are below in js section-->
-                                                <button id="verification" class="show_popup blue_btn" rel="popup1">Verify</button>
-
-                                                <div class="overlay_popup"></div>
-
-                                                <div class="popup" id="popup1">
-                                                    <div class="object">
-                                                        <form action="" method="POST">
-                                                            <p>Verification code: </p>
-                                                            <p><input type="text" name="codename"></p>
-                                                            <input type="submit" value="Send">
-                                                        </form>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons location_bookmark"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input id="pac-input" class="form-control" type="text"
+                                                               placeholder="Enter a location"
+                                                               value="{{ old('place_name') }}"/>
+                                                        <input name="place_name" type="hidden" id="place_name"
+                                                               value="{{ old('place_name') }}">
+                                                        <input name="place_id" type="hidden" id="place_id">
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
 
+                                            <h4 style="margin:15px 0 0 0" class="info-text">OR</h4>
 
-                                    {{--                                    <div class="row justify-content-center">--}}
-
-                                    {{--                                        <div class="col-sm-4">--}}
-                                    {{--                                            <div class="picture-container">--}}
-                                    {{--                                                <div class="picture">--}}
-                                    {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
-                                    {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
-                                    {{--                                                         class="picture-src"--}}
-                                    {{--                                                         id="logo" title=""/>--}}
-                                    {{--                                                    <input name="logo_src" type="file" id="logo_input"--}}
-                                    {{--                                                           class="wizard-picture" value="{{ old('logo_src') }}">--}}
-                                    {{--                                                </div>--}}
-                                    {{--                                                <h6 class="description">Logo</h6>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-
-                                    {{--                                        <div class="col-sm-4">--}}
-                                    {{--                                            <div class="picture-container">--}}
-                                    {{--                                                <div class="picture">--}}
-                                    {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
-                                    {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
-                                    {{--                                                         class="picture-src"--}}
-                                    {{--                                                         id="site_icon" title=""/>--}}
-                                    {{--                                                    <input name="site_icon_src" type="file" id="site_icon_input"--}}
-                                    {{--                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">--}}
-                                    {{--                                                </div>--}}
-                                    {{--                                                <h6 class="description">Site Icon</h6>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-
-                                    {{--                                    </div>--}}
-
-
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons education_paper"></i>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons objects_planet"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input id="old_website_url" name="old_website_url"
+                                                               class="form-control"
+                                                               type="text" placeholder="Enter Your Old Website URL"
+                                                               value="{{ old('old_website_url') }}"/>
                                                     </div>
                                                 </div>
-                                                <input required type="text" class="form-control"
-                                                       placeholder="Dealership Name" name="dealer_name"
-                                                       value="{{ old('dealer_name') }}">
                                             </div>
 
-                                        </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    {{-- MAP --}}
+                                                    <div style="height:10em" id="map"></div>
+                                                    {{-- /MAP --}}
+                                                </div>
+                                            </div>
 
-                                        <div class="col-lg-5 mt-3">
 
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons ui-1_email-85"></i>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-5 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons tech_mobile"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Phone"
+                                                               value="{{ old('dealer_number') }}"
+                                                               class="form-control" name="dealer_number">
                                                     </div>
                                                 </div>
-                                                <input required type="text" placeholder="Lead Emails, comma separated"
-                                                       value="{{ old('lead_emails') }}"
-                                                       class="form-control" name="lead_emails">
-                                            </div>
+                                                <div class="col-lg-5 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <!-- disabled="true" is working but with js function onchange I coudnt change value to false. Code examples are below in js section-->
+                                                        <button id="verification" class="show_popup blue_btn"
+                                                                rel="popup1">Verify
+                                                        </button>
 
-                                        </div>
+                                                        <div class="overlay_popup"></div>
 
-                                    </div>
-
-
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons business_globe"></i>
-                                                    </div>
-                                                </div>
-                                                <input required type="text" placeholder="Country"
-                                                       value="{{ old('country') }}"
-                                                       class="form-control" name="country">
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons business_chart-pie-36"></i>
-                                                    </div>
-                                                </div>
-                                                <input required type="text" placeholder="State"
-                                                       value="{{ old('state') }}"
-                                                       class="form-control" name="state">
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons location_map-big"></i>
-                                                    </div>
-                                                </div>
-                                                <input required type="text" placeholder="City" value="{{ old('city') }}"
-                                                       class="form-control" name="city">
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons ui-1_email-85"></i>
-                                                    </div>
-                                                </div>
-                                                <input required type="text" placeholder="Postal Code"
-                                                       value="{{ old('postal_code') }}"
-                                                       class="form-control" name="postal_code">
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-10 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons location_pin"></i>
-                                                    </div>
-                                                </div>
-                                                <input required type="text" placeholder="Address"
-                                                       value="{{ old('address') }}"
-                                                       class="form-control" name="address">
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {{--
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-10 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons tech_mobile"></i>
-                                                    </div>
-                                                </div>
-                                                <input type="text" placeholder="Monday" value=""
-                                                       class="form-control" name="hours[monday]">
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                    --}}
-
-                                </div>
-
-                                <div class="tab-pane @if( 'finish' === $activeStep ) active @endif" id="finish">
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-sm-6 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons users_circle-08"></i>
-                                                    </div>
-                                                </div>
-                                                <input type="text" class="form-control"
-                                                       value="{{ old('person_firstname') }}"
-                                                       placeholder="First Name (required)" name="person_firstname"
-                                                       required>
-                                            </div>
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons text_caps-small"></i>
-                                                    </div>
-                                                </div>
-                                                <input type="text" placeholder="Last Name (required)"
-                                                       value="{{ old('person_lastname') }}"
-                                                       class="form-control" name="person_lastname" required>
-                                            </div>
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons text_caps-small"></i>
+                                                        <div class="popup" id="popup1">
+                                                            <div class="object">
+                                                                <form action="" method="POST">
+                                                                    <p>Verification code: </p>
+                                                                    <p><input type="text" name="codename"></p>
+                                                                    <input type="submit" value="Send">
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <input type="email" placeholder="Email (required)"
-                                                           class="form-control"
-                                                           value="{{ old('person_email') }}"
-                                                           name="person_email" required>
                                                 </div>
                                             </div>
 
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons tech_mobile"></i>
+
+                                            {{--                                    <div class="row justify-content-center">--}}
+
+                                            {{--                                        <div class="col-sm-4">--}}
+                                            {{--                                            <div class="picture-container">--}}
+                                            {{--                                                <div class="picture">--}}
+                                            {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
+                                            {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
+                                            {{--                                                         class="picture-src"--}}
+                                            {{--                                                         id="logo" title=""/>--}}
+                                            {{--                                                    <input name="logo_src" type="file" id="logo_input"--}}
+                                            {{--                                                           class="wizard-picture" value="{{ old('logo_src') }}">--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                                <h6 class="description">Logo</h6>--}}
+                                            {{--                                            </div>--}}
+                                            {{--                                        </div>--}}
+
+                                            {{--                                        <div class="col-sm-4">--}}
+                                            {{--                                            <div class="picture-container">--}}
+                                            {{--                                                <div class="picture">--}}
+                                            {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
+                                            {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
+                                            {{--                                                         class="picture-src"--}}
+                                            {{--                                                         id="site_icon" title=""/>--}}
+                                            {{--                                                    <input name="site_icon_src" type="file" id="site_icon_input"--}}
+                                            {{--                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                                <h6 class="description">Site Icon</h6>--}}
+                                            {{--                                            </div>--}}
+                                            {{--                                        </div>--}}
+
+                                            {{--                                    </div>--}}
+
+
+                                            <div class="row justify-content-center">
+
+                                                <div class="col-lg-5 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons education_paper"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" class="form-control"
+                                                               placeholder="Dealership Name" name="dealer_name"
+                                                               value="{{ old('dealer_name') }}">
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-lg-5 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons ui-1_email-85"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text"
+                                                               placeholder="Lead Emails, comma separated"
+                                                               value="{{ old('lead_emails') }}"
+                                                               class="form-control" name="lead_emails">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row justify-content-center">
+
+                                                <div class="col-lg-5 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons business_globe"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Country"
+                                                               value="{{ old('country') }}"
+                                                               class="form-control" name="country">
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-lg-5 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons business_chart-pie-36"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="State"
+                                                               value="{{ old('state') }}"
+                                                               class="form-control" name="state">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row justify-content-center">
+
+                                                <div class="col-lg-5 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons location_map-big"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="City"
+                                                               value="{{ old('city') }}"
+                                                               class="form-control" name="city">
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-lg-5 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons ui-1_email-85"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Postal Code"
+                                                               value="{{ old('postal_code') }}"
+                                                               class="form-control" name="postal_code">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row justify-content-center">
+
+                                                <div class="col-lg-10 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons location_pin"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Address"
+                                                               value="{{ old('address') }}"
+                                                               class="form-control" name="address">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            {{--
+                                            <div class="row justify-content-center">
+
+                                                <div class="col-lg-10 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons tech_mobile"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input type="text" placeholder="Monday" value=""
+                                                               class="form-control" name="hours[monday]">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            --}}
+
+                                        </div>
+
+                                        <div class="tab-pane" id="finish">
+                                            <h5 class="info-text">User Account</h5>
+
+                                            <div class="row justify-content-center">
+
+                                                <div class="col-sm-6 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons users_circle-08"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input type="text" class="form-control"
+                                                               value="{{ old('person_firstname') }}"
+                                                               placeholder="First Name (required)"
+                                                               name="person_firstname"
+                                                               required>
+                                                    </div>
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons text_caps-small"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input type="text" placeholder="Last Name (required)"
+                                                               value="{{ old('person_lastname') }}"
+                                                               class="form-control" name="person_lastname" required>
+                                                    </div>
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group form-control-lg">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="now-ui-icons text_caps-small"></i>
+                                                                </div>
+                                                            </div>
+                                                            <input type="email" placeholder="Email (required)"
+                                                                   class="form-control"
+                                                                   value="{{ old('person_email') }}"
+                                                                   name="person_email" required>
                                                         </div>
                                                     </div>
-                                                    <input onchange="verifyFunc()" id="person_phonenumber" placeholder="Phone (required)" class="form-control"
-                                                           name="person_phonenumber"
-                                                           value="{{ old('person_phonenumber') }}" required>
-                                                </div>
-                                            </div>
 
-                                            <!--Begin input password -->
-                                            <div class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons objects_key-25"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group form-control-lg">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="now-ui-icons tech_mobile"></i>
+                                                                </div>
+                                                            </div>
+                                                            <input onchange="verifyFunc()" id="person_phonenumber"
+                                                                   placeholder="Phone (required)" class="form-control"
+                                                                   name="person_phonenumber"
+                                                                   value="{{ old('person_phonenumber') }}" required>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                       placeholder="{{ __('Password') }}" type="password"
-                                                       name="person_password" value="{{ old( 'person_password' ) }}"
-                                                       required>
-                                                @if ($errors->has('password'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
+
+                                                    <!--Begin input password -->
+                                                    <div class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons objects_key-25"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                               placeholder="{{ __('Password') }}" type="password"
+                                                               name="person_password"
+                                                               value="{{ old( 'person_password' ) }}"
+                                                               required>
+                                                        @if ($errors->has('password'))
+                                                            <span class="invalid-feedback" style="display: block;"
+                                                                  role="alert">
                                                         <strong>{{ $errors->first('password') }}</strong>
                                                     </span>
-                                                @endif
+                                                        @endif
+                                                    </div>
+                                                    <!--Begin input confirm password -->
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons objects_key-25"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input class="form-control"
+                                                               placeholder="{{ __('Confirm Password') }}"
+                                                               type="password" name="person_password_confirmation"
+                                                               value="{{ old( 'person_password_confirmation' ) }}"
+                                                               required>
+                                                    </div>
+
+                                                </div>
+
                                             </div>
-                                            <!--Begin input confirm password -->
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons objects_key-25"></i></i>
+                                            <div class="row justify-content-center">
+                                                <div class="col-sm-6 mt-3">
+                                                    <div class="row justify-content-center types_js">
+                                                        <input style="width: 30%; background-color: #008CBA; color: white;"
+                                                               value="Hide it" type="button" onclick="$('#showManual').hide()"/>
                                                     </div>
                                                 </div>
-                                                <input class="form-control" placeholder="{{ __('Confirm Password') }}"
-                                                       type="password" name="person_password_confirmation"
-                                                       value="{{ old( 'person_password_confirmation' ) }}" required>
                                             </div>
 
                                         </div>
-
                                     </div>
-
                                 </div>
 
-                            </div>
-                        </div>
 
-                        <div class="card-footer">
-                            <div class="pull-right">
-                                <input id="next" disabled="true" type='button' class='btn btn-next btn-fill btn-rose btn-wd' name='next'
-                                       value='Next'/>
-                                <input type='submit' class='btn btn-finish btn-fill btn-rose btn-wd' name='finish'
-                                       value='Finish'/>
                             </div>
-                            <div class="pull-left">
-                                <input type='button' class='btn btn-previous btn-fill btn-default btn-wd'
-                                       name='previous' value='Previous'/>
+
+                            <div class="card-footer">
+                                <div class="pull-right">
+                                    <input id="next" disabled="true" type='button'
+                                           class='btn btn-next btn-fill btn-rose btn-wd' name='next'
+                                           value='Next'/>
+                                    <input type='submit' class='btn btn-finish btn-fill btn-rose btn-wd' name='finish'
+                                           value='Finish'/>
+                                </div>
+                                <div class="pull-left">
+                                    <input type='button' class='btn btn-previous btn-fill btn-default btn-wd'
+                                           name='previous' value='Previous'/>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
 
                         {{ csrf_field() }}
 
@@ -809,13 +690,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
 @push('js')
     <script>
-        function openForm() {
-            document.getElementById("myForm").style.display = "block";
-        }
-
-        function closeForm() {
-            document.getElementById("myForm").style.display = "none";
-        }
+        $( '#showManual' ).hide()
 
         function verifyFunc(){
             if( $( '#person_phonenumber' ).val() !== "" ){
@@ -840,6 +715,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initMap(){
+
+            $( '#map' ).hide()
 
             if( ! document.getElementById( 'map' ) ){
                 return
@@ -910,7 +787,11 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                     if( status === google.maps.places.PlacesServiceStatus.OK ){
                         let place_data_conv = []
 
-                        console.log( place_data )
+                        console.log( place_data)
+
+                        if(place_data.formatted_phone_number === '') {
+
+                        }
 
                         if( place_data.website ){
                             let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
@@ -1018,12 +899,15 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             let $types                 = $( '.types_js' )
             let $inputs_types          = $types.find( '.choice' )
             let $nextBtn               = $form.find( 'input[name=next]' )
+            let $finishBtn             = $form.find( 'input[name=finish]' )
             let $old_website_url_input = $form.find( '#old_website_url' )
             let $email_input           = $form.find( 'input[name="person_email"]' )
             let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
+            let $dealer_input          = $form.find( 'input[name="dealer_number"]' )
             let $datalist              = $form.find( 'input[name="make"]' )
 
             $phone_input.mask( '(999) 999-9999' );
+            $dealer_input.mask( '(999) 999-9999' );
 
 			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
             $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
@@ -1033,14 +917,14 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
             $inputs_types.on( 'click', function( el ){
 
-                $( '#next' ).prop( 'disabled', false );
+                $finishBtn.show()
 
-                $( '#manual' ).hide();
+                // $( '#next' ).prop( 'disabled', false );
 
                 let $el          = $( el.currentTarget )
                 let clickedIndex = $el.data( 'index' )
 
-                if(clickedIndex !== 2) {
+                if( clickedIndex !== 2 ){
                     $datalist.hide()
                 }
 
@@ -1051,7 +935,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                 }
 
                 $el.closest( 'form' ).find( '.card-footer' ).css( 'padding', '10px' )
-                $nextBtn.show()
+                $nextBtn.hide()
 
                 // disable for all the rest
                 $inputs_types.each( function( choice, el_in ){
