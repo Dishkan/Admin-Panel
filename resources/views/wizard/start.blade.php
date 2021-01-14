@@ -306,7 +306,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     </div>
                                                     <input required type="text" placeholder="Phone"
                                                            value="{{ old('dealer_number') }}"
-                                                           class="form-control" name="dealer_number">
+                                                           class="form-control" name="dealer_number_auto">
                                                 </div>
                                             </div>
                                         </div>
@@ -322,7 +322,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     <input required type="text"
                                                            placeholder="Lead Emails, comma separated"
                                                            value="{{ old('lead_emails') }}"
-                                                           class="form-control" name="lead_emails">
+                                                           class="form-control" name="lead_emails_auto">
                                                 </div>
 
                                             </div>
@@ -846,10 +846,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                         console.log( place_data)
 
-                        if(place_data.formatted_phone_number === '') {
-
-                        }
-
                         if( place_data.website ){
                             let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
                             let $oldWebSiteInput = $( 'input[name=old_website_url]' )
@@ -860,7 +856,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                         for( let p = 0; p < place_data.address_components.length; p++ ){
                             let type = place_data.address_components[ p ].types[ 0 ]
                             let val  = place_data.address_components[ p ].long_name
-
+/*
                             if( 'locality' === type ){
                                 place_data_conv[ 'city' ] = val
                             }
@@ -872,23 +868,25 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                             }
                             else if( 'country' === type ){
                                 place_data_conv[ 'country' ] = val
-                            }
+                            } */
                         }
 
                         let inputs = [
-                            'dealer_number',
-                            'dealer_name',
-                            'lead_emails',
-                            'country',
-                            'state',
-                            'city',
-                            'postal_code',
-                            'address',
+                            'dealer_number_auto',
+                            'lead_emails_auto',
+                            //'dealer_number',
+                            //'dealer_name',
+                            //'lead_emails',
+                            //'country',
+                            //'state',
+                            //'city',
+                            //'postal_code',
+                            //'address',
                         ]
 
                         for( let o = 0; o < inputs.length; o++ ){
                             let $input = $( 'input[name=' + inputs[ o ] + ']' )
-
+                            /*
                             if( 'address' === inputs[ o ] ){
                                 $input.val( place_data.formatted_address )
                             }
@@ -896,6 +894,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 $input.val( place_data.name )
                             }
                             else if( 'dealer_number' === inputs[ o ] ){
+                                $input.val( place_data.formatted_phone_number )
+                            }
+                            else */
+                                if( 'dealer_number_auto' === inputs[ o ] ){
                                 $input.val( place_data.formatted_phone_number )
                             }
                             else{
