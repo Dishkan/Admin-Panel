@@ -251,11 +251,12 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <input class="type" type="checkbox"
                                                                {{ 'oem' === old('type') ? 'checked' : '' }} name="type"
                                                                value="oem">
-                                                        <div onclick="$('#oneblock').show()" id="iconimg" class="icon">
+                                                        <div onclick="$('#oneblock').show(); $('#showDatalist').show();" id="iconimg" class="icon">
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
                                                         <h6>Franchised Dealer</h6>
                                                     </div>
+                                                    <div id="showDatalist">
                                                     <input list="dtlist" id="datalist" name="make"
                                                            value="{{ old('make')  }}">
                                                     <datalist id="dtlist">
@@ -263,6 +264,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                             <option>{{$make}}</option>
                                                         @endforeach
                                                     </datalist>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
@@ -751,6 +753,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         $( '#buttonAutoHide' ).hide()
         $( '#hideManual' ).hide()
         $( '#oneblock' ).hide()
+        $( '#showDatalist' ).hide()
 
         function verifyFunc(){
             if( $( '#person_phonenumber' ).val() !== "" ){
