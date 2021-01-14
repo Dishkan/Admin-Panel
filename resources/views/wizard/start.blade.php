@@ -239,10 +239,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <input class="type" type="checkbox"
                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
                                                                value="group">
-                                                        <div class="icon">
+                                                        <div onclick="$('#oneblock').show()" class="icon">
                                                             <img src="{{asset('now/img/group.png')}}" alt="">
                                                         </div>
-                                                        <h6>Group</h6>
+                                                        <h6>Dealer Group</h6>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
@@ -251,10 +251,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <input class="type" type="checkbox"
                                                                {{ 'oem' === old('type') ? 'checked' : '' }} name="type"
                                                                value="oem">
-                                                        <div id="iconimg" class="icon">
+                                                        <div onclick="$('#oneblock').show()" id="iconimg" class="icon">
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
-                                                        <h6>New Cars</h6>
+                                                        <h6>Franchised Dealer</h6>
                                                     </div>
                                                     <input list="dtlist" id="datalist" name="make"
                                                            value="{{ old('make')  }}">
@@ -269,15 +269,16 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <input class="type" type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
                                                                value="indmakependent">
-                                                        <div class="icon">
+                                                        <div onclick="$('#oneblock').show()" class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">
                                                         </div>
-                                                        <h6>Independent</h6>
+                                                        <h6>Independent Dealer</h6>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="oneblock">
                                     <div class="row justify-content-center">
                                         <div class="col-lg-10 mt-3">
                                             <div class="input-group form-control-lg">
@@ -287,7 +288,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     </div>
                                                 </div>
                                                 <input id="pac-input" class="form-control" type="text"
-                                                       placeholder="Enter a location"
+                                                       placeholder="First, Search For Your Dealership…"
                                                        value="{{ old('place_name') }}"/>
                                                 <input name="place_name" type="hidden" id="place_name"
                                                        value="{{ old('place_name') }}">
@@ -708,6 +709,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             </div>
                                         </div>
                                     </div>
+                                    </div>
                                 </div>
 
 
@@ -748,6 +750,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         $( '#showAuto' ).hide()
         $( '#buttonAutoHide' ).hide()
         $( '#hideManual' ).hide()
+        $( '#oneblock' ).hide()
 
         function verifyFunc(){
             if( $( '#person_phonenumber' ).val() !== "" ){
