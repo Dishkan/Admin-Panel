@@ -278,9 +278,72 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-10 mt-3">
+                                            <div class="input-group form-control-lg">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="now-ui-icons location_bookmark"></i>
+                                                    </div>
+                                                </div>
+                                                <input id="pac-input" class="form-control" type="text"
+                                                       placeholder="Enter a location"
+                                                       value="{{ old('place_name') }}"/>
+                                                <input name="place_name" type="hidden" id="place_name"
+                                                       value="{{ old('place_name') }}">
+                                                <input name="place_id" type="hidden" id="place_id">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="showAuto">
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-5 mt-3">
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons tech_mobile"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input required type="text" placeholder="Phone"
+                                                           value="{{ old('dealer_number') }}"
+                                                           class="form-control" name="dealer_number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-5 mt-3">
+
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons ui-1_email-85"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input required type="text"
+                                                           placeholder="Lead Emails, comma separated"
+                                                           value="{{ old('lead_emails') }}"
+                                                           class="form-control" name="lead_emails">
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
                                     <div class="row justify-content-center types_js">
-                                        <input style="width: 30%; background-color: #008CBA; color: white;"
-                                               value="Add it manually" type="button" onclick="$('#showManual').show()"/>
+                                        <input id="buttonAuto" style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
+                                               value="Get started" type="button" onclick="$('#showAuto').show(); $('#buttonAutoHide').show(); $('#buttonAuto').hide() "/>
+                                    </div>
+                                    <div class="row justify-content-center types_js">
+                                        <input id="buttonAutoHide" style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
+                                               value="Hide it" type="button" onclick="$('#showAuto').hide(); $('#buttonAutoHide').hide(); $('#buttonAuto').show()"/>
+                                    </div>
+                                    <div class="row justify-content-center types_js">
+                                        <input id="seeManual" style="width: 30%; background-color: #008CBA; color: white;"
+                                               value="Add it manually" type="button" onclick="$('#showManual').show(); $('#hideManual').show(); $('#seeManual').hide();"/>
+                                    </div>
+                                    <div class="row justify-content-center types_js">
+                                                <input id="hideManual" style="width: 30%; background-color: #008CBA; color: white;"
+                                                       value="Hide it" type="button" onclick="$('#showManual').hide(); $('#hideManual').hide(); $('#seeManual').show()" />
                                     </div>
                                     <div id="showManual">
                                         <div class="tab-pane" id="account">
@@ -643,15 +706,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                 </div>
 
                                             </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-sm-6 mt-3">
-                                                    <div class="row justify-content-center types_js">
-                                                        <input style="width: 30%; background-color: #008CBA; color: white;"
-                                                               value="Hide it" type="button" onclick="$('#showManual').hide()"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -691,6 +745,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 @push('js')
     <script>
         $( '#showManual' ).hide()
+        $( '#showAuto' ).hide()
+        $( '#buttonAutoHide' ).hide()
+        $( '#hideManual' ).hide()
 
         function verifyFunc(){
             if( $( '#person_phonenumber' ).val() !== "" ){
