@@ -254,7 +254,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         </div>
                                                         <h6>New Cars</h6>
                                                     </div>
-                                                    <input list="dtlist" id="datalist" name="make" >
+                                                    <input list="dtlist" id="datalist" name="make" value="{{ old('make')  }}">
                                                     <datalist id="dtlist">
                                                         @foreach($makes as $make)
                                                             <option>{{$make}}</option>
@@ -265,7 +265,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
                                                         <input class="type"  type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
-                                                               value="independent">
+                                                               value="indmakependent">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">
                                                         </div>
