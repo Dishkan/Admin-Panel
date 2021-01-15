@@ -270,7 +270,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     <div class="choice" data-toggle="wizard-checkbox" data-index="3">
                                                         <input class="type" type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
-                                                               value="indmakependent">
+                                                               value="independent">
                                                         <div onclick="$('#oneblock').show(); $('#showDatalist').hide();" class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">
                                                         </div>
@@ -299,7 +299,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                         </div>
                                     </div>
                                     <div id="showAuto">
-                                        <div class="row justify-content-center">
+                                        <form>
+                                        <div id="phoneAuto" class="row justify-content-center">
                                             <div class="col-lg-5 mt-3">
                                                 <div class="input-group form-control-lg">
                                                     <div class="input-group-prepend">
@@ -331,6 +332,17 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             </div>
 
                                         </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-5 mt-3">
+
+                                                <div class="input-group form-control-lg">
+                                                    <button type="submit" style="background-color: #008CBA; ">Submit</button>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                            </form>
                                     </div>
                                     <div class="row justify-content-center types_js">
                                         <input id="buttonAuto" style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
@@ -707,7 +719,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     </div>
 
                                                 </div>
-
+                                            </div>
+                                            <div class="row justify-content-center types_js">
+                                                <button type="submit" style="background-color: #008CBA; font-size: 95%">Finish</button>
                                             </div>
                                         </div>
                                     </div>
@@ -851,6 +865,16 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                         let place_data_conv = []
 
                         console.log( place_data)
+                        //showAuto
+                        if( place_data.vicinity !== '' ){
+                            $('#showAuto').show()
+                        }
+
+                        if(! place_data.formatted_phone_number ){
+                            $('#phoneAuto').hide()
+                            $('#buttonAuto').hide()
+                            $('#buttonAutoHide').show()
+                        }
 
                         if( place_data.website ){
                             let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
@@ -981,7 +1005,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
             $inputs_types.on( 'click', function( el ){
 
-                $finishBtn.show()
+                $finishBtn.hide()
 
                 // $( '#next' ).prop( 'disabled', false );
 
