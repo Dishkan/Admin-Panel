@@ -235,23 +235,23 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                         <div class="col-lg-10">
                                             <div class="row" role="tablist">
                                                 <div class="col-sm-4">
-                                                    <div class="choice" data-toggle="wizard-checkbox" data-index="1">
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').hide();" class="choice" data-toggle="wizard-checkbox" data-index="1">
                                                         <input class="type" type="checkbox"
                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
                                                                value="group">
-                                                        <div onclick="$('#oneblock').show(); $('#showDatalist').hide();" class="icon">
+                                                        <div  class="icon">
                                                             <img src="{{asset('now/img/group.png')}}" alt="">
                                                         </div>
                                                         <h6>Dealer Group</h6>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div class="datalist choice" data-toggle="wizard-checkbox"
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').show();" class="datalist choice" data-toggle="wizard-checkbox"
                                                          data-index="2">
                                                         <input class="type" type="checkbox"
                                                                {{ 'oem' === old('type') ? 'checked' : '' }} name="type"
                                                                value="oem">
-                                                        <div onclick="$('#oneblock').show(); $('#showDatalist').show();" id="iconimg" class="icon">
+                                                        <div id="iconimg" class="icon">
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
                                                         <h6>Franchised Dealer</h6>
@@ -267,11 +267,11 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div class="choice" data-toggle="wizard-checkbox" data-index="3">
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').hide();" class="choice" data-toggle="wizard-checkbox" data-index="3">
                                                         <input class="type" type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
                                                                value="independent">
-                                                        <div onclick="$('#oneblock').show(); $('#showDatalist').hide();" class="icon">
+                                                        <div class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">
                                                         </div>
                                                         <h6>Independent Dealer</h6>
