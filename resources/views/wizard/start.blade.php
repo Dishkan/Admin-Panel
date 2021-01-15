@@ -239,7 +239,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <input class="type" type="checkbox"
                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
                                                                value="group">
-                                                        <div onclick="$('#oneblock').show()" class="icon">
+                                                        <div onclick="$('#oneblock').show(); $('#showDatalist').hide();" class="icon">
                                                             <img src="{{asset('now/img/group.png')}}" alt="">
                                                         </div>
                                                         <h6>Dealer Group</h6>
@@ -271,7 +271,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         <input class="type" type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
                                                                value="indmakependent">
-                                                        <div onclick="$('#oneblock').show()" class="icon">
+                                                        <div onclick="$('#oneblock').show(); $('#showDatalist').hide();" class="icon">
                                                             <img src="{{asset('now/img/independent.png')}}" alt="">
                                                         </div>
                                                         <h6>Independent Dealer</h6>
@@ -969,7 +969,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             let $email_input           = $form.find( 'input[name="person_email"]' )
             let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
             let $dealer_input          = $form.find( 'input[name="dealer_number"]' )
-            let $datalist              = $form.find( 'input[name="make"]' )
 
             $phone_input.mask( '(999) 999-9999' );
             $dealer_input.mask( '(999) 999-9999' );
@@ -988,10 +987,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                 let $el          = $( el.currentTarget )
                 let clickedIndex = $el.data( 'index' )
-
-                if( clickedIndex !== 2 ){
-                    $datalist.hide()
-                }
 
                 if( ! $el.hasClass( 'active' ) ){
                     $el.addClass( 'active' )
