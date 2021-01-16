@@ -247,7 +247,7 @@
                                                         <h6>Franchised Dealer</h6>
                                                     </div>
                                                     <div id="showDatalist">
-                                                    <input list="dtlist" id="datalist" name="make"
+                                                    <input style="text-align:center;" list="dtlist" id="datalist" name="make" placeholder="Select a make"
                                                            value="{{ old('make')  }}">
                                                     <datalist id="dtlist">
                                                         @foreach($makes as $make)
