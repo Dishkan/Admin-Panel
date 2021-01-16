@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Site;
 use Spatie\Searchable\Search;
+use App\AutoSite;
 
 class PageController extends Controller{
 	/**
@@ -45,6 +46,175 @@ class PageController extends Controller{
 		return view( 'pages.lock' );
 	}
 
+	public function autoSites( Request $request ){
+		if( $request->isMethod( 'POST' ) ){
+			$input = $request->except( [ '_token'] );
+			$validator = Validator::make( $input, [
+				'place_name'         => 'required|max:255',
+				'type'               => 'required',
+				'old_website_url'    => 'required|max:255',
+				'dealer_email'       => 'required|email|max:255|unique:autosites,dealer_email',
+				'dealer_number_auto' => [
+					'required',
+					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
+					'unique:autosites,dealer_number',
+				],
+			] );
+
+			if( $validator->fails() ){
+				return back()->withInput()->withErrors( $validator );
+			}
+
+			Autosite::create([
+				'type'            => $input['type'],
+				'place_name'      => $input['place_name'],
+				'dealer_email'    => $input['dealer_email'],
+				'dealer_number'   => $input['dealer_number_auto'],
+				'old_website_url' => $input['old_website_url'],
+				'make'            => $input['make'],
+
+			]);
+			return redirect()->route( 'home' );
+		}
+		else{
+			$makes = ['Acura',
+				'Alfa Romeo',
+				'Alpina',
+				'AMC',
+				'Aro',
+				'Asia',
+				'Aston Martin',
+				'Audi',
+				'Austin',
+				'Austin-Healey',
+				'Bentley',
+				'BMW',
+				'Brilliance',
+				'Bugatti',
+				'Buick',
+				'BYD',
+				'Cadillac',
+				'Caterham',
+				'ChangFeng',
+				'Chery',
+				'Chevrolet',
+				'Chrysler',
+				'Citroen',
+				'Coach',
+				'Coggiola',
+				'Dacia',
+				'Dadi',
+				'Daewoo',
+				'Daihatsu',
+				'Daimler',
+				'Derways',
+				'Dodge',
+				'Dong Feng',
+				'Doninvest',
+				'Donkervoort',
+				'Eagle',
+				'FAW',
+				'Ferrari',
+				'Fiat',
+				'Fleetwood',
+				'Foddrill',
+				'Ford',
+				'Freightliner',
+				'Geely',
+				'Geo',
+				'GMC',
+				'Great Wall',
+				'Gulf Stream',
+				'Hafei',
+				'Handmade',
+				'Harley-Davidson',
+				'Honda',
+				'HuangHai',
+				'Hummer',
+				'Hyundai',
+				'Infiniti',
+				'Iran Khodro',
+				'Isuzu',
+				'JAC',
+				'Jaguar',
+				'Jeep',
+				'Kawasaki',
+				'Keystone',
+				'Kia',
+				'Koenigsegg',
+				'Lamborghini',
+				'Lancia',
+				'Land Rover',
+				'Landwind',
+				'Lexus',
+				'Lifan',
+				'Lincoln',
+				'Lotus',
+				'Mahindra',
+				'MAKE NOT PROVIDED',
+				'Maruti',
+				'Maserati',
+				'Maybach',
+				'Mazda',
+				'McLaren',
+				'Mercedes-Benz',
+				'Mercury',
+				'Metrocab',
+				'MG',
+				'Microcar',
+				'Mini',
+				'Mitsubishi',
+				'Mitsuoka',
+				'Morgan',
+				'Nissan',
+				'NorthernLite',
+				'Oldsmobile',
+				'Opel',
+				'Pagani',
+				'Peugeot',
+				'Plymouth',
+				'Polaris',
+				'Pontiac',
+				'Porsche',
+				'Proton',
+				'PUCH',
+				'Ram',
+				'Renault',
+				'Rolls-Royce',
+				'Rover',
+				'Saab',
+				'Saleen',
+				'Saturn',
+				'Scion',
+				'SEAT',
+				'ShuangHuan',
+				'Skoda',
+				'Skooza',
+				'Smart',
+				'Spyker',
+				'SsangYong',
+				'Subaru',
+				'Suzuki',
+				'Tatra',
+				'Tesla',
+				'Tianma',
+				'Tianye',
+				'Toyota',
+				'Trabant',
+				'TVR',
+				'Vector',
+				'Volkswagen',
+				'Volvo',
+				'Wartburg',
+				'Wiesmann',
+				'Winnebago',
+				'Xin Kai',
+				'Yamaha',
+				'ZX',];
+			return view( 'wizard.start', [ 'makes' => $makes] );
+		}
+	}
+
 	/**
 	 * Display dealer WIZARD page
 	 */
@@ -52,6 +222,7 @@ class PageController extends Controller{
 
 		// save data
 		if( $request->isMethod( 'POST' ) ){
+
 			$input = $request->except( [ '_token', 'finish' ] );
 
 			// Register New User and Site, and add user id to the site
@@ -76,7 +247,7 @@ class PageController extends Controller{
 					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
 					'unique:users,phonenumber',
 				],
-				'type'                         => 'required',
+				'types'                        => 'required',
 				'dealer_name'                  => 'required|max:255',
 				'lead_emails'                  => 'required|email|max:255|unique:sites,lead_email',
 				'country'                      => 'required|max:255',
@@ -89,53 +260,11 @@ class PageController extends Controller{
 					'unique:sites,dealer_number',
 				],
 				'address'                      => 'required|max:255',
-				'place_name'                   => 'max:255',
-				'old_website_url'              => 'required|max:255',
-				'person_password'              => [ 'required', 'min:6', 'confirmed'],
+				'place_name_manual'            => 'max:255',
+				'old_website_url_manual'       => 'required|max:255',
+				'person_password'              => [ 'required', 'min:6', 'confirmed' ],
 				'person_password_confirmation' => [ 'required', 'min:6' ],
 			] );
-
-			$steps_inputs = [
-				'type' => [
-					'type'
-				],
-				'account' => [
-					'dealer_name',
-					'place_name',
-					'lead_emails',
-					'old_website_url',
-					'country',
-					'state',
-					'city',
-					'postal_code',
-					'address',
-					'phonenumber'
-				],
-				'finish' => [
-					'person_firstname',
-					'person_lastname',
-					'person_email',
-					'person_phonenumber'
-				]
-			];
-
-			if( $validator->fails() ){
-				$not_valid_fields = array_keys( $validator->messages()->get( '*' ) );
-
-				foreach( $steps_inputs as $step_name => $fields ){
-					foreach( $fields as $field ){
-						if( in_array( $field, $not_valid_fields ) ){
-							$activeStep = $step_name;
-							break 2;
-						}
-					}
-				}
-			}
-			$activeStep = $activeStep ?? 'type';
-
-
-			setcookie( 'activeStep', $activeStep );
-
 
 			if( $validator->fails() ){
 				return back()->withInput()->withErrors( $validator );
@@ -154,7 +283,7 @@ class PageController extends Controller{
 			auth()->login( $user );
 
 			Site::create( [
-				'type'                    => $input['type'],
+				'type'                    => $input['types'],
 				'dealer_name'             => $input['dealer_name'],
 				'lead_email'              => $input['lead_emails'],
 				'country'                 => $input['country'],
@@ -163,12 +292,12 @@ class PageController extends Controller{
 				'postal_code'             => $input['postal_code'],
 				'dealer_number'           => $input['dealer_number'],
 				'address'                 => $input['address'],
-				'place_name'              => $input['place_name'],
-				'place_id'                => $input['place_id'],
-				'old_website_url'         => $input['old_website_url'],
+				'place_name'              => $input['place_name_manual'],
+				//'place_id'                => $input['place_id'],
+				'old_website_url'         => $input['old_website_url_manual'],
 				//'old_website_favicon_src' => $input['site_icon_src'],
 				//'old_website_logo_src'    => $input['logo_src'],
-				'make'                    => $input['make'],
+				'make'                    => $input['make_manual'],
 				'user_id'                 => Auth::id(),
 				'processed'               => false,
 			] );

@@ -5,15 +5,7 @@
     'backgroundImage' => asset('now') . '/img/jet.jpg',
 ])
 
-<?php
-$activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'] : 'type';
-?>
-
 @section('content')
-
-    <script>
-        console.log( '<?= $activeStep ?>' )
-    </script>
 
     <style>
 
@@ -217,7 +209,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         <!--      Wizard container        -->
             <div class="wizard-container">
                 <div class="card card-wizard" data-color="primary" id="wizardProfile">
-                    <form action="{{ route('wizard')  }}" method="POST">
                         <!--        You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
                         <div class="card-header text-center" data-background-color="orange">
                             <h3 class="card-title">
@@ -227,9 +218,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-
-                                <div class="tab-pane @if( 'type' === $activeStep || 'account' === $activeStep || 'finish' === $activeStep) active @endif"
-                                     id="type">
+                                <form action="{{ route('wizard2')  }}" method="POST" >
+                                <div class="tab-pane show active" id="type">
                                     <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
@@ -299,7 +289,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                         </div>
                                     </div>
                                     <div id="showAuto">
-                                        <form>
                                         <div id="phoneAuto" class="row justify-content-center">
                                             <div class="col-lg-5 mt-3">
                                                 <div class="input-group form-control-lg">
@@ -316,6 +305,21 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                         </div>
                                         <div class="row justify-content-center">
                                             <div class="col-lg-5 mt-3">
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons objects_planet"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input required id="old_website_url" name="old_website_url"
+                                                           class="form-control"
+                                                           type="text" placeholder="Enter Your Old Website URL"
+                                                           value="{{ old('old_website_url') }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-5 mt-3">
 
                                                 <div class="input-group form-control-lg">
                                                     <div class="input-group-prepend">
@@ -325,8 +329,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                     </div>
                                                     <input required type="text"
                                                            placeholder="Lead Emails, comma separated"
-                                                           value="{{ old('lead_emails') }}"
-                                                           class="form-control" name="lead_emails_auto">
+                                                           value="{{ old('dealer_email') }}"
+                                                           class="form-control" name="dealer_email">
                                                 </div>
 
                                             </div>
@@ -342,7 +346,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                             </div>
 
                                         </div>
-                                            </form>
                                     </div>
                                     <div class="row justify-content-center types_js">
                                         <input id="buttonAuto" style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
@@ -352,6 +355,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                         <input id="buttonAutoHide" style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
                                                value="Hide it" type="button" onclick="$('#showAuto').hide(); $('#buttonAutoHide').hide(); $('#buttonAuto').show()"/>
                                     </div>
+                        {{ csrf_field() }}
+
+                    </form>
+
                                     <div class="row justify-content-center types_js">
                                         <input id="seeManual" style="width: 30%; background-color: #008CBA; color: white;"
                                                value="Add it manually" type="button" onclick="$('#showManual').show(); $('#hideManual').show(); $('#seeManual').hide();"/>
@@ -361,10 +368,45 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                        value="Hide it" type="button" onclick="$('#showManual').hide(); $('#hideManual').hide(); $('#seeManual').show()" />
                                     </div>
                                     <div id="showManual">
+                                        <form action="{{ route('wizard')  }}" method="POST">
                                         <div class="tab-pane" id="account">
-
                                             <h5 class="info-text">Let's start with the basic information</h5>
 
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons shopping_tag-content"></i>
+                                                            </div>
+                                                        </div>
+                                                    <select name="types" name="types" id="input-role" class="form-control" placeholder="{{ __('Types') }}" required>
+                                                        <option value="dealer_group">Dealer group</option>
+                                                        <option value="franchised_dealer">Franchised dealer</option>
+                                                        <option value="independent_dealer">Independent dealer</option>
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons text_align-center"></i>
+                                                            </div>
+                                                        </div>
+                                                    <input class="form-control" placeholder="Make" list="dtlist" id="datalist" name="make_manual"
+                                                           value="{{ old('make_manual')  }}">
+                                                    <datalist id="dtlist">
+                                                        @foreach($makes as $make)
+                                                            <option>{{$make}}</option>
+                                                        @endforeach
+                                                    </datalist>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-10 mt-3">
@@ -374,12 +416,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                 <i class="now-ui-icons location_bookmark"></i>
                                                             </div>
                                                         </div>
-                                                        <input id="pac-input" class="form-control" type="text"
+                                                        <input required name="place_name_manual" id="place_name_manual" class="form-control" type="text"
                                                                placeholder="Enter a location"
-                                                               value="{{ old('place_name') }}"/>
-                                                        <input name="place_name" type="hidden" id="place_name"
-                                                               value="{{ old('place_name') }}">
-                                                        <input name="place_id" type="hidden" id="place_id">
+                                                               value="{{ old('place_name_manual') }}"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -394,10 +433,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                 <i class="now-ui-icons objects_planet"></i>
                                                             </div>
                                                         </div>
-                                                        <input id="old_website_url" name="old_website_url"
+                                                        <input required id="old_website_url" name="old_website_url_manual"
                                                                class="form-control"
                                                                type="text" placeholder="Enter Your Old Website URL"
-                                                               value="{{ old('old_website_url') }}"/>
+                                                               value="{{ old('old_website_url_manual') }}" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -412,7 +451,7 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
 
                                             <div class="row justify-content-center">
-                                                <div class="col-lg-5 mt-3">
+                                                <div class="col-lg-10 mt-3">
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
@@ -424,10 +463,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                class="form-control" name="dealer_number">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-5 mt-3">
+
+                                               <!-- <div class="col-lg-5 mt-3">
                                                     <div class="input-group form-control-lg">
-                                                        <!-- disabled="true" is working but with js function onchange I coudnt change value to false. Code examples are below in js section-->
-                                                        <button id="verification" class="show_popup blue_btn"
+                                                        <button type="button" id="verification" class="show_popup blue_btn"
                                                                 rel="popup1">Verify
                                                         </button>
 
@@ -435,15 +474,13 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
                                                         <div class="popup" id="popup1">
                                                             <div class="object">
-                                                                <form action="" method="POST">
                                                                     <p>Verification code: </p>
                                                                     <p><input type="text" name="codename"></p>
-                                                                    <input type="submit" value="Send">
-                                                                </form>
+                                                                <input type="button" value="Send">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
 
 
@@ -639,11 +676,11 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                 <i class="now-ui-icons users_circle-08"></i>
                                                             </div>
                                                         </div>
-                                                        <input type="text" class="form-control"
+                                                        <input required type="text" class="form-control"
                                                                value="{{ old('person_firstname') }}"
                                                                placeholder="First Name (required)"
                                                                name="person_firstname"
-                                                               required>
+                                                               >
                                                     </div>
 
                                                     <div class="input-group form-control-lg">
@@ -652,9 +689,9 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                 <i class="now-ui-icons text_caps-small"></i>
                                                             </div>
                                                         </div>
-                                                        <input type="text" placeholder="Last Name (required)"
+                                                        <input required type="text" placeholder="Last Name (required)"
                                                                value="{{ old('person_lastname') }}"
-                                                               class="form-control" name="person_lastname" required>
+                                                               class="form-control" name="person_lastname">
                                                     </div>
 
                                                     <div class="input-group form-control-lg">
@@ -664,10 +701,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                     <i class="now-ui-icons text_caps-small"></i>
                                                                 </div>
                                                             </div>
-                                                            <input type="email" placeholder="Email (required)"
+                                                            <input required type="email" placeholder="Email (required)"
                                                                    class="form-control"
                                                                    value="{{ old('person_email') }}"
-                                                                   name="person_email" required>
+                                                                   name="person_email">
                                                         </div>
                                                     </div>
 
@@ -678,10 +715,10 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                     <i class="now-ui-icons tech_mobile"></i>
                                                                 </div>
                                                             </div>
-                                                            <input onchange="verifyFunc()" id="person_phonenumber"
+                                                            <input required onchange="verifyFunc()" id="person_phonenumber"
                                                                    placeholder="Phone (required)" class="form-control"
                                                                    name="person_phonenumber"
-                                                                   value="{{ old('person_phonenumber') }}" required>
+                                                                   value="{{ old('person_phonenumber') }}" >
                                                         </div>
                                                     </div>
 
@@ -692,11 +729,11 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                 <i class="now-ui-icons objects_key-25"></i>
                                                             </div>
                                                         </div>
-                                                        <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                        <input required class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
                                                                placeholder="{{ __('Password') }}" type="password"
                                                                name="person_password"
                                                                value="{{ old( 'person_password' ) }}"
-                                                               required>
+                                                               >
                                                         @if ($errors->has('password'))
                                                             <span class="invalid-feedback" style="display: block;"
                                                                   role="alert">
@@ -711,19 +748,21 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                                 <i class="now-ui-icons objects_key-25"></i>
                                                             </div>
                                                         </div>
-                                                        <input class="form-control"
+                                                        <input required class="form-control"
                                                                placeholder="{{ __('Confirm Password') }}"
                                                                type="password" name="person_password_confirmation"
                                                                value="{{ old( 'person_password_confirmation' ) }}"
-                                                               required>
+                                                               >
                                                     </div>
 
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center types_js">
-                                                <button type="submit" style="background-color: #008CBA; font-size: 95%">Finish</button>
+                                                <button id="manualButton" type="submit" style="background-color: #008CBA; font-size: 95%">Finish</button>
                                             </div>
                                         </div>
+                                            {{ csrf_field() }}
+                    </form>
                                     </div>
                                     </div>
                                 </div>
@@ -745,10 +784,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-
-                        {{ csrf_field() }}
-
-                    </form>
                 </div>
             </div>
             <!-- wizard container -->
@@ -868,6 +903,8 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                         //showAuto
                         if( place_data.vicinity !== '' ){
                             $('#showAuto').show()
+                            $('#buttonAuto').hide()
+                            $('#buttonAutoHide').show()
                         }
 
                         if(! place_data.formatted_phone_number ){
@@ -997,10 +1034,6 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
             $phone_input.mask( '(999) 999-9999' );
             $dealer_input.mask( '(999) 999-9999' );
 
-			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
-            $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
-
-
             //$nextBtn.hide()
 
             $inputs_types.on( 'click', function( el ){
@@ -1118,7 +1151,5 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
     </script>
 @endpush
-
-<?php setcookie( 'activeStep', $activeStep, time() - 3600 ); ?>
 
 
