@@ -260,7 +260,7 @@ class PageController extends Controller{
 					'unique:sites,dealer_number',
 				],
 				'address'                      => 'required|max:255',
-				'place_name_manual'            => 'max:255',
+				'place_name_manual'            => 'required|max:255',
 				'old_website_url_manual'       => 'required|max:255',
 				'person_password'              => [ 'required', 'min:6', 'confirmed' ],
 				'person_password_confirmation' => [ 'required', 'min:6' ],
