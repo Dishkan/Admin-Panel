@@ -22,13 +22,15 @@ class HelperController extends Controller{
 
 		//$res = $twilio->message( $hirads_number, 'Let Anton know if you receive it please' );
 
-		$res = $twilio->call( $antons_number, function ( $message) {
-			$message->say('Hello');
-			$message->play('https://api.twilio.com/cowbell.mp3', ['loop' => 5]);
-		});
+		/*
+		$res = $twilio->call( $hirads_number, function( $message ){
+			$message->say( 'Hello Hirad' );
+			$message->play( 'https://api.twilio.com/cowbell.mp3', [ 'loop' => 5 ] );
+		} );
+		*/
 
 
-		dd( $res );
+		//dd( $res );
 
 		/*
 		$twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_TOKEN'), env('TWILIO_FROM'));
