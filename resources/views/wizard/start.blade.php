@@ -582,12 +582,12 @@
                                 <div class="row justify-content-center types_js">
                                     <input id="seeManual" style="width: 30%; background-color: #008CBA; color: white;"
                                            value="Add it manually" type="button"
-                                           onclick="$('#showManual').show(); $('#hideManual').show(); $('#seeManual').hide(); $('#autosearch').hide();  $('#showDatalist').hide(); $('#autotypes').hide(); $('#typetitle').hide()"/>
+                                           onclick="$('#showManual').show(); $('#hideManual').show(); $('#seeManual, #autosearch, #showDatalist, #autotypes, #typetitle, #showMultiDatalist').hide(); "/>
                                 </div>
                                 <div class="row justify-content-center types_js">
                                     <input id="hideManual" style="width: 30%; background-color: #008CBA; color: white;"
                                            value="Hide it" type="button"
-                                           onclick="$('#showManual').hide(); $('#hideManual').hide(); $('#seeManual').show(); $('#autosearch').show();  $('#showDatalist').show(); $('#autotypes').show(); $('#typetitle').show()"/>
+                                           onclick="$('#showManual').hide(); $('#hideManual').hide(); $('#seeManual').show(); $('#autosearch').show();  $('#showDatalist, #showMultiDatalist').hide(); $('#autotypes').show(); $('#typetitle').show()"/>
                                 </div>
                                 <div id="showManual">
                                     <form action="{{ route('wizard')  }}" method="POST">

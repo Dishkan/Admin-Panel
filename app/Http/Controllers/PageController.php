@@ -50,7 +50,8 @@ class PageController extends Controller{
 		if( $request->isMethod( 'POST' ) ){
 			$input = $request->except( [ '_token'] );
 			//$makes = $request->make;
-			//dd($makes);
+            //$input = implode(",",$request->except( [ '_token'] ));
+			//dd($input);
 			$validator = Validator::make( $input, [
 				'place_name'         => 'required|max:255',
 				'type'               => 'required',
