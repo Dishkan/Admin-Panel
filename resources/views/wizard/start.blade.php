@@ -400,14 +400,15 @@
                         <div class="tab-content">
                             <div class="tab-pane show active" id="type">
                                 <h5 id="typetitle" class="info-text"> Choose Type Of Dealership You Provide </h5>
-                                <form action="{{ route('wizard2')  }}" method="POST">
+                                <form class=" / on_form_submit_js" action="{{ route('wizard2')  }}" method="POST">
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
+                                            <input hidden name="dealer_makes" class="hidden / dropdown_list_js">
                                             <div id="autotypes" class="row" role="tablist">
                                                 <div class="col-sm-4">
                                                     <div onclick="$('#oneblock').show(); $('#showDatalist').hide(); $('#showMultiDatalist').show();"
-                                                         class="choice" data-toggle="wizard-checkbox" data-index="1">
-                                                        <input class="type" type="checkbox"
+                                                         class="datalist choice" data-toggle="wizard-checkbox" data-index="1">
+                                                        <input  class="type" type="checkbox"
                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
                                                                value="group">
                                                         <div class="icon">
@@ -425,11 +426,11 @@
                                                                 <div class="mutliSelect">
                                                                     <ul>
                                                                         <li>
-                                                                            <input name="allmakes"  type="checkbox" value="select_all" />Select All</li>
+                                                                            <input autocomplete="off" name="allmakes"  type="checkbox" value="select_all" />Select All</li>
                                                                         <li>
                                                                         @foreach($makes as $make)
                                                                             <li>
-                                                                                <input name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
+                                                                                <input autocomplete="off" name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
                                                                             <li>
                                                                         @endforeach
                                                                     </ul>
@@ -461,7 +462,7 @@
                                                                     <ul>
                                                                         @foreach($makes as $make)
                                                                             <li>
-                                                                                <input name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
+                                                                                <input autocomplete="off" name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
                                                                             <li>
                                                                         @endforeach
                                                                     </ul>
@@ -896,7 +897,7 @@
 
                                             <div class="row justify-content-center">
 
-                                                <div class="col-sm-6 mt-3">
+                                                <div class="col-sm-10 mt-3 flex-2-columns">
 
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
@@ -1028,6 +1029,13 @@
 
 @push('js')
     <script>
+        //fill makes input on form submit
+        $(document).on('submit','form.on_form_submit_js',function(){
+            let $checkedType = $(this).find('#autotypes .choice input[type="checkbox"]:checked').parents('.choice')
+            let $makes_value = $checkedType.parent().find(".data-list .multiSel").text();
+            $(this).find('input.dropdown_list_js').val($makes_value);
+        });
+
         //dropdown-jquery
         $(".dropdown-jquery dt").on('click', function() {
             $(this).parents(".dropdown-jquery").find("dd ul").slideToggle('fast');
@@ -1036,7 +1044,7 @@
         $(document).bind('click', function(e) {
             var $clicked = $(e.target);
             if (!$clicked.parents().hasClass("dropdown-jquery")) {
-                $clicked.find("dd ul").hide();
+                $('.data-list').find("dd ul").hide();
             }
         });
 

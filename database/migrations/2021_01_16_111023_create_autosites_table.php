@@ -15,13 +15,13 @@ class CreateAutositesTable extends Migration
     {
         Schema::create('autosites', function (Blueprint $table) {
             $table->id();
-	        $table->string( 'type', 50 ); // enum of: group, oem, independent
-	        $table->string( 'dealer_number' )->nullable();
-	        $table->string( 'place_name', 250 )->nullable();
-	        $table->string( 'dealer_email', 250 )->nullable();
-	        $table->string( 'make', 250 )->nullable();
-	        $table->string( 'old_website_url', 250 )->nullable();
-	        $table->timestamps();
+            $table->string('type', 50); // enum of: group, oem, independent
+            $table->string('dealer_number')->nullable();
+            $table->string('place_name', 250)->nullable();
+            $table->string('dealer_email', 250)->nullable();
+            $table->longText('make')->nullable();
+            $table->string('old_website_url', 250)->nullable();
+            $table->timestamps();
         });
     }
 

@@ -46,12 +46,15 @@ class PageController extends Controller{
 		return view( 'pages.lock' );
 	}
 
+    /**
+     * Store dealer`s info with auto filling input
+     */
+
 	public function autoSites( Request $request ){
 		if( $request->isMethod( 'POST' ) ){
+
 			$input = $request->except( [ '_token'] );
-			//$makes = $request->make;
-            //$input = implode(",",$request->except( [ '_token'] ));
-			//dd($input);
+
 			$validator = Validator::make( $input, [
 				'place_name'         => 'required|max:255',
 				'type'               => 'required',
@@ -73,7 +76,7 @@ class PageController extends Controller{
 				'dealer_email'    => $input['dealer_email'],
 				'dealer_number'   => $input['dealer_number_auto'],
 				'old_website_url' => $input['old_website_url'],
-				'make'            => $input['make'],
+				'make'            => $input['dealer_makes'],
 
 			]);
 			return redirect()->route( 'home' );
