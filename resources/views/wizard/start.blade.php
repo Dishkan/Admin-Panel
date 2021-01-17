@@ -199,6 +199,186 @@
                 transform: rotate(360deg);
             }
         }
+
+        /*data-list*/
+        .data-list {
+            z-index: 2;
+            position: absolute;
+            top: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255,255,255,.3);
+        }
+        .data-list > input {
+            cursor: pointer;
+            background-color: #4F6877;
+            display: block;
+            padding: 8px 20px 5px 10px;
+            min-height: 25px;
+            line-height: 24px;
+            overflow: hidden;
+            border: 0;
+            width: 272px;
+            color: #fff;
+        }
+        .data-list:before {
+            content: '';
+            display: block;
+            position: absolute;
+            top:0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            filter: blur(3px);
+            z-index: -1;
+        }
+
+
+        /* dropdown-jquery list */
+        .dropdown-list {
+            width: 272px;
+            margin: 0;
+            color: #fff;
+        }
+        .dropdown-list p {
+            margin: 0;
+        }
+
+        .dropdown-list dd,
+        .dropdown-list dt {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .dropdown-list ul {
+            margin: -1px 0 0 0;
+        }
+        .dropdown-list ul li {
+            width: 100% !important;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .dropdown-list ul li > input {
+            width: auto;
+            margin: 0;
+            margin-right: .5rem;
+            margin-bottom: 2px;
+        }
+
+        .dropdown-list dd {
+            position: relative;
+        }
+
+        .dropdown-list dt {
+            border-radius: 4px;
+            background-color: #4F6877;
+            display: block;
+            padding: 8px 20px 5px 12px;
+            min-height: 25px;
+            overflow: hidden;
+            border: 0;
+            width: 100%;
+            color: #fff;
+            text-decoration: none;
+            outline: none;
+            font-size: 12px;
+            line-height: 24px;
+
+            overflow: auto;
+            max-height: 424px;
+            cursor: pointer;
+        }
+
+        .dropdown-list dt span,
+        .dropdown-list .multiSel span {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0 3px 2px 0;
+        }
+
+        .dropdown-list dd ul {
+            background-color: #4F6877;
+            border: 0;
+            color: #fff;
+            display: none;
+            left: 0px;
+            padding: 2px 15px 2px 5px;
+            position: absolute;
+            top: 2px;
+            width: 100%;
+            list-style: none;
+            height: 106px;
+            overflow: auto;
+        }
+
+        .dropdown-list input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        .dropdown-list span.value {
+            display: none;
+        }
+        .dropdown-list .hida {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        .dropdown-list .hida:after {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background: transparent;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position: center;
+            display: inline-block;
+            transform: translateX(14px);
+        }
+
+        /*manual block*/
+        #oneblock input[type="button"] {
+            padding: .6rem 1.5rem;
+            width: 270px !important;
+            border-radius: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 700;
+            border: 1px solid #008CBA;
+            transition: .3s;
+            color: #fff !important;
+        }
+        #oneblock .input-group {
+            margin-bottom: 0;
+        }
+        #oneblock input[type="button"]:hover {
+            background-color: transparent !important;
+            color: #008CBA !important;
+        }
+        #oneblock h5.info-text {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        #oneblock .flex-2-columns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        #oneblock .flex-2-columns > * {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        @media (min-width: 992px) {
+            #oneblock .flex-2-columns > * {
+                width: 48%;
+            }
+        }
     </style>
 
     <div class="panel-header panel-header-sm">
@@ -225,7 +405,7 @@
                                         <div class="col-lg-10">
                                             <div id="autotypes" class="row" role="tablist">
                                                 <div class="col-sm-4">
-                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').hide();"
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').hide(); $('#showMultiDatalist').show();"
                                                          class="choice" data-toggle="wizard-checkbox" data-index="1">
                                                         <input class="type" type="checkbox"
                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
@@ -235,9 +415,31 @@
                                                         </div>
                                                         <h6>Dealer Group</h6>
                                                     </div>
+                                                    <div id="showMultiDatalist" class="data-list">
+                                                        <dl class="dropdown-list / dropdown-jquery">
+                                                            <dt>
+                                                                <span class="hida">Select Makes</span>
+                                                                <p class="multiSel"></p>
+                                                            </dt>
+                                                            <dd>
+                                                                <div class="mutliSelect">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <input name="allmakes"  type="checkbox" value="select_all" />Select All</li>
+                                                                        <li>
+                                                                        @foreach($makes as $make)
+                                                                            <li>
+                                                                                <input name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
+                                                                            <li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').show();"
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').show(); $('#showMultiDatalist').hide();"
                                                          class="datalist choice" data-toggle="wizard-checkbox"
                                                          data-index="2">
                                                         <input class="type" type="checkbox"
@@ -248,19 +450,28 @@
                                                         </div>
                                                         <h6>Franchised Dealer</h6>
                                                     </div>
-                                                    <div id="showDatalist">
-                                                        <input style="text-align:center;" list="dtlist" id="datalist"
-                                                               name="make" placeholder="Select a make"
-                                                               value="{{ old('make')  }}">
-                                                        <datalist id="dtlist">
-                                                            @foreach($makes as $make)
-                                                                <option>{{$make}}</option>
-                                                            @endforeach
-                                                        </datalist>
+                                                    <div id="showDatalist" class="data-list">
+                                                        <dl class="dropdown-list / dropdown-jquery single-select">
+                                                            <dt>
+                                                                <span class="hida">Select a Make</span>
+                                                                <p class="multiSel"></p>
+                                                            </dt>
+                                                            <dd>
+                                                                <div class="mutliSelect">
+                                                                    <ul>
+                                                                        @foreach($makes as $make)
+                                                                            <li>
+                                                                                <input name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
+                                                                            <li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').hide();"
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist, #showMultiDatalist').hide();"
                                                          class="choice" data-toggle="wizard-checkbox" data-index="3">
                                                         <input class="type" type="checkbox"
                                                                {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
@@ -792,7 +1003,7 @@
 
                     <div class="card-footer">
                         <div class="pull-right">
-                            <input id="next" disabled="true" type='button'
+                            <input id="next" disabled="true" type='hidden'
                                    class='btn btn-next btn-fill btn-rose btn-wd' name='next'
                                    value='Next'/>
                             <input type='submit' class='btn btn-finish btn-fill btn-rose btn-wd' name='finish'
@@ -817,12 +1028,69 @@
 
 @push('js')
     <script>
+        //dropdown-jquery
+        $(".dropdown-jquery dt").on('click', function() {
+            $(this).parents(".dropdown-jquery").find("dd ul").slideToggle('fast');
+        });
+
+        $(document).bind('click', function(e) {
+            var $clicked = $(e.target);
+            if (!$clicked.parents().hasClass("dropdown-jquery")) {
+                $clicked.find("dd ul").hide();
+            }
+        });
+
+        $('.mutliSelect input[type="checkbox"]').on('click', function() {
+
+            let $the_dropDrown = $(this).parents(".dropdown-jquery");
+
+            if($(this).val() == 'select_all') {
+                if($(this).is(':checked')) {
+                    $the_dropDrown.find('input[type="checkbox"]:not([value="select_all"]):not(:checked)').trigger("click");
+                } else {
+                    $the_dropDrown.find('input[type="checkbox"]:not([value="select_all"]):checked').trigger("click");
+                }
+            } else {
+                let single_mode = $the_dropDrown.hasClass("single-select");
+
+                if(!single_mode) {
+                    var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+                        title = $(this).val() + ",";
+
+                    if ($(this).is(':checked')) {
+                        var html = '<span title="' + title + '">' + title + '</span>';
+                        $the_dropDrown.find('.multiSel').append(html);
+                        $the_dropDrown.find(".hida").hide();
+
+                    } else {
+                        $the_dropDrown.find('span[title="' + title + '"]').remove();
+                        if($the_dropDrown.find('.multiSel').children().length == 0)
+                            $the_dropDrown.find(".hida").show();
+                    }
+                } else {
+
+                    if ($(this).is(':checked')) {
+                        var title = $(this).val();
+                        $the_dropDrown.find('.multiSel').html(title);
+                        $the_dropDrown.find(".hida").hide();
+                        $the_dropDrown.find('input[type="checkbox"]:not([value="' + title + '"]):checked').prop( "checked", false );
+                    } else {
+                        $the_dropDrown.find('.multiSel').html('');
+                        $the_dropDrown.find(".hida").show();
+                    }
+
+                }
+            }
+        });
+    </script>
+    <script>
         $('#showManual').hide()
         $('#showAuto').hide()
         $('#buttonAutoHide').hide()
         $('#hideManual').hide()
         $('#oneblock').hide()
         $('#showDatalist').hide()
+        $('#showMultiDatalist').hide()
 
         function verifyFunc() {
             if ($('#person_phonenumber').val() !== "") {

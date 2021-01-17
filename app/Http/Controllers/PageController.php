@@ -49,13 +49,14 @@ class PageController extends Controller{
 	public function autoSites( Request $request ){
 		if( $request->isMethod( 'POST' ) ){
 			$input = $request->except( [ '_token'] );
+			//$makes = $request->make;
+			//dd($makes);
 			$validator = Validator::make( $input, [
 				'place_name'         => 'required|max:255',
 				'type'               => 'required',
 				'old_website_url'    => 'required|max:255',
 				'dealer_email'       => 'required|email|max:255|unique:autosites,dealer_email',
 				'dealer_number_auto' => [
-					'required',
 					//'regex: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/',
 					'unique:autosites,dealer_number',
 				],
