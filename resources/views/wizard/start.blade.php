@@ -5,206 +5,378 @@
     'backgroundImage' => asset('now') . '/img/jet.jpg',
 ])
 
-<?php
-$activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'] : 'type';
-?>
-
 @section('content')
-
-    <script>
-        console.log( '<?= $activeStep ?>' )
-    </script>
 
     <style>
 
-        textarea{
-            width:100%;
-            resize:none;
+        textarea {
+            width: 100%;
+            resize: none;
         }
 
 
-        button{
-            border-radius:5px;
-            padding:15px 25px;
-            font-size:22px;
-            text-decoration:none;
-            margin:20px;
-            color:#fff;
-            position:relative;
-            display:inline-block;
-            cursor:pointer;
-            border:0;
+        button {
+            border-radius: 5px;
+            padding: 15px 25px;
+            font-size: 22px;
+            text-decoration: none;
+            margin: 20px;
+            color: #fff;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border: 0;
         }
 
-        button:active{
-            transform:translate(0px, 5px);
-            -webkit-transform:translate(0px, 5px);
-            box-shadow:0px 1px 0px 0px;
+        button:active {
+            transform: translate(0px, 5px);
+            -webkit-transform: translate(0px, 5px);
+            box-shadow: 0px 1px 0px 0px;
         }
 
-        button:focus{
-            outline:none !important
+        button:focus {
+            outline: none !important
         }
 
         input, textarea {
-            color:#494949;
-            border:1px solid #e3e3e3;
-            border-radius:3px;
-            background:#fff;
-            font-size:14px;
-            margin:0 0 10px;
-            padding:5px;
-            width:100%;
-            font-family:"Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            line-height:1.5;
+            color: #494949;
+            border: 1px solid #e3e3e3;
+            border-radius: 3px;
+            background: #fff;
+            font-size: 14px;
+            margin: 0 0 10px;
+            padding: 5px;
+            width: 100%;
+            font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.5;
         }
 
-        input:focus{
-            border-color:#808080;
-            outline:none;
+        input:focus {
+            border-color: #808080;
+            outline: none;
         }
 
-        textarea:focus{
-            border-color:#808080;
-            outline:none;
+        textarea:focus {
+            border-color: #808080;
+            outline: none;
         }
 
-        .blue_btn{
+        .blue_btn {
             top: -14px;
             left: -18px;
-            background-color:#55acee;
-            box-shadow:0px 5px 0px 0px #3C93D5;
+            background-color: #55acee;
+            box-shadow: 0px 5px 0px 0px #3C93D5;
         }
 
-        .overlay_popup{
-            display:none;
-            position:fixed;
-            z-index:999;
-            top:0;
-            right:0;
-            left:0;
-            bottom:0;
-            background:#000;
-            opacity:0.5;
+        .overlay_popup {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: #000;
+            opacity: 0.5;
         }
 
-        .popup{
-            display:none;
-            position:fixed;
-            z-index:1000;
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1000;
             top: 40%;
             left: 50%;
             right: 50%;
-            margin-left:-210px;
-            margin-top:-50px;
-            width:50%;
+            margin-left: -210px;
+            margin-top: -50px;
+            width: 50%;
         }
 
-        .object{
-            width:30em;
-            height:15em;
-            background-color:#eee;
-            padding:3em 4em;
+        .object {
+            width: 30em;
+            height: 15em;
+            background-color: #eee;
+            padding: 3em 4em;
         }
 
-        .content .card-body .tab-content .icon{
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            margin:20px auto;
+        .content .card-body .tab-content .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
         }
 
-        .card-wizard .choice.active{
-            transform:scale(1.05);
+        .card-wizard .choice.active {
+            transform: scale(1.05);
         }
 
-        .card-wizard .choice{
-            transition:transform .3s;
+        .card-wizard .choice {
+            transition: transform .3s;
         }
 
-        .section-image .card .card-header .description{
-            color:#fff;
+        .section-image .card .card-header .description {
+            color: #fff;
         }
 
-        .card-wizard .picture{
-            border-radius:0;
+        .card-wizard .picture {
+            border-radius: 0;
         }
 
-        #preloader{
-            z-index:4;
-            position:fixed;
+        #preloader {
+            z-index: 4;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #loader {
+            display: block;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #9370DB;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        #loader:before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #BA55D3;
+            -webkit-animation: spin 3s linear infinite;
+            animation: spin 3s linear infinite;
+        }
+
+        #loader:after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #FF00FF;
+            -webkit-animation: spin 1.5s linear infinite;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        /*data-list*/
+        .data-list {
+            z-index: 2;
+            position: absolute;
+            top: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255,255,255,.3);
+        }
+        .data-list > input {
+            cursor: pointer;
+            background-color: #4F6877;
+            display: block;
+            padding: 8px 20px 5px 10px;
+            min-height: 25px;
+            line-height: 24px;
+            overflow: hidden;
+            border: 0;
+            width: 272px;
+            color: #fff;
+        }
+        .data-list:before {
+            content: '';
+            display: block;
+            position: absolute;
             top:0;
-            left:0;
-            width:100%;
-            height:100%;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            filter: blur(3px);
+            z-index: -1;
         }
 
-        #loader{
-            display:block;
-            position:relative;
-            left:50%;
-            top:50%;
-            width:150px;
-            height:150px;
-            margin:-75px 0 0 -75px;
-            border-radius:50%;
-            border:3px solid transparent;
-            border-top-color:#9370DB;
-            -webkit-animation:spin 2s linear infinite;
-            animation:spin 2s linear infinite;
+
+        /* dropdown-jquery list */
+        .dropdown-list {
+            width: 272px;
+            margin: 0;
+            color: #fff;
+        }
+        .dropdown-list p {
+            margin: 0;
         }
 
-        #loader:before{
-            content:"";
-            position:absolute;
-            top:5px;
-            left:5px;
-            right:5px;
-            bottom:5px;
-            border-radius:50%;
-            border:3px solid transparent;
-            border-top-color:#BA55D3;
-            -webkit-animation:spin 3s linear infinite;
-            animation:spin 3s linear infinite;
+        .dropdown-list dd,
+        .dropdown-list dt {
+            margin: 0px;
+            padding: 0px;
         }
 
-        #loader:after{
-            content:"";
-            position:absolute;
-            top:15px;
-            left:15px;
-            right:15px;
-            bottom:15px;
-            border-radius:50%;
-            border:3px solid transparent;
-            border-top-color:#FF00FF;
-            -webkit-animation:spin 1.5s linear infinite;
-            animation:spin 1.5s linear infinite;
+        .dropdown-list ul {
+            margin: -1px 0 0 0;
+        }
+        .dropdown-list ul li {
+            width: 100% !important;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .dropdown-list ul li > input {
+            width: auto;
+            margin: 0;
+            margin-right: .5rem;
+            margin-bottom: 2px;
         }
 
-        @-webkit-keyframes spin{
-            0%{
-                -webkit-transform:rotate(0deg);
-                -ms-transform:rotate(0deg);
-                transform:rotate(0deg);
-            }
-            100%{
-                -webkit-transform:rotate(360deg);
-                -ms-transform:rotate(360deg);
-                transform:rotate(360deg);
-            }
+        .dropdown-list dd {
+            position: relative;
         }
 
-        @keyframes spin{
-            0%{
-                -webkit-transform:rotate(0deg);
-                -ms-transform:rotate(0deg);
-                transform:rotate(0deg);
-            }
-            100%{
-                -webkit-transform:rotate(360deg);
-                -ms-transform:rotate(360deg);
-                transform:rotate(360deg);
+        .dropdown-list dt {
+            border-radius: 4px;
+            background-color: #4F6877;
+            display: block;
+            padding: 8px 20px 5px 12px;
+            min-height: 25px;
+            overflow: hidden;
+            border: 0;
+            width: 100%;
+            color: #fff;
+            text-decoration: none;
+            outline: none;
+            font-size: 12px;
+            line-height: 24px;
+
+            overflow: auto;
+            max-height: 424px;
+            cursor: pointer;
+        }
+
+        .dropdown-list dt span,
+        .dropdown-list .multiSel span {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0 3px 2px 0;
+        }
+
+        .dropdown-list dd ul {
+            background-color: #4F6877;
+            border: 0;
+            color: #fff;
+            display: none;
+            left: 0px;
+            padding: 2px 15px 2px 5px;
+            position: absolute;
+            top: 2px;
+            width: 100%;
+            list-style: none;
+            height: 106px;
+            overflow: auto;
+        }
+
+        .dropdown-list input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        .dropdown-list span.value {
+            display: none;
+        }
+        .dropdown-list .hida {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        .dropdown-list .hida:after {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background: transparent;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position: center;
+            display: inline-block;
+            transform: translateX(14px);
+        }
+
+        /*manual block*/
+        #oneblock input[type="button"] {
+            padding: .6rem 1.5rem;
+            width: 270px !important;
+            border-radius: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 700;
+            border: 1px solid #008CBA;
+            transition: .3s;
+            color: #fff !important;
+        }
+        #oneblock .input-group {
+            margin-bottom: 0;
+        }
+        #oneblock input[type="button"]:hover {
+            background-color: transparent !important;
+            color: #008CBA !important;
+        }
+        #oneblock h5.info-text {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        #oneblock .flex-2-columns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        #oneblock .flex-2-columns > * {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        @media (min-width: 992px) {
+            #oneblock .flex-2-columns > * {
+                width: 48%;
             }
         }
     </style>
@@ -217,69 +389,242 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         <!--      Wizard container        -->
             <div class="wizard-container">
                 <div class="card card-wizard" data-color="primary" id="wizardProfile">
-                    <form action="{{ route('wizard')  }}" method="POST">
-                        <!--        You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
-                        <div class="card-header text-center" data-background-color="orange">
-                            <h3 class="card-title">
-                                Build Your Dealer Site
-                            </h3>
-                            <h3 class="description">This information will let us know more about you.</h3>
-                            <div class="wizard-navigation">
-                                <ul class="nav nav-pills">
-                                    <li class="nav-item">
-                                        <a class="nav-link @if( 'type' === $activeStep ) active @endif" href="#type"
-                                           data-toggle="tab" role="tab"
-                                           aria-controls="about" aria-selected="true">
-                                            <i class="now-ui-icons users_circle-08"></i> Type
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link @if ( 'account' === $activeStep ) active @endif"
-                                           href="#account" data-toggle="tab"
-                                           role="tab" aria-controls="account" aria-selected="false">
-                                            <i class="now-ui-icons ui-1_settings-gear-63"></i> Account
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link @if( 'finish' === $activeStep ) active @endif" href="#finish"
-                                           data-toggle="tab"
-                                           role="tab" aria-controls="finish" aria-selected="false">
-                                            <i class="now-ui-icons ui-1_check"></i> Finish
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="tab-content">
-
-                                <div class="tab-pane @if( 'type' === $activeStep ) active @endif" id="type">
-                                    <h5 class="info-text"> Choose Type Of Dealership You Provide </h5>
+                    <!--        You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
+                    <div class="card-header text-center" data-background-color="orange">
+                        <h3 class="card-title">
+                            Build Your Dealer Site
+                        </h3>
+                        <h3 class="description">This information will let us know more about you.</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="type">
+                                <h5 id="typetitle" class="info-text"> Choose Type Of Dealership You Provide </h5>
+                                <form action="{{ route('wizard2')  }}" method="POST">
                                     <div class="row justify-content-center types_js">
                                         <div class="col-lg-10">
-                                            <div class="row" role="tablist">
+                                            <div id="autotypes" class="row" role="tablist">
                                                 <div class="col-sm-4">
-                                                    <div class="choice" data-toggle="wizard-checkbox" data-index="1">
-                                                        <input class="type"  type="checkbox"
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').hide(); $('#showMultiDatalist').show();"
+                                                         class="choice" data-toggle="wizard-checkbox" data-index="1">
+                                                        <input class="type" type="checkbox"
                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
                                                                value="group">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/group.png')}}" alt="">
                                                         </div>
-                                                        <h6>Group</h6>
+                                                        <h6>Dealer Group</h6>
+                                                    </div>
+                                                    <div id="showMultiDatalist" class="data-list">
+                                                        <dl class="dropdown-list / dropdown-jquery">
+                                                            <dt>
+                                                                <span class="hida">Select Makes</span>
+                                                                <p class="multiSel"></p>
+                                                            </dt>
+                                                            <dd>
+                                                                <div class="mutliSelect">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <input name="allmakes"  type="checkbox" value="select_all" />Select All</li>
+                                                                        <li>
+                                                                        @foreach($makes as $make)
+                                                                            <li>
+                                                                                <input name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
+                                                                            <li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div class="datalist choice" data-toggle="wizard-checkbox" data-index="2">
-                                                        <input class="type"  type="checkbox"
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist').show(); $('#showMultiDatalist').hide();"
+                                                         class="datalist choice" data-toggle="wizard-checkbox"
+                                                         data-index="2">
+                                                        <input class="type" type="checkbox"
                                                                {{ 'oem' === old('type') ? 'checked' : '' }} name="type"
                                                                value="oem">
                                                         <div id="iconimg" class="icon">
                                                             <img src="{{asset('now/img/oem.png')}}" alt="">
                                                         </div>
-                                                        <h6>New Cars</h6>
-                                                        <input list="dtlist" id="datalist" name="make" >
+                                                        <h6>Franchised Dealer</h6>
+                                                    </div>
+                                                    <div id="showDatalist" class="data-list">
+                                                        <dl class="dropdown-list / dropdown-jquery single-select">
+                                                            <dt>
+                                                                <span class="hida">Select a Make</span>
+                                                                <p class="multiSel"></p>
+                                                            </dt>
+                                                            <dd>
+                                                                <div class="mutliSelect">
+                                                                    <ul>
+                                                                        @foreach($makes as $make)
+                                                                            <li>
+                                                                                <input name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
+                                                                            <li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div onclick="$('#oneblock').show(); $('#showDatalist, #showMultiDatalist').hide();"
+                                                         class="choice" data-toggle="wizard-checkbox" data-index="3">
+                                                        <input class="type" type="checkbox"
+                                                               {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
+                                                               value="independent">
+                                                        <div class="icon">
+                                                            <img src="{{asset('now/img/independent.png')}}" alt="">
+                                                        </div>
+                                                        <h6>Independent Dealer</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="oneblock">
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-10 mt-3">
+                                                <div id="autosearch" class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons location_bookmark"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input id="pac-input" class="form-control" type="text"
+                                                           placeholder="First, Search For Your Dealership…"
+                                                           value="{{ old('place_name') }}"/>
+                                                    <input name="place_name" type="hidden" id="place_name"
+                                                           value="{{ old('place_name') }}">
+                                                    <input name="place_id" type="hidden" id="place_id">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="showAuto">
+                                            <div id="phoneAuto" class="row justify-content-center">
+                                                <div class="col-lg-5 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons tech_mobile"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Phone"
+                                                               value="{{ old('dealer_number') }}"
+                                                               class="form-control" name="dealer_number_auto">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-5 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons objects_planet"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required id="old_website_url" name="old_website_url"
+                                                               class="form-control"
+                                                               type="text" placeholder="Enter Your Old Website URL"
+                                                               value="{{ old('old_website_url') }}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-5 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons ui-1_email-85"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text"
+                                                               placeholder="Lead Emails, comma separated"
+                                                               value="{{ old('dealer_email') }}"
+                                                               class="form-control" name="dealer_email">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-5 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <button type="submit" style="background-color: #008CBA; ">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    {{ csrf_field() }}
+                                </form>
+                                <div class="row justify-content-center types_js">
+                                    <input id="buttonAuto"
+                                           style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
+                                           value="Get started" type="button"
+                                           onclick="$('#showAuto').show(); $('#buttonAutoHide').show(); $('#buttonAuto').hide() "/>
+                                </div>
+                                <div class="row justify-content-center types_js">
+                                    <input id="buttonAutoHide"
+                                           style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
+                                           value="Hide it" type="button"
+                                           onclick="$('#showAuto').hide(); $('#buttonAutoHide').hide(); $('#buttonAuto').show()"/>
+                                </div>
+
+                                <div class="row justify-content-center types_js">
+                                    <input id="seeManual" style="width: 30%; background-color: #008CBA; color: white;"
+                                           value="Add it manually" type="button"
+                                           onclick="$('#showManual').show(); $('#hideManual').show(); $('#seeManual, #autosearch, #showDatalist, #autotypes, #typetitle, #showMultiDatalist').hide(); "/>
+                                </div>
+                                <div class="row justify-content-center types_js">
+                                    <input id="hideManual" style="width: 30%; background-color: #008CBA; color: white;"
+                                           value="Hide it" type="button"
+                                           onclick="$('#showManual').hide(); $('#hideManual').hide(); $('#seeManual').show(); $('#autosearch').show();  $('#showDatalist, #showMultiDatalist').hide(); $('#autotypes').show(); $('#typetitle').show()"/>
+                                </div>
+                                <div id="showManual">
+                                    <form action="{{ route('wizard')  }}" method="POST">
+                                        <div class="tab-pane" id="account">
+                                            <h5 class="info-text">Let's start with the basic information</h5>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons shopping_tag-content"></i>
+                                                            </div>
+                                                        </div>
+                                                        <select name="types" name="types" id="input-role"
+                                                                class="form-control" placeholder="{{ __('Types') }}"
+                                                                required>
+                                                            <option value="dealer_group">Dealer group</option>
+                                                            <option value="franchised_dealer">Franchised dealer</option>
+                                                            <option value="independent_dealer">Independent dealer
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons text_align-center"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input class="form-control" placeholder="Make" list="dtlist"
+                                                               id="datalist" name="make_manual"
+                                                               value="{{ old('make_manual')  }}">
                                                         <datalist id="dtlist">
                                                             @foreach($makes as $make)
                                                                 <option>{{$make}}</option>
@@ -287,397 +632,395 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                                                         </datalist>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <div class="choice" data-toggle="wizard-checkbox" data-index="3">
-                                                        <input class="type"  type="checkbox"
-                                                               {{ 'independent' === old('type') ? 'checked' : '' }} name="type"
-                                                               value="independent">
-                                                        <div class="icon">
-                                                            <img src="{{asset('now/img/independent.png')}}" alt="">
+                                            </div>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons location_bookmark"></i>
+                                                            </div>
                                                         </div>
-                                                        <h6>Independent</h6>
+                                                        <input required name="place_name_manual" id="place_name_manual"
+                                                               class="form-control" type="text"
+                                                               placeholder="Enter a location"
+                                                               value="{{ old('place_name_manual') }}"/>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="tab-pane @if( 'account' === $activeStep ) active @endif" id="account">
+                                            <h4 style="margin:15px 0 0 0" class="info-text">OR</h4>
 
-                                    <h5 class="info-text">Let's start with the basic information</h5>
-
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-10 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons location_bookmark"></i>
-                                                    </div>
-                                                </div>
-                                                <input id="pac-input" class="form-control" type="text"
-                                                       placeholder="Enter a location" value="{{ old('place_name') }}"/>
-                                                <input name="place_name" type="hidden" id="place_name"
-                                                       value="{{ old('place_name') }}">
-                                                <input name="place_id" type="hidden" id="place_id">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <h4 style="margin:15px 0 0 0" class="info-text">OR</h4>
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-10 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons objects_planet"></i>
-                                                    </div>
-                                                </div>
-                                                <input id="old_website_url" name="old_website_url" class="form-control"
-                                                       type="text" placeholder="Enter Your Old Website URL"
-                                                       value="{{ old('old_website_url') }}"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-10 mt-3">
-                                            {{-- MAP --}}
-                                            <div style="height:10em" id="map"></div>
-                                            {{-- /MAP --}}
-                                        </div>
-                                    </div>
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-5 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons tech_mobile"></i>
-                                                    </div>
-                                                </div>
-                                                <input required type="text" placeholder="Phone"
-                                                       value="{{ old('dealer_number') }}"
-                                                       class="form-control" name="dealer_number">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-5 mt-3">
-                                            <div class="input-group form-control-lg">
-                                                <!-- disabled="true" is working but with js function onchange I coudnt change value to false. Code examples are below in js section-->
-                                                <button id="verification" class="show_popup blue_btn" rel="popup1">Verify</button>
-
-                                                <div class="overlay_popup"></div>
-
-                                                <div class="popup" id="popup1">
-                                                    <div class="object">
-                                                        <form action="{{ route('verify') }}" method="POST">
-                                                            <p>Verification code: </p>
-                                                            <p><input type="text" name="codename"></p>
-                                                            <input type="submit" value="Send">
-                                                        </form>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons objects_planet"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required id="old_website_url"
+                                                               name="old_website_url_manual"
+                                                               class="form-control"
+                                                               type="text" placeholder="Enter Your Old Website URL"
+                                                               value="{{ old('old_website_url_manual') }}"/>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-
-                                    {{--                                    <div class="row justify-content-center">--}}
-
-                                    {{--                                        <div class="col-sm-4">--}}
-                                    {{--                                            <div class="picture-container">--}}
-                                    {{--                                                <div class="picture">--}}
-                                    {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
-                                    {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
-                                    {{--                                                         class="picture-src"--}}
-                                    {{--                                                         id="logo" title=""/>--}}
-                                    {{--                                                    <input name="logo_src" type="file" id="logo_input"--}}
-                                    {{--                                                           class="wizard-picture" value="{{ old('logo_src') }}">--}}
-                                    {{--                                                </div>--}}
-                                    {{--                                                <h6 class="description">Logo</h6>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-
-                                    {{--                                        <div class="col-sm-4">--}}
-                                    {{--                                            <div class="picture-container">--}}
-                                    {{--                                                <div class="picture">--}}
-                                    {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
-                                    {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
-                                    {{--                                                         class="picture-src"--}}
-                                    {{--                                                         id="site_icon" title=""/>--}}
-                                    {{--                                                    <input name="site_icon_src" type="file" id="site_icon_input"--}}
-                                    {{--                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">--}}
-                                    {{--                                                </div>--}}
-                                    {{--                                                <h6 class="description">Site Icon</h6>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-
-                                    {{--                                    </div>--}}
-
-
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons education_paper"></i>
-                                                    </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    {{-- MAP --}}
+                                                    <div style="height:10em" id="map"></div>
+                                                    {{-- /MAP --}}
                                                 </div>
-                                                <input required type="text" class="form-control"
-                                                       placeholder="Dealership Name" name="dealer_name"
-                                                       value="{{ old('dealer_name') }}">
                                             </div>
 
-                                        </div>
 
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons ui-1_email-85"></i>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons tech_mobile"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Phone"
+                                                               value="{{ old('dealer_number') }}"
+                                                               class="form-control" name="dealer_number">
                                                     </div>
                                                 </div>
-                                                <input required type="text" placeholder="Lead Emails, comma separated"
-                                                       value="{{ old('lead_emails') }}"
-                                                       class="form-control" name="lead_emails">
+
+                                                <!-- <div class="col-lg-5 mt-3">
+                                                     <div class="input-group form-control-lg">
+                                                         <button type="button" id="verification" class="show_popup blue_btn"
+                                                                 rel="popup1">Verify
+                                                         </button>
+
+                                                         <div class="overlay_popup"></div>
+
+                                                         <div class="popup" id="popup1">
+                                                             <div class="object">
+                                                                     <p>Verification code: </p>
+                                                                     <p><input type="text" name="codename"></p>
+                                                                 <input type="button" value="Send">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div> -->
                                             </div>
 
-                                        </div>
 
-                                    </div>
+                                            {{--                                    <div class="row justify-content-center">--}}
+
+                                            {{--                                        <div class="col-sm-4">--}}
+                                            {{--                                            <div class="picture-container">--}}
+                                            {{--                                                <div class="picture">--}}
+                                            {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
+                                            {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
+                                            {{--                                                         class="picture-src"--}}
+                                            {{--                                                         id="logo" title=""/>--}}
+                                            {{--                                                    <input name="logo_src" type="file" id="logo_input"--}}
+                                            {{--                                                           class="wizard-picture" value="{{ old('logo_src') }}">--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                                <h6 class="description">Logo</h6>--}}
+                                            {{--                                            </div>--}}
+                                            {{--                                        </div>--}}
+
+                                            {{--                                        <div class="col-sm-4">--}}
+                                            {{--                                            <div class="picture-container">--}}
+                                            {{--                                                <div class="picture">--}}
+                                            {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
+                                            {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
+                                            {{--                                                         class="picture-src"--}}
+                                            {{--                                                         id="site_icon" title=""/>--}}
+                                            {{--                                                    <input name="site_icon_src" type="file" id="site_icon_input"--}}
+                                            {{--                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                                <h6 class="description">Site Icon</h6>--}}
+                                            {{--                                            </div>--}}
+                                            {{--                                        </div>--}}
+
+                                            {{--                                    </div>--}}
 
 
-                                    <div class="row justify-content-center">
+                                            <div class="row justify-content-center">
 
-                                        <div class="col-lg-5 mt-3">
+                                                <div class="col-lg-5 mt-3">
 
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons business_globe"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons education_paper"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" class="form-control"
+                                                               placeholder="Dealership Name" name="dealer_name"
+                                                               value="{{ old('dealer_name') }}">
                                                     </div>
+
                                                 </div>
-                                                <input required type="text" placeholder="Country"
-                                                       value="{{ old('country') }}"
-                                                       class="form-control" name="country">
-                                            </div>
 
-                                        </div>
+                                                <div class="col-lg-5 mt-3">
 
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons business_chart-pie-36"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons ui-1_email-85"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text"
+                                                               placeholder="Lead Emails, comma separated"
+                                                               value="{{ old('lead_emails') }}"
+                                                               class="form-control" name="lead_emails">
                                                     </div>
+
                                                 </div>
-                                                <input required type="text" placeholder="State"
-                                                       value="{{ old('state') }}"
-                                                       class="form-control" name="state">
+
                                             </div>
 
-                                        </div>
 
-                                    </div>
+                                            <div class="row justify-content-center">
 
-                                    <div class="row justify-content-center">
+                                                <div class="col-lg-5 mt-3">
 
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons location_map-big"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons business_globe"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Country"
+                                                               value="{{ old('country') }}"
+                                                               class="form-control" name="country">
                                                     </div>
+
                                                 </div>
-                                                <input required type="text" placeholder="City" value="{{ old('city') }}"
-                                                       class="form-control" name="city">
-                                            </div>
 
-                                        </div>
+                                                <div class="col-lg-5 mt-3">
 
-                                        <div class="col-lg-5 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons ui-1_email-85"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons business_chart-pie-36"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="State"
+                                                               value="{{ old('state') }}"
+                                                               class="form-control" name="state">
                                                     </div>
+
                                                 </div>
-                                                <input required type="text" placeholder="Postal Code"
-                                                       value="{{ old('postal_code') }}"
-                                                       class="form-control" name="postal_code">
+
                                             </div>
 
-                                        </div>
+                                            <div class="row justify-content-center">
 
-                                    </div>
+                                                <div class="col-lg-5 mt-3">
 
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-10 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons location_pin"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons location_map-big"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="City"
+                                                               value="{{ old('city') }}"
+                                                               class="form-control" name="city">
                                                     </div>
+
                                                 </div>
-                                                <input required type="text" placeholder="Address"
-                                                       value="{{ old('address') }}"
-                                                       class="form-control" name="address">
-                                            </div>
 
-                                        </div>
+                                                <div class="col-lg-5 mt-3">
 
-                                    </div>
-
-
-                                    {{--
-                                    <div class="row justify-content-center">
-
-                                        <div class="col-lg-10 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons tech_mobile"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons ui-1_email-85"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Postal Code"
+                                                               value="{{ old('postal_code') }}"
+                                                               class="form-control" name="postal_code">
                                                     </div>
+
                                                 </div>
-                                                <input type="text" placeholder="Monday" value=""
-                                                       class="form-control" name="hours[monday]">
+
                                             </div>
+
+                                            <div class="row justify-content-center">
+
+                                                <div class="col-lg-10 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons location_pin"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Address"
+                                                               value="{{ old('address') }}"
+                                                               class="form-control" name="address">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            {{--
+                                            <div class="row justify-content-center">
+
+                                                <div class="col-lg-10 mt-3">
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons tech_mobile"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input type="text" placeholder="Monday" value=""
+                                                               class="form-control" name="hours[monday]">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            --}}
 
                                         </div>
 
-                                    </div>
-                                    --}}
+                                        <div class="tab-pane" id="finish">
+                                            <h5 class="info-text">User Account</h5>
 
-                                </div>
+                                            <div class="row justify-content-center">
 
-                                <div class="tab-pane @if( 'finish' === $activeStep ) active @endif" id="finish">
-                                    <div class="row justify-content-center">
+                                                <div class="col-sm-6 mt-3">
 
-                                        <div class="col-sm-6 mt-3">
-
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons users_circle-08"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons users_circle-08"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" class="form-control"
+                                                               value="{{ old('person_firstname') }}"
+                                                               placeholder="First Name (required)"
+                                                               name="person_firstname"
+                                                        >
                                                     </div>
-                                                </div>
-                                                <input type="text" class="form-control"
-                                                       value="{{ old('person_firstname') }}"
-                                                       placeholder="First Name (required)" name="person_firstname"
-                                                       required>
-                                            </div>
 
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons text_caps-small"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons text_caps-small"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Last Name (required)"
+                                                               value="{{ old('person_lastname') }}"
+                                                               class="form-control" name="person_lastname">
                                                     </div>
-                                                </div>
-                                                <input type="text" placeholder="Last Name (required)"
-                                                       value="{{ old('person_lastname') }}"
-                                                       class="form-control" name="person_lastname" required>
-                                            </div>
 
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons text_caps-small"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group form-control-lg">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="now-ui-icons text_caps-small"></i>
+                                                                </div>
+                                                            </div>
+                                                            <input required type="email" placeholder="Email (required)"
+                                                                   class="form-control"
+                                                                   value="{{ old('person_email') }}"
+                                                                   name="person_email">
                                                         </div>
                                                     </div>
-                                                    <input type="email" placeholder="Email (required)"
-                                                           class="form-control"
-                                                           value="{{ old('person_email') }}"
-                                                           name="person_email" required>
-                                                </div>
-                                            </div>
 
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons tech_mobile"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group form-control-lg">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="now-ui-icons tech_mobile"></i>
+                                                                </div>
+                                                            </div>
+                                                            <input required onchange="verifyFunc()"
+                                                                   id="person_phonenumber"
+                                                                   placeholder="Phone (required)" class="form-control"
+                                                                   name="person_phonenumber"
+                                                                   value="{{ old('person_phonenumber') }}">
                                                         </div>
                                                     </div>
-                                                    <input onchange="verifyFunc()" id="person_phonenumber" placeholder="Phone (required)" class="form-control"
-                                                           name="person_phonenumber"
-                                                           value="{{ old('person_phonenumber') }}" required>
-                                                </div>
-                                            </div>
 
-                                            <!--Begin input password -->
-                                            <div class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons objects_key-25"></i>
-                                                    </div>
-                                                </div>
-                                                <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                       placeholder="{{ __('Password') }}" type="password"
-                                                       name="person_password" value="{{ old( 'person_password' ) }}"
-                                                       required>
-                                                @if ($errors->has('password'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <!--Begin input password -->
+                                                    <div
+                                                        class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons objects_key-25"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required
+                                                               class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                               placeholder="{{ __('Password') }}" type="password"
+                                                               name="person_password"
+                                                               value="{{ old( 'person_password' ) }}"
+                                                        >
+                                                        @if ($errors->has('password'))
+                                                            <span class="invalid-feedback" style="display: block;"
+                                                                  role="alert">
                                                         <strong>{{ $errors->first('password') }}</strong>
                                                     </span>
-                                                @endif
-                                            </div>
-                                            <!--Begin input confirm password -->
-                                            <div class="input-group form-control-lg">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="now-ui-icons objects_key-25"></i></i>
+                                                        @endif
                                                     </div>
+                                                    <!--Begin input confirm password -->
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons objects_key-25"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input required class="form-control"
+                                                               placeholder="{{ __('Confirm Password') }}"
+                                                               type="password" name="person_password_confirmation"
+                                                               value="{{ old( 'person_password_confirmation' ) }}"
+                                                        >
+                                                    </div>
+
                                                 </div>
-                                                <input class="form-control" placeholder="{{ __('Confirm Password') }}"
-                                                       type="password" name="person_password_confirmation"
-                                                       value="{{ old( 'person_password_confirmation' ) }}" required>
                                             </div>
-
+                                            <div class="row justify-content-center types_js">
+                                                <button id="manualButton" type="submit"
+                                                        style="background-color: #008CBA; font-size: 95%">Finish
+                                                </button>
+                                            </div>
                                         </div>
-
-                                    </div>
-
+                                        {{ csrf_field() }}
+                                    </form>
                                 </div>
-
                             </div>
                         </div>
+                    </div>
 
-                        <div class="card-footer">
-                            <div class="pull-right">
-                                <input id="next" disabled="true" type='button' class='btn btn-next btn-fill btn-rose btn-wd' name='next'
-                                       value='Next'/>
-                                <input type='submit' class='btn btn-finish btn-fill btn-rose btn-wd' name='finish'
-                                       value='Finish'/>
-                            </div>
-                            <div class="pull-left">
-                                <input type='button' class='btn btn-previous btn-fill btn-default btn-wd'
-                                       name='previous' value='Previous'/>
-                            </div>
-                            <div class="clearfix"></div>
+                    <div class="card-footer">
+                        <div class="pull-right">
+                            <input id="next" disabled="true" type='hidden'
+                                   class='btn btn-next btn-fill btn-rose btn-wd' name='next'
+                                   value='Next'/>
+                            <input type='submit' class='btn btn-finish btn-fill btn-rose btn-wd' name='finish'
+                                   value='Finish'/>
                         </div>
-
-                        {{ csrf_field() }}
-
-                    </form>
+                        <div class="pull-left">
+                            <input type='button' class='btn btn-previous btn-fill btn-default btn-wd'
+                                   name='previous' value='Previous'/>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
             <!-- wizard container -->
         </div>
     </div>
-
+    </div>
     <div id="preloader">
         <div id="loader"></div>
     </div>
@@ -685,21 +1028,84 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
 
 @push('js')
     <script>
+        //dropdown-jquery
+        $(".dropdown-jquery dt").on('click', function() {
+            $(this).parents(".dropdown-jquery").find("dd ul").slideToggle('fast');
+        });
 
-        function verifyFunc(){
-            if( $( '#person_phonenumber' ).val() !== "" ){
-                $( '#verification' ).prop( 'disabled', false );
+        $(document).bind('click', function(e) {
+            var $clicked = $(e.target);
+            if (!$clicked.parents().hasClass("dropdown-jquery")) {
+                $clicked.find("dd ul").hide();
+            }
+        });
+
+        $('.mutliSelect input[type="checkbox"]').on('click', function() {
+
+            let $the_dropDrown = $(this).parents(".dropdown-jquery");
+
+            if($(this).val() == 'select_all') {
+                if($(this).is(':checked')) {
+                    $the_dropDrown.find('input[type="checkbox"]:not([value="select_all"]):not(:checked)').trigger("click");
+                } else {
+                    $the_dropDrown.find('input[type="checkbox"]:not([value="select_all"]):checked').trigger("click");
+                }
+            } else {
+                let single_mode = $the_dropDrown.hasClass("single-select");
+
+                if(!single_mode) {
+                    var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+                        title = $(this).val() + ",";
+
+                    if ($(this).is(':checked')) {
+                        var html = '<span title="' + title + '">' + title + '</span>';
+                        $the_dropDrown.find('.multiSel').append(html);
+                        $the_dropDrown.find(".hida").hide();
+
+                    } else {
+                        $the_dropDrown.find('span[title="' + title + '"]').remove();
+                        if($the_dropDrown.find('.multiSel').children().length == 0)
+                            $the_dropDrown.find(".hida").show();
+                    }
+                } else {
+
+                    if ($(this).is(':checked')) {
+                        var title = $(this).val();
+                        $the_dropDrown.find('.multiSel').html(title);
+                        $the_dropDrown.find(".hida").hide();
+                        $the_dropDrown.find('input[type="checkbox"]:not([value="' + title + '"]):checked').prop( "checked", false );
+                    } else {
+                        $the_dropDrown.find('.multiSel').html('');
+                        $the_dropDrown.find(".hida").show();
+                    }
+
+                }
+            }
+        });
+    </script>
+    <script>
+        $('#showManual').hide()
+        $('#showAuto').hide()
+        $('#buttonAutoHide').hide()
+        $('#hideManual').hide()
+        $('#oneblock').hide()
+        $('#showDatalist').hide()
+        $('#showMultiDatalist').hide()
+
+        function verifyFunc() {
+            if ($('#person_phonenumber').val() !== "") {
+                $('#verification').prop('disabled', false);
             }
         }
 
-        $( '.show_popup' ).click( function(){
-            var popup_id = $( '#' + $( this ).attr( "rel" ) );
-            $( popup_id ).show();
-            $( '.overlay_popup' ).show();
-        } )
-        $( '.overlay_popup' ).click( function(){
-            $( '.overlay_popup, .popup' ).hide();
-        } )
+        $('.show_popup').click(function () {
+            var popup_id = $('#' + $(this).attr("rel"));
+            $(popup_id).show();
+            $('.overlay_popup').show();
+        })
+        $('.overlay_popup').click(function () {
+            $('.overlay_popup, .popup').hide();
+        })
 
         // This sample uses the Place Autocomplete widget to allow the user to search
         // for and select a place. The sample then displays an info window containing
@@ -708,118 +1114,139 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
         // This example requires the Places library. Include the libraries=places
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-        function initMap(){
+        function initMap() {
 
-            if( ! document.getElementById( 'map' ) ){
+            $('#map').hide()
+
+            if (!document.getElementById('map')) {
                 return
             }
 
-            const map            = new google.maps.Map( document.getElementById( 'map' ), {
-                center          : { lat: 38.931, lng: -99.88 },
-                zoom            : 4,
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 38.931, lng: -99.88},
+                zoom: 4,
                 disableDefaultUI: true,
-            } );
-            const input          = document.getElementById( 'pac-input' )
-            const autocomplete   = new google.maps.places.Autocomplete( input )
-            let place_name_input = document.getElementById( 'place_name' )
-            let place_id_input   = document.getElementById( 'place_id' )
+            });
+            const input = document.getElementById('pac-input')
+            const autocomplete = new google.maps.places.Autocomplete(input)
+            let place_name_input = document.getElementById('place_name')
+            let place_id_input = document.getElementById('place_id')
 
-            autocomplete.bindTo( 'bounds', map );
+            autocomplete.bindTo('bounds', map);
             // Specify just the place data fields that you need.
-            autocomplete.setFields( [ 'place_id', 'geometry', 'name' ] );
+            autocomplete.setFields(['place_id', 'geometry', 'name']);
             //map.controls[ google.maps.ControlPosition.TOP_LEFT ].push( input );
-            const infowindow        = new google.maps.InfoWindow();
-            const infowindowContent = document.getElementById( 'infowindow-content' );
-            infowindow.setContent( infowindowContent );
-            const marker = new google.maps.Marker( { map: map } );
-            marker.addListener( 'click', () => {
-                infowindow.open( map, marker );
-            } );
-            autocomplete.addListener( 'place_changed', () => {
+            const infowindow = new google.maps.InfoWindow();
+            const infowindowContent = document.getElementById('infowindow-content');
+            infowindow.setContent(infowindowContent);
+            const marker = new google.maps.Marker({map: map});
+            marker.addListener('click', () => {
+                infowindow.open(map, marker);
+            });
+            autocomplete.addListener('place_changed', () => {
 
                 preloader_start()
 
                 infowindow.close();
                 const place = autocomplete.getPlace();
 
-                if( ! place.geometry ){
+                if (!place.geometry) {
                     return;
                 }
 
-                if( place.geometry.viewport ){
-                    map.fitBounds( place.geometry.viewport );
-                }
-                else{
-                    map.setCenter( place.geometry.location );
-                    map.setZoom( 17 );
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);
                 }
                 // Set the position of the marker using the place ID and location.
-                marker.setPlace( {
-                    placeId : place.place_id,
+                marker.setPlace({
+                    placeId: place.place_id,
                     location: place.geometry.location,
-                } );
-                marker.setVisible( true );
+                });
+                marker.setVisible(true);
 
                 // do nothing if place id already set and it's the same
-                if( place_id_input.value === place.place_id ){
+                if (place_id_input.value === place.place_id) {
                     return
                 }
 
                 place_name_input.value = place.name
-                place_id_input.value   = place.place_id
+                place_id_input.value = place.place_id
 
                 // get details
-                let service = new google.maps.places.PlacesService( map );
+                let service = new google.maps.places.PlacesService(map);
                 let request = {
                     placeId: place.place_id
                 };
-                service.getDetails( request, function( place_data, status ){
+                service.getDetails(request, function (place_data, status) {
                     preloader_start()
 
-                    if( status === google.maps.places.PlacesServiceStatus.OK ){
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
                         let place_data_conv = []
 
-                        console.log( place_data )
-
-                        if( place_data.website ){
-                            let hostname         = 'https://' + ( new URL( place_data.website ) ).hostname;
-                            let $oldWebSiteInput = $( 'input[name=old_website_url]' )
-                            $oldWebSiteInput.val( hostname )
-                            $oldWebSiteInput.trigger( 'change' )
+                        console.log(place_data)
+                        //showAuto
+                        if (place_data.vicinity !== '') {
+                            $('#showAuto').show()
+                            $('#buttonAuto').hide()
+                            $('#buttonAutoHide').show()
                         }
 
-                        for( let p = 0; p < place_data.address_components.length; p++ ){
-                            let type = place_data.address_components[ p ].types[ 0 ]
-                            let val  = place_data.address_components[ p ].long_name
+                        if (!place_data.formatted_phone_number) {
+                            $('#phoneAuto').hide()
+                            $('#buttonAuto').hide()
+                            $('#buttonAutoHide').show()
+                        }
 
-                            if( 'locality' === type ){
-                                place_data_conv[ 'city' ] = val
-                            }
-                            else if( 'administrative_area_level_1' === type ){
-                                place_data_conv[ 'state' ] = val
-                            }
-                            else if( 'postal_code' === type ){
-                                place_data_conv[ 'postal_code' ] = val
-                            }
-                            else if( 'country' === type ){
-                                place_data_conv[ 'country' ] = val
-                            }
+                        if (place_data.formatted_phone_number) {
+                            $('#phoneAuto').show()
+                            $('#buttonAuto').hide()
+                            $('#buttonAutoHide').show()
+                        }
+
+                        if (place_data.website) {
+                            let hostname = 'https://' + (new URL(place_data.website)).hostname;
+                            let $oldWebSiteInput = $('input[name=old_website_url]')
+                            $oldWebSiteInput.val(hostname)
+                            $oldWebSiteInput.trigger('change')
+                        }
+
+                        for (let p = 0; p < place_data.address_components.length; p++) {
+                            let type = place_data.address_components[p].types[0]
+                            let val = place_data.address_components[p].long_name
+                            /*
+                                                        if( 'locality' === type ){
+                                                            place_data_conv[ 'city' ] = val
+                                                        }
+                                                        else if( 'administrative_area_level_1' === type ){
+                                                            place_data_conv[ 'state' ] = val
+                                                        }
+                                                        else if( 'postal_code' === type ){
+                                                            place_data_conv[ 'postal_code' ] = val
+                                                        }
+                                                        else if( 'country' === type ){
+                                                            place_data_conv[ 'country' ] = val
+                                                        } */
                         }
 
                         let inputs = [
-                            'dealer_number',
-                            'dealer_name',
-                            'lead_emails',
-                            'country',
-                            'state',
-                            'city',
-                            'postal_code',
-                            'address',
+                            'dealer_number_auto',
+                            'lead_emails_auto',
+                            //'dealer_number',
+                            //'dealer_name',
+                            //'lead_emails',
+                            //'country',
+                            //'state',
+                            //'city',
+                            //'postal_code',
+                            //'address',
                         ]
 
-                        for( let o = 0; o < inputs.length; o++ ){
-                            let $input = $( 'input[name=' + inputs[ o ] + ']' )
-
+                        for (let o = 0; o < inputs.length; o++) {
+                            let $input = $('input[name=' + inputs[o] + ']')
+                            /*
                             if( 'address' === inputs[ o ] ){
                                 $input.val( place_data.formatted_address )
                             }
@@ -829,16 +1256,18 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                             else if( 'dealer_number' === inputs[ o ] ){
                                 $input.val( place_data.formatted_phone_number )
                             }
-                            else{
-                                $input.val( place_data_conv[ inputs[ o ] ] )
+                            else */
+                            if ('dealer_number_auto' === inputs[o]) {
+                                $input.val(place_data.formatted_phone_number)
+                            } else {
+                                $input.val(place_data_conv[inputs[o]])
                             }
                         }
-                    }
-                    else{
-                        console.log( status )
+                    } else {
+                        console.log(status)
                         preloader_end()
                     }
-                } );
+                });
 
                 preloader_end()
 
@@ -852,172 +1281,164 @@ $activeStep = array_key_exists( 'activeStep', $_COOKIE ) ? $_COOKIE['activeStep'
                  */
 
                 //infowindow.open( map, marker );
-            } );
+            });
         }
 
-        function preloader_start(){
-            let $wizardContainer = $( '.wizard-container' )
-            let $preloader       = $( '#preloader' )
+        function preloader_start() {
+            let $wizardContainer = $('.wizard-container')
+            let $preloader = $('#preloader')
 
             $preloader.show()
-            $wizardContainer.css( 'opacity', '0.6' )
+            $wizardContainer.css('opacity', '0.6')
         }
 
-        function preloader_end(){
-            let $wizardContainer = $( '.wizard-container' )
-            let $preloader       = $( '#preloader' )
+        function preloader_end() {
+            let $wizardContainer = $('.wizard-container')
+            let $preloader = $('#preloader')
 
             $preloader.hide()
-            $wizardContainer.css( 'opacity', 1 )
+            $wizardContainer.css('opacity', 1)
         }
 
-        $( document ).ready( function(){
+        $(document).ready(function () {
             dt.checkFullPageBackgroundImage()
 
             // Initialise the wizard
             dt.initNowUiWizard()
 
-            setTimeout( function(){
-                $( '.card.card-wizard' ).addClass( 'active' )
+            setTimeout(function () {
+                $('.card.card-wizard').addClass('active')
                 preloader_end()
-            }, 600 )
+            }, 600)
 
 
-            let $form                  = $( 'form' )
-            let $types                 = $( '.types_js' )
-            let $inputs_types          = $types.find( '.choice' )
-            let $nextBtn               = $form.find( 'input[name=next]' )
-            let $old_website_url_input = $form.find( '#old_website_url' )
-            let $email_input           = $form.find( 'input[name="person_email"]' )
-            let $phone_input           = $form.find( 'input[name="person_phonenumber"]' )
-            let $datalist              = $form.find( 'input[name="make"]' )
+            let $form = $('form')
+            let $types = $('.types_js')
+            let $inputs_types = $types.find('.choice')
+            let $nextBtn = $form.find('input[name=next]')
+            let $finishBtn = $form.find('input[name=finish]')
+            let $old_website_url_input = $form.find('#old_website_url')
+            let $email_input = $form.find('input[name="person_email"]')
+            let $phone_input = $form.find('input[name="person_phonenumber"]')
+            let $dealer_input = $form.find('input[name="dealer_number"]')
 
-            $phone_input.mask( '(999) 999-9999' );
-
-			<?php $steps_indexes = [ 'type', 'account', 'finish' ]; ?>
-            $( '.card-wizard' ).bootstrapWizard( 'show', <?= array_search( $activeStep, $steps_indexes ) ?> )
-
+            $phone_input.mask('(999) 999-9999');
+            $dealer_input.mask('(999) 999-9999');
 
             //$nextBtn.hide()
 
-            $inputs_types.on( 'click', function( el ){
+            $inputs_types.on('click', function (el) {
 
-                $( '#next' ).prop( 'disabled', false );
+                $finishBtn.hide()
 
-                let $el          = $( el.currentTarget )
-                let clickedIndex = $el.data( 'index' )
+                // $( '#next' ).prop( 'disabled', false );
 
-                if(clickedIndex !== 2) {
-                    $datalist.hide()
-                }
+                let $el = $(el.currentTarget)
+                let clickedIndex = $el.data('index')
 
-                if( ! $el.hasClass( 'active' ) ){
-                    $el.addClass( 'active' )
-                    $el.find( 'input' ).attr( 'checked' )
+                if (!$el.hasClass('active')) {
+                    $el.addClass('active')
+                    $el.find('input').attr('checked')
                     return;
                 }
 
-                $el.closest( 'form' ).find( '.card-footer' ).css( 'padding', '10px' )
-                $nextBtn.show()
+                $el.closest('form').find('.card-footer').css('padding', '10px')
+                $nextBtn.hide()
 
                 // disable for all the rest
-                $inputs_types.each( function( choice, el_in ){
-                    let $el_in = $( el_in )
-                    let index  = $el_in.data( 'index' )
+                $inputs_types.each(function (choice, el_in) {
+                    let $el_in = $(el_in)
+                    let index = $el_in.data('index')
 
-                    if( clickedIndex !== index ){
-                        $el_in.removeClass( 'active' )
-                        $el_in.find( 'input' ).removeAttr( 'checked' )
+                    if (clickedIndex !== index) {
+                        $el_in.removeClass('active')
+                        $el_in.find('input').removeAttr('checked')
                     }
-                } )
+                })
 
-            } )
+            })
 
-            $email_input.on( 'keyup focus blur', function(){
+            $email_input.on('keyup focus blur', function () {
 
-                let $the  = $( this )
+                let $the = $(this)
                 let email = $the.val()
 
-                $.ajax( {
+                $.ajax({
                     url: "{{ route('API_isEmailUnique') }}?email=" + email
-                } ).done( function( data ){
-                    let parsed = JSON.parse( data )
+                }).done(function (data) {
+                    let parsed = JSON.parse(data)
 
-                    if( 'ERROR' === parsed.status ){
-                        let $errorLabel = $( '#person_email-error' )
-                        $errorLabel.html( parsed.message )
+                    if ('ERROR' === parsed.status) {
+                        let $errorLabel = $('#person_email-error')
+                        $errorLabel.html(parsed.message)
                         $errorLabel.show()
                     }
 
-                } );
-            } )
+                });
+            })
 
-            $phone_input.on( 'keyup focus blur', function(){
+            $phone_input.on('keyup focus blur', function () {
 
-                let $the  = $( this )
+                let $the = $(this)
                 let phone = $the.val()
 
-                $.ajax( {
+                $.ajax({
                     url: "{{ route('API_isPhoneUnique') }}?phone=" + phone
-                } ).done( function( data ){
-                    let parsed = JSON.parse( data )
+                }).done(function (data) {
+                    let parsed = JSON.parse(data)
 
-                    if( 'ERROR' === parsed.status ){
-                        let $errorLabel = $( '#person_phone-error' )
-                        $errorLabel.html( parsed.message )
+                    if ('ERROR' === parsed.status) {
+                        let $errorLabel = $('#person_phone-error')
+                        $errorLabel.html(parsed.message)
                         $errorLabel.show()
                     }
 
-                } );
-            } )
+                });
+            })
 
-            $old_website_url_input.on( 'change', function( el ){
-                let $the = $( this )
-                let val  = $the.val()
+            $old_website_url_input.on('change', function (el) {
+                let $the = $(this)
+                let val = $the.val()
 
-                if( ! val ) return
+                if (!val) return
 
                 preloader_start()
 
-                $.ajax( {
+                $.ajax({
                     url: "{{ route('API_getSiteData') }}?site-url=" + val
-                } ).done( function( data ){
+                }).done(function (data) {
 
-                    let parsed = JSON.parse( data )
+                    let parsed = JSON.parse(data)
 
-                    console.log( parsed )
+                    console.log(parsed)
 
-                    if( 'OK' !== parsed.status ){
+                    if ('OK' !== parsed.status) {
                         preloader_end()
                         return
                     }
 
-                    let $logoImg     = $( '#logo' )
-                    let $siteIconImg = $( '#site_icon' )
+                    let $logoImg = $('#logo')
+                    let $siteIconImg = $('#site_icon')
 
-                    if( parsed.data.favicon_url ){
-                        $siteIconImg.attr( 'src', parsed.data.favicon_url )
-                    }
-                    else{
-                        $siteIconImg.attr( 'src', $siteIconImg.data( 'default' ) )
+                    if (parsed.data.favicon_url) {
+                        $siteIconImg.attr('src', parsed.data.favicon_url)
+                    } else {
+                        $siteIconImg.attr('src', $siteIconImg.data('default'))
                     }
 
-                    if( parsed.data.logo_url ){
-                        $logoImg.attr( 'src', parsed.data.logo_url )
-                    }
-                    else{
-                        $logoImg.attr( 'src', $logoImg.data( 'default' ) )
+                    if (parsed.data.logo_url) {
+                        $logoImg.attr('src', parsed.data.logo_url)
+                    } else {
+                        $logoImg.attr('src', $logoImg.data('default'))
                     }
 
                     preloader_end()
-                } )
-            } )
-        } )
+                })
+            })
+        })
 
 
     </script>
 @endpush
-
-<?php setcookie( 'activeStep', $activeStep, time() - 3600 ); ?>
 
 
