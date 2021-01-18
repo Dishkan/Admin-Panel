@@ -200,6 +200,14 @@
             }
         }
 
+        form .disabled-button {
+            opacity: .5;
+            background-color: #000 !important;
+            pointer-events: none;
+            border-color: #000 !important;
+            color: #fff !important;
+        }
+
         form button[type="submit"] {
             padding: 1.3rem 1.5rem;
             margin: 0;
@@ -280,6 +288,12 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
+            cursor: pointer;
+            transition: .3s;
+            padding-left: 0;
+        }
+        .dropdown-list ul li:hover {
+            padding-left: .15rem
         }
         .dropdown-list ul li > input {
             width: auto;
@@ -332,10 +346,52 @@
             list-style: none;
             height: 106px;
             overflow: auto;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+        .dropdown-list ul li {
+            order: 3;
+        }
+        .dropdown-list ul li.first-one {
+            order: 0;
         }
 
         .dropdown-list input[type="checkbox"] {
             cursor: pointer;
+        }
+
+        .dropdown-list input::placeholder {
+            color: #fff;
+            opacity: .8;
+        }
+        .dropdown-list input[name="searchSel"] {
+            background: #333;
+            border: 1px solid #333;
+            color: #fff;
+            padding: .2rem .6rem;
+            font-size: 12px;
+            line-height: 1;
+            border-radius: 4px 0 0 4px;
+            position: absolute;
+            top: 1px;
+            right: 100%;
+            width: 100%;
+            max-width: 100px;
+            overflow: hidden;
+            margin: 0;
+            margin-right: -4px;
+            z-index: -1;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+        .dropdown-list dd ul:not([style="display: none;"]) + input[name="searchSel"] {
+            opacity: .7;
+            visibility: visible;
+        } 
+        .dropdown-list dd ul:not([style="display: none;"]) + input[name="searchSel"]:focus {
+            opacity: 1;
         }
 
         .dropdown-list span.value {
@@ -441,8 +497,8 @@
                                                             </dt>
                                                             <dd>
                                                                 <div class="mutliSelect">
-                                                                    <ul>
-                                                                        <li>
+                                                                    <ul style="display: none;">
+                                                                        <li class="first-one">
                                                                             <input autocomplete="off" name="allmakes"  type="checkbox" value="select_all" />Select All</li>
                                                                         <li>
                                                                         @foreach($makes as $make)
@@ -451,6 +507,7 @@
                                                                             <li>
                                                                         @endforeach
                                                                     </ul>
+                                                                    <input name="searchSel" placeholder="Search">
                                                                 </div>
                                                             </dd>
                                                         </dl>
@@ -476,13 +533,14 @@
                                                             </dt>
                                                             <dd>
                                                                 <div class="mutliSelect">
-                                                                    <ul>
+                                                                    <ul style="display: none;">
                                                                         @foreach($makes as $make)
                                                                             <li>
                                                                                 <input autocomplete="off" name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
                                                                             <li>
                                                                         @endforeach
                                                                     </ul>
+                                                                    <input name="searchSel" placeholder="Search">
                                                                 </div>
                                                             </dd>
                                                         </dl>
@@ -585,7 +643,7 @@
                                     {{ csrf_field() }}
                                 </form>
                                 <div class="row justify-content-center types_js">
-                                    <input id="buttonAuto"
+                                    <input id="buttonAuto" class="disabled-button" 
                                            style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
                                            value="Get started" type="button"
                                            onclick="$('#showAuto').show(); $('#buttonAutoHide').show(); $('#buttonAuto').hide() "/>
@@ -1054,6 +1112,27 @@
         });
 
         //dropdown-jquery
+
+        //smart search
+        var $def_sorder = 3;
+        $(".dropdown-jquery input[name='searchSel']").on('input', function(e){
+            let searchVal = $(this).val();
+            if(searchVal) {
+                $(this).parents('.mutliSelect').find('ul li:not(.first-one)').css('order', $def_sorder);
+                $(this).parents('.mutliSelect').find('ul li input[type="checkbox"]:not([value="select_all"])').each(function(){
+                    let $li_wrap = $(this).parents('li');
+                    let check_value = $(this).val().toLowerCase();
+                    if (check_value.indexOf( searchVal.toLowerCase() ) >= 0) {
+                        $li_wrap.css('order', '1');
+                    } else {
+                        $li_wrap.css('order', $def_sorder);
+                    }
+                })
+            } else {
+                $(this).parents('.mutliSelect').find('ul li:not(.first-one)').css('order', $def_sorder);
+            }
+        });
+
         $(".dropdown-jquery dt").on('click', function() {
             $(this).parents(".dropdown-jquery").find("dd ul").slideToggle('fast');
         });
@@ -1065,12 +1144,19 @@
             }
         });
 
-        $('.mutliSelect input[type="checkbox"]').on('click', function() {
+        $('.mutliSelect input[type="checkbox"], .mutliSelect ul li').on('click', function(event) {
 
-            let $the_dropDrown = $(this).parents(".dropdown-jquery");
+            $the_el = $(this);
+            let target = $( event.target );
+            if ( target.is( "li" ) ) {
+                $the_el.find('input[type="checkbox"]').trigger('click');
+                return;
+            }
 
-            if($(this).val() == 'select_all') {
-                if($(this).is(':checked')) {
+            let $the_dropDrown = $the_el.parents(".dropdown-jquery");
+
+            if($the_el.val() == 'select_all') {
+                if($the_el.is(':checked')) {
                     $the_dropDrown.find('input[type="checkbox"]:not([value="select_all"]):not(:checked)').trigger("click");
                 } else {
                     $the_dropDrown.find('input[type="checkbox"]:not([value="select_all"]):checked').trigger("click");
@@ -1079,10 +1165,10 @@
                 let single_mode = $the_dropDrown.hasClass("single-select");
 
                 if(!single_mode) {
-                    var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
-                        title = $(this).val() + ",";
+                    var title = $the_el.closest('.mutliSelect').find('input[type="checkbox"]').val(),
+                        title = $the_el.val() + ",";
 
-                    if ($(this).is(':checked')) {
+                    if ($the_el.is(':checked')) {
                         var html = '<span title="' + title + '">' + title + '</span>';
                         $the_dropDrown.find('.multiSel').append(html);
                         $the_dropDrown.find(".hida").hide();
@@ -1094,8 +1180,8 @@
                     }
                 } else {
 
-                    if ($(this).is(':checked')) {
-                        var title = $(this).val();
+                    if ($the_el.is(':checked')) {
+                        var title = $the_el.val();
                         $the_dropDrown.find('.multiSel').html(title);
                         $the_dropDrown.find(".hida").hide();
                         $the_dropDrown.find('input[type="checkbox"]:not([value="' + title + '"]):checked').prop( "checked", false );
@@ -1212,6 +1298,7 @@
                         let place_data_conv = []
 
                         console.log(place_data)
+                        if($("#buttonAuto")) $("#buttonAuto").removeClass("disabled-button");
                         //showAuto
                         if (place_data.vicinity !== '') {
                             $('#showAuto').show()
