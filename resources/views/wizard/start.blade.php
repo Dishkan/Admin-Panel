@@ -200,6 +200,23 @@
             }
         }
 
+        form button[type="submit"] {
+            padding: 1.3rem 1.5rem;
+            margin: 0;
+            width: 100% !important;
+            min-width: 270px;
+            border-radius: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 700;
+            border: 1px solid #008CBA;
+            transition: .3s;
+            color: #fff !important;
+        }
+        form .has-danger:after {
+            cursor: pointer;
+        }
+
         /*data-list*/
         .data-list {
             z-index: 2;
@@ -576,7 +593,7 @@
                                 <div class="row justify-content-center types_js">
                                     <input id="buttonAutoHide"
                                            style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
-                                           value="Hide it" type="button"
+                                           value="Hide it &#8615;" type="button"
                                            onclick="$('#showAuto').hide(); $('#buttonAutoHide').hide(); $('#buttonAuto').show()"/>
                                 </div>
 
@@ -587,7 +604,7 @@
                                 </div>
                                 <div class="row justify-content-center types_js">
                                     <input id="hideManual" style="width: 30%; background-color: #008CBA; color: white;"
-                                           value="Hide it" type="button"
+                                           value="Hide it &#8613;" type="button"
                                            onclick="$('#showManual').hide(); $('#hideManual').hide(); $('#seeManual').show(); $('#autosearch').show();  $('#showDatalist, #showMultiDatalist').hide(); $('#autotypes').show(); $('#typetitle').show()"/>
                                 </div>
                                 <div id="showManual">
