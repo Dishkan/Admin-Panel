@@ -415,6 +415,17 @@
             transform: translateX(14px);
         }
 
+        form #manualButton {
+            background-color: #008CBA;
+            font-size: 95%;
+            height: 47px;
+            padding: .3rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 30px;
+        }
+
         /*manual block*/
         #oneblock input[type="button"] {
             padding: .6rem 1.5rem;
@@ -1065,9 +1076,11 @@
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center types_js">
-                                                <button id="manualButton" type="submit"
+                                                <div class="col-lg-5 mt-3">
+                                                    <button id="manualButton" type="submit"
                                                         style="background-color: #008CBA; font-size: 95%">Finish
-                                                </button>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                         {{ csrf_field() }}
