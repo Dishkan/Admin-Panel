@@ -76,8 +76,7 @@ class PageController extends Controller{
 				'dealer_email'    => $input['dealer_email'],
 				'dealer_number'   => $input['dealer_number_auto'],
 				'old_website_url' => $input['old_website_url'],
-				'make'            => $input['dealer_makes'],
-
+                'make'            => rtrim($input['dealer_makes'], ','),
 			]);
 			return redirect()->route( 'home' );
 		}
