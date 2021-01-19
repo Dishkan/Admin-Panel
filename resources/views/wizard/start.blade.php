@@ -655,7 +655,7 @@
 
                                                     <div class="input-group form-control-lg">
                                                         <button id="submitbutton" type="submit" style="background-color: #008CBA; ">
-                                                            Submit
+                                                            Start Verification
                                                         </button>
                                                     </div>
 
