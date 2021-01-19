@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\CredentialsTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder{
 		DB::table( 'items' )->truncate();
 		DB::table( 'sites' )->truncate();
 		DB::table( 'autosites' )->truncate();
+		DB::table( 'credentials' )->truncate();
 
 		$this->call( [
 			RolesTableSeeder::class,
@@ -30,6 +32,7 @@ class DatabaseSeeder extends Seeder{
 			ItemsTableSeeder::class,
 			CronStatusesSeeder::class,
 			AutoSitesSeeder::class,
+            CredentialsTableSeeder::class,
 		] );
 
 		DB::statement( 'SET FOREIGN_KEY_CHECKS=1' );
