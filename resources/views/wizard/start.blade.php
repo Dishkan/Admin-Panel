@@ -689,10 +689,9 @@
                                            onclick="$('#showManual').hide(); $('#hideManual').hide(); $('#seeManual').show(); $('#autosearch').show();  $('#showDatalist, #showMultiDatalist').hide(); $('#autotypes').show(); $('#typetitle').show()"/>
                                 </div>
                                 <div id="showManual">
-                                    <form action="{{ route('wizard')  }}" method="POST">
                                         <div class="tab-pane" id="account">
                                             <h5 class="info-text">Let's start with the basic information</h5>
-
+                                            <form action="{{ route('wizard')  }}" method="POST">
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-10 mt-3">
                                                     <div class="input-group form-control-lg">
