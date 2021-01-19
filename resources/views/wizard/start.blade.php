@@ -701,6 +701,18 @@
                                                                        value="{{ old('dealer_number_auto') }}"
                                                                        class="form-control" name="dealer_number_auto">
                                                             </div>
+                                                        </div>
+                                                        <div class="col-lg-6 offset-3 mt-3">
+                                                            <div class="input-group form-control-lg / verify_method_js" data-method="email_message">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text">
+                                                                        <label>Mail me to</label>
+                                                                    </div>
+                                                                </div>
+                                                                <input required type="text" placeholder="Email"
+                                                                       value="{{ old('dealer_email') }}"
+                                                                       class="form-control" name="dealer_email_auto">
+                                                            </div>
                                                         </div>   
                                                     </div>
                                                 </div>
@@ -799,7 +811,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row justify-content-center">
+                                            <div class="row justify-content-center / manual_makes_field_js">
                                                 <div class="col-lg-10 mt-3">
                                                     <div class="input-group form-control-lg manual-multi-data-list">
                                                         <div class="input-group-prepend">
@@ -1262,12 +1274,18 @@
         })
 
         $("form.on_manual_form_submit_js #input-role").on("change", function(){
-            if($(this).val() == 'dealer_group') {
-                $("form.on_manual_form_submit_js").find('.data-list.active').removeClass("active");
-                $("form.on_manual_form_submit_js").find('#manualMultiDatalist').addClass("active");
+            let $form = $("form.on_manual_form_submit_js");
+            if($(this).val() == 'independent_dealer') {
+                $form.find(".manual_makes_field_js").hide();
             } else {
-                $("form.on_manual_form_submit_js").find('.data-list.active').removeClass("active");
-                $("form.on_manual_form_submit_js").find('#singleManualMultiDatalist').addClass("active");
+                $form.find(".manual_makes_field_js").show();
+                if($(this).val() == 'dealer_group') {
+                    $form.find('.data-list.active').removeClass("active");
+                    $form.find('#manualMultiDatalist').addClass("active");
+                } else {
+                    $form.find('.data-list.active').removeClass("active");
+                    $form.find('#singleManualMultiDatalist').addClass("active");
+                }
             }
         })
 
