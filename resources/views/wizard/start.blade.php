@@ -389,7 +389,7 @@
         .dropdown-list dd ul:not([style="display: none;"]) + input[name="searchSel"] {
             opacity: .7;
             visibility: visible;
-        } 
+        }
         .dropdown-list dd ul:not([style="display: none;"]) + input[name="searchSel"]:focus {
             opacity: 1;
         }
@@ -596,11 +596,25 @@
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
-                                                                <i class="now-ui-icons tech_mobile"></i>
+                                                                <label>Phone Call to</label>
                                                             </div>
                                                         </div>
                                                         <input required type="text" placeholder="Phone"
-                                                               value="{{ old('dealer_number') }}"
+                                                               value="{{ old('dealer_number_auto') }}"
+                                                               class="form-control" name="dealer_number_auto">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-5 mt-3">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <label>Text Message to</label>
+                                                            </div>
+                                                        </div>
+                                                        <input required type="text" placeholder="Phone"
+                                                               value="{{ old('dealer_number_auto') }}"
                                                                class="form-control" name="dealer_number_auto">
                                                     </div>
                                                 </div>
@@ -654,7 +668,7 @@
                                     {{ csrf_field() }}
                                 </form>
                                 <div class="row justify-content-center types_js">
-                                    <input id="buttonAuto" class="disabled-button" 
+                                    <input id="buttonAuto" class="disabled-button"
                                            style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
                                            value="Get started" type="button"
                                            onclick="$('#showAuto').show(); $('#buttonAutoHide').show(); $('#buttonAuto').hide() "/>
@@ -766,7 +780,7 @@
 
 
                                             <div class="row justify-content-center">
-                                                <div class="col-lg-10 mt-3">
+                                                <div class="col-lg-5 mt-3">
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
@@ -779,23 +793,22 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- <div class="col-lg-5 mt-3">
+                                                <div class="col-lg-5 mt-3">
                                                      <div class="input-group form-control-lg">
                                                          <button type="button" id="verification" class="show_popup blue_btn"
                                                                  rel="popup1">Verify
                                                          </button>
-
                                                          <div class="overlay_popup"></div>
 
                                                          <div class="popup" id="popup1">
                                                              <div class="object">
                                                                      <p>Verification code: </p>
                                                                      <p><input type="text" name="codename"></p>
-                                                                 <input type="button" value="Send">
+                                                                 <input style="background-color: black; " type="button" value="Send">
                                                              </div>
                                                          </div>
                                                      </div>
-                                                 </div> -->
+                                                 </div>
                                             </div>
 
 
