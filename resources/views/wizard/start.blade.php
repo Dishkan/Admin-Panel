@@ -800,9 +800,11 @@
 
                                                          <div class="popup" id="popup1">
                                                              <div class="object">
-                                                                     <p>Verification code: </p>
+                                                                 <form action="">
+                                                                 <p>Verification code: </p>
                                                                      <p><input type="text" name="codename"></p>
-                                                                 <input style="background-color: black; " type="button" value="Send">
+                                                                 <input style="background-color: black; " type="submit" value="Send">
+                                                                 </form>
                                                              </div>
                                                          </div>
                                                      </div>
