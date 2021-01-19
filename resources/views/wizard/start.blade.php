@@ -656,7 +656,7 @@
                                                 <div class="col-lg-5 mt-3">
 
                                                     <div class="input-group form-control-lg">
-                                                        <button type="submit" style="background-color: #008CBA; ">
+                                                        <button id="submitbutton" type="submit" style="background-color: #008CBA; ">
                                                             Submit
                                                         </button>
                                                     </div>
@@ -1457,6 +1457,7 @@
             let $finishBtn = $form.find('input[name=finish]')
             let $old_website_url_input = $form.find('#old_website_url')
             let $email_input = $form.find('input[name="person_email"]')
+            let $dealeremail_input = $form.find('input[name="dealer_email"]')
             let $phone_input = $form.find('input[name="person_phonenumber"]')
             let $dealer_input = $form.find('input[name="dealer_number"]')
 
@@ -1510,6 +1511,28 @@
                         let $errorLabel = $('#person_email-error')
                         $errorLabel.html(parsed.message)
                         $errorLabel.show()
+                    }
+
+                });
+            })
+            $dealeremail_input.on('keyup focus blur', function () {
+
+                let $the = $(this)
+                let email = $the.val()
+
+                $.ajax({
+                    url: "{{ route('API_isEmailUnique') }}?email=" + email
+                }).done(function (data) {
+                    let parsed = JSON.parse(data)
+
+                    if ('ERROR' === parsed.status) {
+                        let $errorLabel = $('#person_email-error')
+                        $errorLabel.html(parsed.message)
+                        $errorLabel.show()
+                        $('#submitbutton').hide()
+                    }
+                    else {
+                        $('#submitbutton').show()
                     }
 
                 });
