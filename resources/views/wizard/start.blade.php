@@ -803,7 +803,7 @@
                                                                  <form action="">
                                                                  <p>Verification code: </p>
                                                                      <p><input type="text" name="codename"></p>
-                                                                 <input style="background-color: black; " type="submit" value="Send">
+                                                                 <input style="background-color: black; color: white " type="submit" value="Send">
                                                                  </form>
                                                              </div>
                                                          </div>
