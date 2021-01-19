@@ -531,6 +531,9 @@
             height: auto;
             padding: 0;
         }
+        .manual-multi-data-list .data-list:not(.active) {
+            display: none !important
+        }
         .manual-multi-data-list .data-list .dropdown-list {
             width: 100%;
         }
@@ -790,8 +793,7 @@
                                                                 required>
                                                             <option value="dealer_group">Dealer group</option>
                                                             <option value="franchised_dealer">Franchised dealer</option>
-                                                            <option value="independent_dealer">Independent dealer
-                                                            </option>
+                                                            <option value="independent_dealer">Independent dealer</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -808,7 +810,7 @@
                                                         <input class="form-control / dropdown_list_manual_js" placeholder="Make" list="dtlist"
                                                                id="datalist" name="make_manual"
                                                                value="{{ old('make_manual')  }}">
-                                                        <div id="manualMultiDatalist" class="data-list">
+                                                        <div id="manualMultiDatalist" class="data-list active">
                                                             <dl class="dropdown-list / dropdown-jquery">
                                                                 <dt>
                                                                     <span class="hida">Select Makes</span>
@@ -820,6 +822,26 @@
                                                                             <li class="first-one">
                                                                                 <input autocomplete="off" name="allmakes"  type="checkbox" value="select_all" />Select All</li>
                                                                             <li>
+                                                                            @foreach($makes as $make)
+                                                                                <li>
+                                                                                    <input autocomplete="off" name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
+                                                                                <li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                        <input name="searchSel" placeholder="Search">
+                                                                    </div>
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
+                                                        <div id="singleManualMultiDatalist" class="data-list">
+                                                            <dl class="dropdown-list / dropdown-jquery single-select">
+                                                                <dt>
+                                                                    <span class="hida">Select Makes</span>
+                                                                    <p class="multiSel"></p>
+                                                                </dt>
+                                                                <dd>
+                                                                    <div class="mutliSelect">
+                                                                        <ul style="display: none;">
                                                                             @foreach($makes as $make)
                                                                                 <li>
                                                                                     <input autocomplete="off" name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
@@ -1239,9 +1261,19 @@
             $("#verify_ownership_method").attr("value", $(this).attr('data-method'));
         })
 
+        $("form.on_manual_form_submit_js #input-role").on("change", function(){
+            if($(this).val() == 'dealer_group') {
+                $("form.on_manual_form_submit_js").find('.data-list.active').removeClass("active");
+                $("form.on_manual_form_submit_js").find('#manualMultiDatalist').addClass("active");
+            } else {
+                $("form.on_manual_form_submit_js").find('.data-list.active').removeClass("active");
+                $("form.on_manual_form_submit_js").find('#singleManualMultiDatalist').addClass("active");
+            }
+        })
+
         //fill makes input on form submit Manual mode
         $(document).on('submit','form.on_manual_form_submit_js',function(){
-            let $makes_value = $(this).find(".data-list .multiSel").text();
+            let $makes_value = $(this).find(".data-list.active .multiSel").text();
             $(this).find('input.dropdown_list_manual_js').attr("value", $makes_value);
         });
 
