@@ -604,8 +604,6 @@
                                                                class="form-control" name="dealer_number_auto">
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row justify-content-center">
                                                 <div class="col-lg-5 mt-3">
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
