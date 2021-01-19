@@ -463,6 +463,85 @@
                 width: 48%;
             }
         }
+
+        form .verify_method_js {
+            position: relative;
+        }
+        #phoneAuto {
+            margin-bottom: 1.3rem;
+        }
+        #phoneAuto h5.info-text {
+            margin-bottom: 0;
+        }
+        #phoneAuto .input-group-text {
+            padding: 0 1rem;
+        }
+        #phoneAuto .input-group-text label {
+            margin: 0;
+        }
+        #phoneAuto .verify_method_js {
+            cursor: pointer;
+        }
+        #phoneAuto .verify_method_js:before {
+            content: '\2718';
+            color: tomato;
+            display: inline-block;
+            margin: .1rem .5rem;
+            font-size: 33px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid tomato;
+            border-radius: 50%;
+            outline: none;
+            box-shadow: none;
+            transition: .3s;
+        }
+        #phoneAuto .verify_method_js.active:before {
+            content: '\2713';
+            color: green;
+            border-color: green;
+        }
+
+        form select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position: 98% 50%;
+        }
+
+        .manual-multi-data-list {
+            position: relative;
+            width: 100%;
+            display: flex;
+            height: 47px;
+        }
+        .manual-multi-data-list .data-list:before {
+            display: none;
+        }
+        .manual-multi-data-list .data-list {
+            position: absolute;
+            top: 2px;
+            left: 42px;
+            right: 8px;
+            bottom: 4px;
+            background: none;
+            height: auto;
+            padding: 0;
+        }
+        .manual-multi-data-list .data-list .dropdown-list {
+            width: 100%;
+        }
+        .manual-multi-data-list .dropdown-list dt {
+            background: #fff;
+            color: #2c2c2c;
+            font-weight: 400;
+        }
+        .manual-multi-data-list .dropdown-list .hida:after {
+            background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        }
     </style>
 
     <div class="panel-header panel-header-sm">
@@ -591,29 +670,35 @@
                                             </div>
                                         </div>
                                         <div id="showAuto">
-                                            <div id="phoneAuto" class="row justify-content-center">
-                                                <div class="col-lg-5 mt-3">
-                                                    <div class="input-group form-control-lg">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                <label>Phone Call to</label>
+                                            <div id="phoneAuto" class="mt1 mb1 justify-content-center row">
+                                                <div class="col-lg-8">
+                                                    <h5 class="info-text">Verify Ownership Method</h5>
+                                                    <div class="row">
+                                                        <input hidden type="text" id="verify_ownership_method" name="verify_method" value="phone_call">
+                                                        <div class="col-lg-6 mt-3">
+                                                            <div class="input-group form-control-lg / verify_method_js active" data-method="phone_call">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text">
+                                                                        <label>Phone Call to</label>
+                                                                    </div>
+                                                                </div>
+                                                                <input required type="text" placeholder="Phone"
+                                                                       value="{{ old('dealer_number_auto') }}"
+                                                                       class="form-control" name="dealer_number_auto">
                                                             </div>
                                                         </div>
-                                                        <input required type="text" placeholder="Phone"
-                                                               value="{{ old('dealer_number_auto') }}"
-                                                               class="form-control" name="dealer_number_auto">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 mt-3">
-                                                    <div class="input-group form-control-lg">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                <label>Text Message to</label>
+                                                        <div class="col-lg-6 mt-3">
+                                                            <div class="input-group form-control-lg / verify_method_js" data-method="text_message">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text">
+                                                                        <label>Text Message to</label>
+                                                                    </div>
+                                                                </div>
+                                                                <input required type="text" placeholder="Phone"
+                                                                       value="{{ old('dealer_number_auto') }}"
+                                                                       class="form-control" name="dealer_number_auto">
                                                             </div>
-                                                        </div>
-                                                        <input required type="text" placeholder="Phone"
-                                                               value="{{ old('dealer_number_auto') }}"
-                                                               class="form-control" name="dealer_number_auto">
+                                                        </div>   
                                                     </div>
                                                 </div>
                                             </div>
@@ -691,7 +776,7 @@
                                 <div id="showManual">
                                         <div class="tab-pane" id="account">
                                             <h5 class="info-text">Let's start with the basic information</h5>
-                                            <form action="{{ route('wizard')  }}" method="POST">
+                                            <form class="on_manual_form_submit_js" action="{{ route('wizard')  }}" method="POST">
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-10 mt-3">
                                                     <div class="input-group form-control-lg">
@@ -714,20 +799,38 @@
 
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-10 mt-3">
-                                                    <div class="input-group form-control-lg">
+                                                    <div class="input-group form-control-lg manual-multi-data-list">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
                                                                 <i class="now-ui-icons text_align-center"></i>
                                                             </div>
                                                         </div>
-                                                        <input class="form-control" placeholder="Make" list="dtlist"
+                                                        <input class="form-control / dropdown_list_manual_js" placeholder="Make" list="dtlist"
                                                                id="datalist" name="make_manual"
                                                                value="{{ old('make_manual')  }}">
-                                                        <datalist id="dtlist">
-                                                            @foreach($makes as $make)
-                                                                <option>{{$make}}</option>
-                                                            @endforeach
-                                                        </datalist>
+                                                        <div id="manualMultiDatalist" class="data-list">
+                                                            <dl class="dropdown-list / dropdown-jquery">
+                                                                <dt>
+                                                                    <span class="hida">Select Makes</span>
+                                                                    <p class="multiSel"></p>
+                                                                </dt>
+                                                                <dd>
+                                                                    <div class="mutliSelect">
+                                                                        <ul style="display: none;">
+                                                                            <li class="first-one">
+                                                                                <input autocomplete="off" name="allmakes"  type="checkbox" value="select_all" />Select All</li>
+                                                                            <li>
+                                                                            @foreach($makes as $make)
+                                                                                <li>
+                                                                                    <input autocomplete="off" name="make" type="checkbox" value="{{$make}}" />{{$make}}</li>
+                                                                                <li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                        <input name="searchSel" placeholder="Search">
+                                                                    </div>
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1129,6 +1232,19 @@
 
 @push('js')
     <script>
+        //verify method ownership
+        $(".verify_method_js").on("click", function(){
+            $("#verify_ownership_method").parent().find(".verify_method_js").removeClass("active");
+            $(this).addClass("active");
+            $("#verify_ownership_method").attr("value", $(this).attr('data-method'));
+        })
+
+        //fill makes input on form submit Manual mode
+        $(document).on('submit','form.on_manual_form_submit_js',function(){
+            let $makes_value = $(this).find(".data-list .multiSel").text();
+            $(this).find('input.dropdown_list_manual_js').attr("value", $makes_value);
+        });
+
         //fill makes input on form submit
         $(document).on('submit','form.on_form_submit_js',function(){
             let $checkedType = $(this).find('#autotypes .choice input[type="checkbox"]:checked').parents('.choice')
