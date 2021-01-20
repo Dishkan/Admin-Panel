@@ -219,6 +219,31 @@ class PageController extends Controller{
 		}
 	}
 
+    /**
+     * Generate random six-digit numbers
+     */
+
+	public function random_number_with_dupe($len = 6, $dup = 1, $sort = false) {
+        $num = range(0,9);
+        shuffle($num);
+
+        $num = array_slice($num, 0, ($len-$dup)+1);
+
+        if ($dup > 0) {
+            $k = array_rand($num, 1);
+            for ($i=0;$i<($dup-1);$i++) {
+                $num[] = $num[$k];
+            }
+        }
+
+        if ($sort) {
+            sort($num);
+        }
+
+        return implode('', $num);
+    }
+    //To see how it works: echo random_number_with_dupe(6, 2, true);
+
 	/**
 	 * Display dealer WIZARD page
 	 */
