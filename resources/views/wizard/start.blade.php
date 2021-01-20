@@ -467,6 +467,11 @@
         form .verify_method_js {
             position: relative;
         }
+        #phoneAuto .form-control-lg {
+            display: flex;
+            flex-wrap: nowrap;
+            height: 47px;
+        }
         #phoneAuto {
             margin-bottom: 1.3rem;
         }
@@ -493,6 +498,8 @@
             justify-content: center;
             width: 40px;
             height: 40px;
+            min-width: 40px;
+            min-height: 40px;
             border: 1px solid tomato;
             border-radius: 50%;
             outline: none;
@@ -503,6 +510,12 @@
             content: '\2713';
             color: green;
             border-color: green;
+        }
+
+        @media (min-width: 768px) and (max-width: 1400px) {
+            #phoneAuto > .col-lg-5 {
+                min-width: 520px;
+            }
         }
 
         form select.form-control {
@@ -553,13 +566,13 @@
             border: 1px solid #e3e3e3;
             border-radius: 0 30px 30px 0;
             border-left: none;
-            padding-right: 18px;
+            padding-right: 40px;
         }
         form div.input-with-label > input {
             width: 100%;
             border: none !important;
             margin: 0;
-            padding-right: 3px !important;
+            padding: 3px 3px 3px 18px !important;
         }
         form div.input-with-label > label {
             color: DarkCyan;
@@ -568,7 +581,7 @@
             margin: 0;
             font-size: 10px;
             line-height: 12px;
-            width: 100%;
+            width: auto;
         }
     </style>
 
@@ -681,7 +694,7 @@
                                     </div>
                                     <div id="oneblock">
                                         <div class="row justify-content-center">
-                                            <div class="col-lg-9 mt-3">
+                                            <div class="col-lg-8 mt-3">
                                                 <div id="autosearch" class="input-group form-control-lg">
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">
