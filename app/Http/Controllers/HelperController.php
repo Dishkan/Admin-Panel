@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Aloha\Twilio\Twilio;
+
 
 class HelperController extends Controller{
 
@@ -12,22 +12,15 @@ class HelperController extends Controller{
 
 	public static function test(){
 
-		//$res = Twilio::message( $antons_number , $message);
-		// $res = Twilio::call( $antons_number , $message);
-		$message       = 'Let me know if you receive it';
+
 		$hirads_number = '+15035445583';
 		$antons_number = '+380672206192';
+		$segas_number  = '+380660035739';
+		$dens_number   = '+380931488118';
 
-		$twilio = new Twilio(env('TWILIO_SID'),env('TWILIO_TOKEN'),env('TWILIO_FROM') );
 
-		//$res = $twilio->message( $hirads_number, 'Let Anton know if you receive it please' );
-
-		/*
-		$res = $twilio->call( $hirads_number, function( $message ){
-			$message->say( 'Hello Hirad' );
-			$message->play( 'https://api.twilio.com/cowbell.mp3', [ 'loop' => 5 ] );
-		} );
-		*/
+		$twilio = new TwilioController();
+		$twilio->callVoiceCode( $hirads_number, '12345' );
 
 
 		//dd( $res );

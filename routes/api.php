@@ -17,6 +17,15 @@ use App\Http\Controllers\SitewideSearchController;
 // ONLY FOR TESTS
 Route::get('test', ['uses' => 'HelperController@test' ]);
 
+// TWILIO
+Route::group( [ 'prefix' => 'twilio' ], function(){
+	Route::get( 'voice-xml/{code}', [ 'uses' => 'TwilioController@voiceXML', 'as' => 'Twilio_voice_code_xml' ] );
+	Route::match( [ 'GET', 'POST' ], 'voice-xml/{code}', [
+		'uses' => 'TwilioController@voiceXML',
+		'as'   => 'Twilio_voice_code_xml',
+	] );
+} );
+
 Route::get('get-site-data',   ['uses' => 'SitesHelperController@getSiteData',   'as' => 'API_getSiteData'   ]);
 Route::get('is_email_unique', ['uses' => 'SitesHelperController@isEmailUnique', 'as' => 'API_isEmailUnique' ]);
 Route::get('is_phone_unique', ['uses' => 'SitesHelperController@isPhoneUnique', 'as' => 'API_isPhoneUnique' ]);

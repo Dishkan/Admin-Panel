@@ -19,7 +19,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "spatie/laravel-searchable": "^1.9",
-        "symfony/dom-crawler": "^5.0"
+        "symfony/dom-crawler": "^5.0",
+        "twilio/sdk": "^6.16"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

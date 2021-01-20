@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::group( [ 'middleware' =>'dgdev'], function(){
 
 Route::get( '/', function(){
