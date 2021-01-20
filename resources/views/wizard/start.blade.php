@@ -8,10 +8,13 @@
 @section('content')
 
     <style>
+
         textarea {
             width: 100%;
             resize: none;
         }
+
+
         button {
             border-radius: 5px;
             padding: 15px 25px;
@@ -24,14 +27,17 @@
             cursor: pointer;
             border: 0;
         }
+
         button:active {
             transform: translate(0px, 5px);
             -webkit-transform: translate(0px, 5px);
             box-shadow: 0px 1px 0px 0px;
         }
+
         button:focus {
             outline: none !important
         }
+
         input, textarea {
             color: #494949;
             border: 1px solid #e3e3e3;
@@ -44,20 +50,24 @@
             font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
             line-height: 1.5;
         }
+
         input:focus {
             border-color: #808080;
             outline: none;
         }
+
         textarea:focus {
             border-color: #808080;
             outline: none;
         }
+
         .blue_btn {
             top: -14px;
             left: -18px;
             background-color: #55acee;
             box-shadow: 0px 5px 0px 0px #3C93D5;
         }
+
         .overlay_popup {
             display: none;
             position: fixed;
@@ -69,6 +79,7 @@
             background: #000;
             opacity: 0.5;
         }
+
         .popup {
             display: none;
             position: fixed;
@@ -80,30 +91,37 @@
             margin-top: -50px;
             width: 50%;
         }
+
         .object {
             width: 30em;
             height: 15em;
             background-color: #eee;
             padding: 3em 4em;
         }
+
         .content .card-body .tab-content .icon {
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 20px auto;
         }
+
         .card-wizard .choice.active {
             transform: scale(1.05);
         }
+
         .card-wizard .choice {
             transition: transform .3s;
         }
+
         .section-image .card .card-header .description {
             color: #fff;
         }
+
         .card-wizard .picture {
             border-radius: 0;
         }
+
         #preloader {
             z-index: 4;
             position: fixed;
@@ -112,6 +130,7 @@
             width: 100%;
             height: 100%;
         }
+
         #loader {
             display: block;
             position: relative;
@@ -126,6 +145,7 @@
             -webkit-animation: spin 2s linear infinite;
             animation: spin 2s linear infinite;
         }
+
         #loader:before {
             content: "";
             position: absolute;
@@ -139,6 +159,7 @@
             -webkit-animation: spin 3s linear infinite;
             animation: spin 3s linear infinite;
         }
+
         #loader:after {
             content: "";
             position: absolute;
@@ -152,6 +173,7 @@
             -webkit-animation: spin 1.5s linear infinite;
             animation: spin 1.5s linear infinite;
         }
+
         @-webkit-keyframes spin {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -164,6 +186,7 @@
                 transform: rotate(360deg);
             }
         }
+
         @keyframes spin {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -176,6 +199,7 @@
                 transform: rotate(360deg);
             }
         }
+
         form .disabled-button {
             opacity: .5;
             background-color: #000 !important;
@@ -183,6 +207,7 @@
             border-color: #000 !important;
             color: #fff !important;
         }
+
         form button[type="submit"] {
             padding: 1.3rem 1.5rem;
             margin: 0;
@@ -199,6 +224,7 @@
         form .has-danger:after {
             cursor: pointer;
         }
+
         /*data-list*/
         .data-list {
             z-index: 2;
@@ -236,6 +262,8 @@
             filter: blur(3px);
             z-index: -1;
         }
+
+
         /* dropdown-jquery list */
         .dropdown-list {
             width: 272px;
@@ -245,11 +273,13 @@
         .dropdown-list p {
             margin: 0;
         }
+
         .dropdown-list dd,
         .dropdown-list dt {
             margin: 0px;
             padding: 0px;
         }
+
         .dropdown-list ul {
             margin: -1px 0 0 0;
         }
@@ -271,9 +301,11 @@
             margin-right: .5rem;
             margin-bottom: 2px;
         }
+
         .dropdown-list dd {
             position: relative;
         }
+
         .dropdown-list dt {
             border-radius: 4px;
             background-color: #4F6877;
@@ -288,16 +320,19 @@
             outline: none;
             font-size: 12px;
             line-height: 24px;
+
             overflow: auto;
             max-height: 424px;
             cursor: pointer;
         }
+
         .dropdown-list dt span,
         .dropdown-list .multiSel span {
             cursor: pointer;
             display: inline-block;
             padding: 0 3px 2px 0;
         }
+
         .dropdown-list dd ul {
             background-color: #4F6877;
             border: 0;
@@ -321,9 +356,11 @@
         .dropdown-list ul li.first-one {
             order: 0;
         }
+
         .dropdown-list input[type="checkbox"] {
             cursor: pointer;
         }
+
         .dropdown-list input::placeholder {
             color: #fff;
             opacity: .8;
@@ -356,6 +393,7 @@
         .dropdown-list dd ul:not([style="display: none;"]) + input[name="searchSel"]:focus {
             opacity: 1;
         }
+
         .dropdown-list span.value {
             display: none;
         }
@@ -376,6 +414,7 @@
             display: inline-block;
             transform: translateX(14px);
         }
+
         form #manualButton {
             background-color: #008CBA;
             font-size: 95%;
@@ -386,6 +425,7 @@
             align-items: center;
             border-radius: 30px;
         }
+
         /*manual block*/
         #oneblock input[type="button"] {
             padding: .6rem 1.5rem;
@@ -423,6 +463,7 @@
                 width: 48%;
             }
         }
+
         form .verify_method_js {
             position: relative;
         }
@@ -463,12 +504,14 @@
             color: green;
             border-color: green;
         }
+
         form select.form-control {
             appearance: none;
             background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
             background-repeat: no-repeat;
             background-position: 98% 50%;
         }
+
         .manual-multi-data-list {
             position: relative;
             width: 100%;
@@ -501,6 +544,31 @@
         }
         .manual-multi-data-list .dropdown-list .hida:after {
             background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        }
+
+        form div.input-with-label {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            border: 1px solid #e3e3e3;
+            border-radius: 0 30px 30px 0;
+            border-left: none;
+            padding-right: 18px;
+        }
+        form div.input-with-label > input {
+            width: 100%;
+            border: none !important;
+            margin: 0;
+            padding-right: 3px !important;
+        }
+        form div.input-with-label > label {
+            color: DarkCyan;
+            font-weight: 700;
+            padding: 0;
+            margin: 0;
+            font-size: 10px;
+            line-height: 12px;
+            width: 100%;
         }
     </style>
 
@@ -613,7 +681,7 @@
                                     </div>
                                     <div id="oneblock">
                                         <div class="row justify-content-center">
-                                            <div class="col-lg-10 mt-3">
+                                            <div class="col-lg-9 mt-3">
                                                 <div id="autosearch" class="input-group form-control-lg">
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">
@@ -631,11 +699,11 @@
                                         </div>
                                         <div id="showAuto">
                                             <div id="phoneAuto" class="mt1 mb1 justify-content-center row">
-                                                <div class="col-lg-8">
+                                                <div class="col-lg-5">
                                                     <h5 class="info-text">Verify Ownership Method</h5>
                                                     <div class="row">
                                                         <input hidden type="text" id="verify_ownership_method" name="verify_method" value="phone_call">
-                                                        <div class="col-lg-6 mt-3">
+                                                        <div class="col-lg-12 mt-3">
                                                             <div class="input-group form-control-lg / verify_method_js active" data-method="phone_call">
                                                                 <div class="input-group-prepend">
                                                                     <div class="input-group-text">
@@ -647,7 +715,7 @@
                                                                        class="form-control" name="dealer_number_auto">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 mt-3">
+                                                        <div class="col-lg-12 mt-3">
                                                             <div class="input-group form-control-lg / verify_method_js" data-method="text_message">
                                                                 <div class="input-group-prepend">
                                                                     <div class="input-group-text">
@@ -659,16 +727,19 @@
                                                                        class="form-control" name="dealer_number_auto">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 offset-3 mt-3">
+                                                        <div class="col-lg-12 mt-3">
                                                             <div class="input-group form-control-lg / verify_method_js" data-method="email_message">
                                                                 <div class="input-group-prepend">
                                                                     <div class="input-group-text">
                                                                         <label>Mail me to</label>
                                                                     </div>
                                                                 </div>
-                                                                <input required type="text" placeholder="Email"
-                                                                       value="{{ old('dealer_email') }}"
-                                                                       class="form-control" name="dealer_email_auto">
+                                                                <div class="input-with-label">
+                                                                    <input required type="text" placeholder="Email"
+                                                                           value="{{ old('dealer_email') }}"
+                                                                           class="form-control" name="dealer_email_auto">
+                                                                    <label id="label_for_domain_js">@domain.name</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1064,7 +1135,9 @@
 
                                         {{--
                                         <div class="row justify-content-center">
+
                                             <div class="col-lg-10 mt-3">
+
                                                 <div class="input-group form-control-lg">
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">
@@ -1074,7 +1147,9 @@
                                                     <input type="text" placeholder="Monday" value=""
                                                            class="form-control" name="hours[monday]">
                                                 </div>
+
                                             </div>
+
                                         </div>
                                         --}}
 
@@ -1096,8 +1171,7 @@
                                                     <input required type="text" class="form-control"
                                                            value="{{ old('person_firstname') }}"
                                                            placeholder="First Name (required)"
-                                                           name="person_firstname"
-                                                    >
+                                                           name="person_firstname">
                                                 </div>
 
                                                 <div class="input-group form-control-lg">
@@ -1219,12 +1293,22 @@
 
 @push('js')
     <script>
+
+        $("#manualButton").on("click", function(){
+            $(this).parents("form").find("input[required]").each(function(){
+                if($(this).attr("value") == '') {
+                    $(this).parents(".input-group.form-control-lg").addClass("has-danger")
+                }
+            })
+        })
+
         //verify method ownership
         $(".verify_method_js").on("click", function(){
             $("#verify_ownership_method").parent().find(".verify_method_js").removeClass("active");
             $(this).addClass("active");
             $("#verify_ownership_method").attr("value", $(this).attr('data-method'));
         })
+
         $("form.on_manual_form_submit_js #input-role").on("change", function(){
             let $form = $("form.on_manual_form_submit_js");
             if($(this).val() == 'independent_dealer') {
@@ -1240,18 +1324,22 @@
                 }
             }
         })
+
         //fill makes input on form submit Manual mode
         $(document).on('submit','form.on_manual_form_submit_js',function(){
             let $makes_value = $(this).find(".data-list.active .multiSel").text();
             $(this).find('input.dropdown_list_manual_js').attr("value", $makes_value);
         });
+
         //fill makes input on form submit
         $(document).on('submit','form.on_form_submit_js',function(){
             let $checkedType = $(this).find('#autotypes .choice input[type="checkbox"]:checked').parents('.choice')
             let $makes_value = $checkedType.parent().find(".data-list .multiSel").text();
             $(this).find('input.dropdown_list_js').val($makes_value);
         });
+
         //dropdown-jquery
+
         //smart search
         var $def_sorder = 3;
         $(".dropdown-jquery input[name='searchSel']").on('input', function(e){
@@ -1271,23 +1359,29 @@
                 $(this).parents('.mutliSelect').find('ul li:not(.first-one)').css('order', $def_sorder);
             }
         });
+
         $(".dropdown-jquery dt").on('click', function() {
             $(this).parents(".dropdown-jquery").find("dd ul").slideToggle('fast');
         });
+
         $(document).bind('click', function(e) {
             var $clicked = $(e.target);
             if (!$clicked.parents().hasClass("dropdown-jquery")) {
                 $('.data-list').find("dd ul").hide();
             }
         });
+
         $('.mutliSelect input[type="checkbox"], .mutliSelect ul li').on('click', function(event) {
+
             $the_el = $(this);
             let target = $( event.target );
             if ( target.is( "li" ) ) {
                 $the_el.find('input[type="checkbox"]').trigger('click');
                 return;
             }
+
             let $the_dropDrown = $the_el.parents(".dropdown-jquery");
+
             if($the_el.val() == 'select_all') {
                 if($the_el.is(':checked')) {
                     $the_dropDrown.find('input[type="checkbox"]:not([value="select_all"]):not(:checked)').trigger("click");
@@ -1296,19 +1390,23 @@
                 }
             } else {
                 let single_mode = $the_dropDrown.hasClass("single-select");
+
                 if(!single_mode) {
                     var title = $the_el.closest('.mutliSelect').find('input[type="checkbox"]').val(),
                         title = $the_el.val() + ",";
+
                     if ($the_el.is(':checked')) {
                         var html = '<span title="' + title + '">' + title + '</span>';
                         $the_dropDrown.find('.multiSel').append(html);
                         $the_dropDrown.find(".hida").hide();
+
                     } else {
                         $the_dropDrown.find('span[title="' + title + '"]').remove();
                         if($the_dropDrown.find('.multiSel').children().length == 0)
                             $the_dropDrown.find(".hida").show();
                     }
                 } else {
+
                     if ($the_el.is(':checked')) {
                         var title = $the_el.val();
                         $the_dropDrown.find('.multiSel').html(title);
@@ -1318,6 +1416,7 @@
                         $the_dropDrown.find('.multiSel').html('');
                         $the_dropDrown.find(".hida").show();
                     }
+
                 }
             }
         });
@@ -1331,19 +1430,12 @@
         $('#showDatalist').hide()
         $('#showMultiDatalist').hide()
 
-        $("#manualButton").on("click", function(){
-            $(this).parents("form").find("input[required]").each(function(){
-                if($(this).attr("value") == '') {
-                    $(this).parents(".input-group.form-control-lg").addClass("has-danger")
-                }
-            })
-        })
-        
         function verifyFunc() {
             if ($('#person_phonenumber').val() !== "") {
                 $('#verification').prop('disabled', false);
             }
         }
+
         $('.show_popup').click(function () {
             var popup_id = $('#' + $(this).attr("rel"));
             $(popup_id).show();
@@ -1352,6 +1444,7 @@
         $('.overlay_popup').click(function () {
             $('.overlay_popup, .popup').hide();
         })
+
         // This sample uses the Place Autocomplete widget to allow the user to search
         // for and select a place. The sample then displays an info window containing
         // the place ID and other information about the place that the user has
@@ -1360,10 +1453,13 @@
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initMap() {
+
             $('#map').hide()
+
             if (!document.getElementById('map')) {
                 return
             }
+
             const map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 38.931, lng: -99.88},
                 zoom: 4,
@@ -1373,6 +1469,7 @@
             const autocomplete = new google.maps.places.Autocomplete(input)
             let place_name_input = document.getElementById('place_name')
             let place_id_input = document.getElementById('place_id')
+
             autocomplete.bindTo('bounds', map);
             // Specify just the place data fields that you need.
             autocomplete.setFields(['place_id', 'geometry', 'name']);
@@ -1385,12 +1482,16 @@
                 infowindow.open(map, marker);
             });
             autocomplete.addListener('place_changed', () => {
+
                 preloader_start()
+
                 infowindow.close();
                 const place = autocomplete.getPlace();
+
                 if (!place.geometry) {
                     return;
                 }
+
                 if (place.geometry.viewport) {
                     map.fitBounds(place.geometry.viewport);
                 } else {
@@ -1403,12 +1504,15 @@
                     location: place.geometry.location,
                 });
                 marker.setVisible(true);
+
                 // do nothing if place id already set and it's the same
                 if (place_id_input.value === place.place_id) {
                     return
                 }
+
                 place_name_input.value = place.name
                 place_id_input.value = place.place_id
+
                 // get details
                 let service = new google.maps.places.PlacesService(map);
                 let request = {
@@ -1416,8 +1520,10 @@
                 };
                 service.getDetails(request, function (place_data, status) {
                     preloader_start()
+
                     if (status === google.maps.places.PlacesServiceStatus.OK) {
                         let place_data_conv = []
+
                         console.log(place_data)
                         if($("#buttonAuto")) $("#buttonAuto").removeClass("disabled-button");
                         //showAuto
@@ -1426,22 +1532,29 @@
                             $('#buttonAuto').hide()
                             $('#buttonAutoHide').show()
                         }
+
                         if (!place_data.formatted_phone_number) {
                             $('#phoneAuto').hide()
                             $('#buttonAuto').hide()
                             $('#buttonAutoHide').show()
                         }
+
                         if (place_data.formatted_phone_number) {
                             $('#phoneAuto').show()
                             $('#buttonAuto').hide()
                             $('#buttonAutoHide').show()
                         }
+
                         if (place_data.website) {
                             let hostname = 'https://' + (new URL(place_data.website)).hostname;
                             let $oldWebSiteInput = $('input[name=old_website_url]')
                             $oldWebSiteInput.val(hostname)
                             $oldWebSiteInput.trigger('change')
+
+                            if($('#label_for_domain_js').length)
+                                $('#label_for_domain_js').html('@'+hostname.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0])
                         }
+
                         for (let p = 0; p < place_data.address_components.length; p++) {
                             let type = place_data.address_components[p].types[0]
                             let val = place_data.address_components[p].long_name
@@ -1459,6 +1572,7 @@
                                                             place_data_conv[ 'country' ] = val
                                                         } */
                         }
+
                         let inputs = [
                             'dealer_number_auto',
                             'lead_emails_auto',
@@ -1471,6 +1585,7 @@
                             //'postal_code',
                             //'address',
                         ]
+
                         for (let o = 0; o < inputs.length; o++) {
                             let $input = $('input[name=' + inputs[o] + ']')
                             /*
@@ -1495,7 +1610,9 @@
                         preloader_end()
                     }
                 });
+
                 preloader_end()
+
                 /*
                 infowindowContent.children.namedItem( 'place-name' ).textContent    =
                     place.name;
@@ -1504,29 +1621,39 @@
                 infowindowContent.children.namedItem( 'place-address' ).textContent =
                     place.formatted_address;
                  */
+
                 //infowindow.open( map, marker );
             });
         }
+
         function preloader_start() {
             let $wizardContainer = $('.wizard-container')
             let $preloader = $('#preloader')
+
             $preloader.show()
             $wizardContainer.css('opacity', '0.6')
         }
+
         function preloader_end() {
             let $wizardContainer = $('.wizard-container')
             let $preloader = $('#preloader')
+
             $preloader.hide()
             $wizardContainer.css('opacity', 1)
         }
+
         $(document).ready(function () {
             dt.checkFullPageBackgroundImage()
+
             // Initialise the wizard
             dt.initNowUiWizard()
+
             setTimeout(function () {
                 $('.card.card-wizard').addClass('active')
                 preloader_end()
             }, 600)
+
+
             let $form = $('form')
             let $types = $('.types_js')
             let $inputs_types = $types.find('.choice')
@@ -1537,52 +1664,71 @@
             let $dealeremail_input = $form.find('input[name="dealer_email"]')
             let $phone_input = $form.find('input[name="person_phonenumber"]')
             let $dealer_input = $form.find('input[name="dealer_number"]')
+
             $phone_input.mask('(999) 999-9999');
             $dealer_input.mask('(999) 999-9999');
+
             //$nextBtn.hide()
+
             $inputs_types.on('click', function (el) {
+
                 $finishBtn.hide()
+
                 // $( '#next' ).prop( 'disabled', false );
+
                 let $el = $(el.currentTarget)
                 let clickedIndex = $el.data('index')
+
                 if (!$el.hasClass('active')) {
                     $el.addClass('active')
                     $el.find('input').attr('checked')
                     return;
                 }
+
                 $el.closest('form').find('.card-footer').css('padding', '10px')
                 $nextBtn.hide()
+
                 // disable for all the rest
                 $inputs_types.each(function (choice, el_in) {
                     let $el_in = $(el_in)
                     let index = $el_in.data('index')
+
                     if (clickedIndex !== index) {
                         $el_in.removeClass('active')
                         $el_in.find('input').removeAttr('checked')
                     }
                 })
+
             })
+
             $email_input.on('keyup focus blur', function () {
+
                 let $the = $(this)
                 let email = $the.val()
+
                 $.ajax({
                     url: "{{ route('API_isEmailUnique') }}?email=" + email
                 }).done(function (data) {
                     let parsed = JSON.parse(data)
+
                     if ('ERROR' === parsed.status) {
                         let $errorLabel = $('#person_email-error')
                         $errorLabel.html(parsed.message)
                         $errorLabel.show()
                     }
+
                 });
             })
             $dealeremail_input.on('keyup focus blur', function () {
+
                 let $the = $(this)
                 let email = $the.val()
+
                 $.ajax({
                     url: "{{ route('API_isEmailUnique') }}?email=" + email
                 }).done(function (data) {
                     let parsed = JSON.parse(data)
+
                     if ('ERROR' === parsed.status) {
                         let $errorLabel = $('#person_email-error')
                         $errorLabel.html(parsed.message)
@@ -1592,51 +1738,72 @@
                     else {
                         $('#submitbutton').show()
                     }
+
                 });
             })
+
             $phone_input.on('keyup focus blur', function () {
+
                 let $the = $(this)
                 let phone = $the.val()
+
                 $.ajax({
                     url: "{{ route('API_isPhoneUnique') }}?phone=" + phone
                 }).done(function (data) {
                     let parsed = JSON.parse(data)
+
                     if ('ERROR' === parsed.status) {
                         let $errorLabel = $('#person_phone-error')
                         $errorLabel.html(parsed.message)
                         $errorLabel.show()
                     }
+
                 });
             })
+
             $old_website_url_input.on('change', function (el) {
                 let $the = $(this)
                 let val = $the.val()
+
                 if (!val) return
+
                 preloader_start()
+
                 $.ajax({
                     url: "{{ route('API_getSiteData') }}?site-url=" + val
                 }).done(function (data) {
+
                     let parsed = JSON.parse(data)
+
                     console.log(parsed)
+
                     if ('OK' !== parsed.status) {
                         preloader_end()
                         return
                     }
+
                     let $logoImg = $('#logo')
                     let $siteIconImg = $('#site_icon')
+
                     if (parsed.data.favicon_url) {
                         $siteIconImg.attr('src', parsed.data.favicon_url)
                     } else {
                         $siteIconImg.attr('src', $siteIconImg.data('default'))
                     }
+
                     if (parsed.data.logo_url) {
                         $logoImg.attr('src', parsed.data.logo_url)
                     } else {
                         $logoImg.attr('src', $logoImg.data('default'))
                     }
+
                     preloader_end()
                 })
             })
         })
+
+
     </script>
 @endpush
+
+
