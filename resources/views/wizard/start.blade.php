@@ -575,8 +575,8 @@
                                                     <div onclick="$('#oneblock').show(); $('#showDatalist').hide(); $('#showMultiDatalist').show();"
                                                          class="datalist choice" data-toggle="wizard-checkbox" data-index="1">
                                                         <input  class="type" type="checkbox"
-                                                               {{ 'group' === old('type') ? 'checked' : '' }} name="type"
-                                                               value="group">
+                                                                {{ 'group' === old('type') ? 'checked' : '' }} name="type"
+                                                                value="group">
                                                         <div class="icon">
                                                             <img src="{{asset('now/img/group.png')}}" alt="">
                                                         </div>
@@ -701,7 +701,19 @@
                                                                        value="{{ old('dealer_number_auto') }}"
                                                                        class="form-control" name="dealer_number_auto">
                                                             </div>
-                                                        </div>   
+                                                        </div>
+                                                        <div class="col-lg-6 offset-3 mt-3">
+                                                            <div class="input-group form-control-lg / verify_method_js" data-method="email_message">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text">
+                                                                        <label>Mail me to</label>
+                                                                    </div>
+                                                                </div>
+                                                                <input required type="text" placeholder="Email"
+                                                                       value="{{ old('dealer_email') }}"
+                                                                       class="form-control" name="dealer_email_auto">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -777,9 +789,9 @@
                                            onclick="$('#showManual').hide(); $('#hideManual').hide(); $('#seeManual').show(); $('#autosearch').show();  $('#showDatalist, #showMultiDatalist').hide(); $('#autotypes').show(); $('#typetitle').show()"/>
                                 </div>
                                 <div id="showManual">
-                                        <div class="tab-pane" id="account">
-                                            <h5 class="info-text">Let's start with the basic information</h5>
-                                            <form class="on_manual_form_submit_js" action="{{ route('wizard')  }}" method="POST">
+                                    <div class="tab-pane" id="account">
+                                        <h5 class="info-text">Let's start with the basic information</h5>
+                                        <form class="on_manual_form_submit_js" action="{{ route('wizard')  }}" method="POST">
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-10 mt-3">
                                                     <div class="input-group form-control-lg">
@@ -799,7 +811,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row justify-content-center">
+                                            <div class="row justify-content-center / manual_makes_field_js">
                                                 <div class="col-lg-10 mt-3">
                                                     <div class="input-group form-control-lg manual-multi-data-list">
                                                         <div class="input-group-prepend">
@@ -916,23 +928,23 @@
                                                 </div>
 
                                                 <div class="col-lg-5 mt-3">
-                                                     <div class="input-group form-control-lg">
-                                                         <button type="button" id="verification" class="show_popup blue_btn"
-                                                                 rel="popup1">Verify
-                                                         </button>
-                                                         <div class="overlay_popup"></div>
+                                                    <div class="input-group form-control-lg">
+                                                        <button type="button" id="verification" class="show_popup blue_btn"
+                                                                rel="popup1">Verify
+                                                        </button>
+                                                        <div class="overlay_popup"></div>
 
-                                                         <div class="popup" id="popup1">
-                                                             <div class="object">
-                                                                 <form action="">
-                                                                 <p>Verification code: </p>
-                                                                     <p><input type="text" name="codename"></p>
-                                                                 <input style="background-color: black; color: white " type="submit" value="Send">
-                                                                 </form>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </div>
+                                                        <div class="popup" id="popup1">
+                                                            <div class="object">
+                                                                <form action="">
+                                                                    <p>Verification code: </p>
+                                                                    <p><input type="text" name="codename"></p>
+                                                                    <input style="background-color: black; color: white " type="submit" value="Send">
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
 
@@ -1093,134 +1105,134 @@
                                             </div>
 
 
-                                            {{--
-                                            <div class="row justify-content-center">
+                                        {{--
+                                        <div class="row justify-content-center">
 
-                                                <div class="col-lg-10 mt-3">
+                                            <div class="col-lg-10 mt-3">
 
-                                                    <div class="input-group form-control-lg">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                <i class="now-ui-icons tech_mobile"></i>
-                                                            </div>
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons tech_mobile"></i>
                                                         </div>
-                                                        <input type="text" placeholder="Monday" value=""
-                                                               class="form-control" name="hours[monday]">
                                                     </div>
-
+                                                    <input type="text" placeholder="Monday" value=""
+                                                           class="form-control" name="hours[monday]">
                                                 </div>
 
                                             </div>
-                                            --}}
 
                                         </div>
+                                        --}}
 
-                                        <div class="tab-pane" id="finish">
-                                            <h5 class="info-text">User Account</h5>
+                                    </div>
 
-                                            <div class="row justify-content-center">
+                                    <div class="tab-pane" id="finish">
+                                        <h5 class="info-text">User Account</h5>
 
-                                                <div class="col-sm-10 mt-3 flex-2-columns">
+                                        <div class="row justify-content-center">
 
-                                                    <div class="input-group form-control-lg">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                <i class="now-ui-icons users_circle-08"></i>
-                                                            </div>
+                                            <div class="col-sm-10 mt-3 flex-2-columns">
+
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons users_circle-08"></i>
                                                         </div>
-                                                        <input required type="text" class="form-control"
-                                                               value="{{ old('person_firstname') }}"
-                                                               placeholder="First Name (required)"
-                                                               name="person_firstname"
-                                                        >
                                                     </div>
+                                                    <input required type="text" class="form-control"
+                                                           value="{{ old('person_firstname') }}"
+                                                           placeholder="First Name (required)"
+                                                           name="person_firstname"
+                                                    >
+                                                </div>
 
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons text_caps-small"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input required type="text" placeholder="Last Name (required)"
+                                                           value="{{ old('person_lastname') }}"
+                                                           class="form-control" name="person_lastname">
+                                                </div>
+
+                                                <div class="input-group form-control-lg">
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
                                                                 <i class="now-ui-icons text_caps-small"></i>
                                                             </div>
                                                         </div>
-                                                        <input required type="text" placeholder="Last Name (required)"
-                                                               value="{{ old('person_lastname') }}"
-                                                               class="form-control" name="person_lastname">
+                                                        <input required type="email" placeholder="Email (required)"
+                                                               class="form-control"
+                                                               value="{{ old('person_email') }}"
+                                                               name="person_email">
                                                     </div>
+                                                </div>
 
+                                                <div class="input-group form-control-lg">
                                                     <div class="input-group form-control-lg">
-                                                        <div class="input-group form-control-lg">
-                                                            <div class="input-group-prepend">
-                                                                <div class="input-group-text">
-                                                                    <i class="now-ui-icons text_caps-small"></i>
-                                                                </div>
-                                                            </div>
-                                                            <input required type="email" placeholder="Email (required)"
-                                                                   class="form-control"
-                                                                   value="{{ old('person_email') }}"
-                                                                   name="person_email">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="input-group form-control-lg">
-                                                        <div class="input-group form-control-lg">
-                                                            <div class="input-group-prepend">
-                                                                <div class="input-group-text">
-                                                                    <i class="now-ui-icons tech_mobile"></i>
-                                                                </div>
-                                                            </div>
-                                                            <input required onchange="verifyFunc()"
-                                                                   id="person_phonenumber"
-                                                                   placeholder="Phone (required)" class="form-control"
-                                                                   name="person_phonenumber"
-                                                                   value="{{ old('person_phonenumber') }}">
-                                                        </div>
-                                                    </div>
-
-                                                    <!--Begin input password -->
-                                                    <div
-                                                        class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
-                                                                <i class="now-ui-icons objects_key-25"></i>
+                                                                <i class="now-ui-icons tech_mobile"></i>
                                                             </div>
                                                         </div>
-                                                        <input required
-                                                               class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                               placeholder="{{ __('Password') }}" type="password"
-                                                               name="person_password"
-                                                               value="{{ old( 'person_password' ) }}"
-                                                        >
-                                                        @if ($errors->has('password'))
-                                                            <span class="invalid-feedback" style="display: block;"
-                                                                  role="alert">
+                                                        <input required onchange="verifyFunc()"
+                                                               id="person_phonenumber"
+                                                               placeholder="Phone (required)" class="form-control"
+                                                               name="person_phonenumber"
+                                                               value="{{ old('person_phonenumber') }}">
+                                                    </div>
+                                                </div>
+
+                                                <!--Begin input password -->
+                                                <div
+                                                    class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons objects_key-25"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input required
+                                                           class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                           placeholder="{{ __('Password') }}" type="password"
+                                                           name="person_password"
+                                                           value="{{ old( 'person_password' ) }}"
+                                                    >
+                                                    @if ($errors->has('password'))
+                                                        <span class="invalid-feedback" style="display: block;"
+                                                              role="alert">
                                                         <strong>{{ $errors->first('password') }}</strong>
                                                     </span>
-                                                        @endif
-                                                    </div>
-                                                    <!--Begin input confirm password -->
-                                                    <div class="input-group form-control-lg">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                <i class="now-ui-icons objects_key-25"></i>
-                                                            </div>
+                                                    @endif
+                                                </div>
+                                                <!--Begin input confirm password -->
+                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="now-ui-icons objects_key-25"></i>
                                                         </div>
-                                                        <input required class="form-control"
-                                                               placeholder="{{ __('Confirm Password') }}"
-                                                               type="password" name="person_password_confirmation"
-                                                               value="{{ old( 'person_password_confirmation' ) }}"
-                                                        >
                                                     </div>
+                                                    <input required class="form-control"
+                                                           placeholder="{{ __('Confirm Password') }}"
+                                                           type="password" name="person_password_confirmation"
+                                                           value="{{ old( 'person_password_confirmation' ) }}"
+                                                    >
+                                                </div>
 
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-center types_js">
-                                                <div class="col-lg-5 mt-3">
-                                                    <button id="manualButton" type="submit"
-                                                        style="background-color: #008CBA; font-size: 95%">Finish
-                                                    </button>
-                                                </div>
                                             </div>
                                         </div>
-                                        {{ csrf_field() }}
+                                        <div class="row justify-content-center types_js">
+                                            <div class="col-lg-5 mt-3">
+                                                <button id="manualButton" type="submit"
+                                                        style="background-color: #008CBA; font-size: 95%">Finish
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ csrf_field() }}
                                     </form>
                                 </div>
                             </div>
@@ -1254,6 +1266,13 @@
 
 @push('js')
     <script>
+        $("#manualButton").on("click", function(){
+            $(this).parents("form").find("input[required]").each(function(){
+                if($(this).attr("value") == '') {
+                    $(this).parents(".input-group.form-control-lg").addClass("has-danger")
+                }
+            })
+        })
         //verify method ownership
         $(".verify_method_js").on("click", function(){
             $("#verify_ownership_method").parent().find(".verify_method_js").removeClass("active");
@@ -1262,12 +1281,18 @@
         })
 
         $("form.on_manual_form_submit_js #input-role").on("change", function(){
-            if($(this).val() == 'dealer_group') {
-                $("form.on_manual_form_submit_js").find('.data-list.active').removeClass("active");
-                $("form.on_manual_form_submit_js").find('#manualMultiDatalist').addClass("active");
+            let $form = $("form.on_manual_form_submit_js");
+            if($(this).val() == 'independent_dealer') {
+                $form.find(".manual_makes_field_js").hide();
             } else {
-                $("form.on_manual_form_submit_js").find('.data-list.active').removeClass("active");
-                $("form.on_manual_form_submit_js").find('#singleManualMultiDatalist').addClass("active");
+                $form.find(".manual_makes_field_js").show();
+                if($(this).val() == 'dealer_group') {
+                    $form.find('.data-list.active').removeClass("active");
+                    $form.find('#manualMultiDatalist').addClass("active");
+                } else {
+                    $form.find('.data-list.active').removeClass("active");
+                    $form.find('#singleManualMultiDatalist').addClass("active");
+                }
             }
         })
 
