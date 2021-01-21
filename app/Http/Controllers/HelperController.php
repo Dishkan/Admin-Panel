@@ -19,8 +19,8 @@ class HelperController extends Controller{
 		$dens_number   = '+380931488118';
 
 
-		$twilio = new TwilioController();
-		$twilio->callVoiceCode( $hirads_number, '12345' );
+		//$twilio = new TwilioController();
+		//$twilio->callVoiceCode( $hirads_number, '12345' );
 
 
 		//dd( $res );
