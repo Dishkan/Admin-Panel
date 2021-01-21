@@ -1419,15 +1419,16 @@
                             $the_dropDrown.find(".hida").show();
                     }
                 } else {
-
+                    var title = $the_el.val();
                     if ($the_el.is(':checked')) {
-                        var title = $the_el.val();
                         $the_dropDrown.find('.multiSel').html(title);
                         $the_dropDrown.find(".hida").hide();
                         $the_dropDrown.find('input[type="checkbox"]:not([value="' + title + '"]):checked').prop( "checked", false );
                     } else {
-                        $the_dropDrown.find('.multiSel').html('');
-                        $the_dropDrown.find(".hida").show();
+                        if( title == $the_dropDrown.find('.multiSel').text() ) {
+                            $the_dropDrown.find('.multiSel').html('');
+                            $the_dropDrown.find(".hida").show();
+                        }
                     }
 
                 }
