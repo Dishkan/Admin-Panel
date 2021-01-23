@@ -702,7 +702,7 @@
                                                         </div>
                                                     </div>
                                                     <input id="pac-input" class="form-control" type="text"
-                                                           placeholder="First, Search For Your Dealership…"
+                                                           placeholder="First, Search For Your Dealership�"
                                                            value="{{ old('place_name') }}"/>
                                                     <input name="place_name" type="hidden" id="place_name"
                                                            value="{{ old('place_name') }}">
@@ -749,7 +749,7 @@
                                                                 </div>
                                                                 <div class="input-with-label">
                                                                     <input required type="text" placeholder="Email"
-                                                                           value="{{ old('dealer_email') }}"
+                                                                           value="{{ old('dealer_email_auto') }}"
                                                                            class="form-control" name="dealer_email_auto">
                                                                     <label id="label_for_domain_js">@domain.name</label>
                                                                 </div>
@@ -833,7 +833,7 @@
                                     <div class="tab-pane" id="account">
                                         <h5 class="info-text">Let's start with the basic information</h5>
                                         <form class="on_manual_form_submit_js" action="{{ route('wizard')  }}" method="POST">
-                                            <div class="row justify-content-center">
+                                        <div class="row justify-content-center">
                                                 <div class="col-lg-10 mt-3">
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
@@ -981,45 +981,13 @@
                                                                     <p>Verification code: </p>
                                                                     <p><input type="text" name="codename"></p>
                                                                     <input style="background-color: black; color: white " type="submit" value="Send">
+                                                                    {{ csrf_field() }}
                                                                 </form>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-
-                                            {{--                                    <div class="row justify-content-center">--}}
-
-                                            {{--                                        <div class="col-sm-4">--}}
-                                            {{--                                            <div class="picture-container">--}}
-                                            {{--                                                <div class="picture">--}}
-                                            {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
-                                            {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
-                                            {{--                                                         class="picture-src"--}}
-                                            {{--                                                         id="logo" title=""/>--}}
-                                            {{--                                                    <input name="logo_src" type="file" id="logo_input"--}}
-                                            {{--                                                           class="wizard-picture" value="{{ old('logo_src') }}">--}}
-                                            {{--                                                </div>--}}
-                                            {{--                                                <h6 class="description">Logo</h6>--}}
-                                            {{--                                            </div>--}}
-                                            {{--                                        </div>--}}
-
-                                            {{--                                        <div class="col-sm-4">--}}
-                                            {{--                                            <div class="picture-container">--}}
-                                            {{--                                                <div class="picture">--}}
-                                            {{--                                                    <img data-default="{{asset('now/img/default-avatar.png')}}"--}}
-                                            {{--                                                         src="{{asset('now/img/default-avatar.png')}}"--}}
-                                            {{--                                                         class="picture-src"--}}
-                                            {{--                                                         id="site_icon" title=""/>--}}
-                                            {{--                                                    <input name="site_icon_src" type="file" id="site_icon_input"--}}
-                                            {{--                                                           class="wizard-picture" value="{{ old('site_icon_src') }}">--}}
-                                            {{--                                                </div>--}}
-                                            {{--                                                <h6 class="description">Site Icon</h6>--}}
-                                            {{--                                            </div>--}}
-                                            {{--                                        </div>--}}
-
-                                            {{--                                    </div>--}}
 
 
                                             <div class="row justify-content-center">
@@ -1145,30 +1113,6 @@
 
                                             </div>
 
-
-                                        {{--
-                                        <div class="row justify-content-center">
-
-                                            <div class="col-lg-10 mt-3">
-
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons tech_mobile"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input type="text" placeholder="Monday" value=""
-                                                           class="form-control" name="hours[monday]">
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        --}}
-
-                                    </div>
-
-                                    <div class="tab-pane" id="finish">
                                         <h5 class="info-text">User Account</h5>
 
                                         <div class="row justify-content-center">
@@ -1271,32 +1215,15 @@
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
-                                    {{ csrf_field() }}
+                                        {{ csrf_field() }}
                                     </form>
+                                </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="card-footer">
-                        <div class="pull-right">
-                            <input id="next" disabled="true" type='hidden'
-                                   class='btn btn-next btn-fill btn-rose btn-wd' name='next'
-                                   value='Next'/>
-                            <input type='submit' class='btn btn-finish btn-fill btn-rose btn-wd' name='finish'
-                                   value='Finish'/>
-                        </div>
-                        <div class="pull-left">
-                            <input type='button' class='btn btn-previous btn-fill btn-default btn-wd'
-                                   name='previous' value='Previous'/>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
                 </div>
             </div>
-            <!-- wizard container -->
-        </div>
     </div>
     </div>
     <div id="preloader">
@@ -1306,14 +1233,14 @@
 
 @push('js')
     <script>
-
+        /*
         $("#manualButton").on("click", function(){
             $(this).parents("form").find("input[required]").each(function(){
                 if($(this).attr("value") == '') {
                     $(this).parents(".input-group.form-control-lg").addClass("has-danger")
                 }
             })
-        })
+        }) */
 
         //verify method ownership
         $(".verify_method_js").on("click", function(){
@@ -1419,17 +1346,17 @@
                             $the_dropDrown.find(".hida").show();
                     }
                 } else {
-
+                    var title = $the_el.val();
                     if ($the_el.is(':checked')) {
-                        var title = $the_el.val();
                         $the_dropDrown.find('.multiSel').html(title);
                         $the_dropDrown.find(".hida").hide();
                         $the_dropDrown.find('input[type="checkbox"]:not([value="' + title + '"]):checked').prop( "checked", false );
                     } else {
-                        $the_dropDrown.find('.multiSel').html('');
-                        $the_dropDrown.find(".hida").show();
+                        if( title == $the_dropDrown.find('.multiSel').text() ) {
+                            $the_dropDrown.find('.multiSel').html('');
+                            $the_dropDrown.find(".hida").show();
+                        }
                     }
-
                 }
             }
         });
@@ -1675,6 +1602,7 @@
             let $old_website_url_input = $form.find('#old_website_url')
             let $email_input = $form.find('input[name="person_email"]')
             let $dealeremail_input = $form.find('input[name="dealer_email"]')
+            let $dealeremail_auto = $form.find('input[name="dealer_email_auto"]')
             let $phone_input = $form.find('input[name="person_phonenumber"]')
             let $dealer_input = $form.find('input[name="dealer_number"]')
 
@@ -1733,6 +1661,28 @@
                 });
             })
             $dealeremail_input.on('keyup focus blur', function () {
+
+                let $the = $(this)
+                let email = $the.val()
+
+                $.ajax({
+                    url: "{{ route('API_isEmailUnique') }}?email=" + email
+                }).done(function (data) {
+                    let parsed = JSON.parse(data)
+
+                    if ('ERROR' === parsed.status) {
+                        let $errorLabel = $('#person_email-error')
+                        $errorLabel.html(parsed.message)
+                        $errorLabel.show()
+                        $('#submitbutton').hide()
+                    }
+                    else {
+                        $('#submitbutton').show()
+                    }
+
+                });
+            })
+            $dealeremail_auto.on('keyup focus blur', function () {
 
                 let $the = $(this)
                 let email = $the.val()
