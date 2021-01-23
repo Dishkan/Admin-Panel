@@ -702,7 +702,7 @@
                                                         </div>
                                                     </div>
                                                     <input id="pac-input" class="form-control" type="text"
-                                                           placeholder="First, Search For Your Dealership�"
+                                                           placeholder="First, Search For Your Dealership"
                                                            value="{{ old('place_name') }}"/>
                                                     <input name="place_name" type="hidden" id="place_name"
                                                            value="{{ old('place_name') }}">
@@ -833,7 +833,7 @@
                                     <div class="tab-pane" id="account">
                                         <h5 class="info-text">Let's start with the basic information</h5>
                                         <form class="on_manual_form_submit_js" action="{{ route('wizard')  }}" method="POST">
-                                        <div class="row justify-content-center">
+                                            <div class="row justify-content-center">
                                                 <div class="col-lg-10 mt-3">
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
@@ -977,12 +977,12 @@
 
                                                         <div class="popup" id="popup1">
                                                             <div class="object">
-                                                                <form action="">
+                                                                <div id="verify_form_action">
                                                                     <p>Verification code: </p>
                                                                     <p><input type="text" name="codename"></p>
                                                                     <input style="background-color: black; color: white " type="submit" value="Send">
                                                                     {{ csrf_field() }}
-                                                                </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1216,15 +1216,15 @@
                                             </div>
                                         </div>
                                         {{ csrf_field() }}
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
-                                </div>
-                                  </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
     </div>
     <div id="preloader">
         <div id="loader"></div>
@@ -1232,6 +1232,28 @@
 @endsection
 
 @push('js')
+    <script>
+        //form send
+        $(document).ready(function () {
+        (function () {
+            $('#verify_form_action').wrap('<form id="verify_form1" action="" method="post"></form>');
+        })();});
+
+        //form validation
+        $("form[action]").submit(function(event){
+            var $validation = true;
+            $(this).find('input[required]').each(function(){
+                if($(this).attr("value") == '') {
+                    $(this).parents(".input-group.form-control-lg").addClass("has-danger");
+                    if($validation)
+                        $validation = false
+                }
+            })
+            if( !$validation )
+                event.preventDefault();
+        });
+    </script>
+
     <script>
         /*
         $("#manualButton").on("click", function(){
