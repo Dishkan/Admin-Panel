@@ -735,7 +735,7 @@
                                                                         <label>Text Message to</label>
                                                                     </div>
                                                                 </div>
-                                                                <input required type="text" placeholder="Phone"
+                                                                <input type="text" placeholder="Phone"
                                                                        value="{{ old('dealer_number_auto') }}"
                                                                        class="form-control" name="dealer_number_auto">
                                                             </div>
@@ -775,7 +775,6 @@
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-5 mt-3">
-
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
@@ -787,21 +786,30 @@
                                                                value="{{ old('dealer_email') }}"
                                                                class="form-control" name="dealer_email">
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-5 mt-3">
-
                                                     <div class="input-group form-control-lg">
-                                                        <button id="submitbutton" type="submit" style="background-color: #008CBA; ">
+                                                        <button class="show_popup" rel="popup1" id="submitbutton" type="submit" style="background-color: #008CBA; ">
                                                             Start Verification
                                                         </button>
                                                     </div>
-
                                                 </div>
+                                            </div>
+                                            <div class="input-group form-control-lg">
+                                                <div class="overlay_popup"></div>
 
+                                                <div class="popup" id="popup1">
+                                                    <div class="object">
+                                                        <div id="verify_form_action">
+                                                            <p>Verification code: </p>
+                                                            <p><input type="text" name="codename"></p>
+                                                            <input style="background-color: black; color: white " type="submit" value="Verify">
+                                                            {{ csrf_field() }}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     {{ csrf_field() }}
