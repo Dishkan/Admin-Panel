@@ -46,6 +46,15 @@ class PageController extends Controller{
 		return view( 'pages.lock' );
 	}
 
+	public function verify(Request $request) {
+        if( $request->isMethod( 'GET' ) ){
+            $input = $request->except( [ '_token'] );
+            if($input['codename2'] == 111111) {
+             return 12345;
+            }
+        }
+    }
+
     /**
      * Store dealer`s info with auto filling input
      */
