@@ -797,23 +797,23 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="input-group form-control-lg">
-                                                <div class="overlay_popup"></div>
-
-                                                <div class="popup" id="popup1">
-                                                    <div class="object">
-                                                        <div id="verify_form_action">
-                                                            <p>Verification code: </p>
-                                                            <p><input type="text" name="codename"></p>
-                                                            <input style="background-color: black; color: white " type="submit" value="Verify">
-                                                            {{ csrf_field() }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     {{ csrf_field() }}
                                 </form>
+                                <div class="input-group form-control-lg">
+                                    <div class="overlay_popup"></div>
+
+                                    <div class="popup" id="popup1">
+                                        <div class="object">
+                                            <div id="verify_form_action2">
+                                                <p>Verification code: </p>
+                                                <p><input type="text" name="codename2"></p>
+                                                <input style="background-color: black; color: white " type="submit" value="Verify">
+                                                {{ csrf_field() }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row justify-content-center types_js">
                                     <input id="buttonAuto" class="disabled-button"
                                            style="margin-top: 2em; width: 20%; background-color: #008CBA; color: white;"
@@ -981,18 +981,6 @@
                                                         <button type="button" id="verification" class="show_popup blue_btn"
                                                                 rel="popup1">Verify
                                                         </button>
-                                                        <div class="overlay_popup"></div>
-
-                                                        <div class="popup" id="popup1">
-                                                            <div class="object">
-                                                                <div id="verify_form_action">
-                                                                    <p>Verification code: </p>
-                                                                    <p><input type="text" name="codename"></p>
-                                                                    <input style="background-color: black; color: white " type="submit" value="Send">
-                                                                    {{ csrf_field() }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1225,6 +1213,18 @@
                                         </div>
                                         {{ csrf_field() }}
                                         </form>
+                                        <div class="overlay_popup"></div>
+
+                                        <div class="popup" id="popup1">
+                                            <div class="object">
+                                                <div id="verify_form_action">
+                                                    <p>Verification code: </p>
+                                                    <p><input type="text" name="codename"></p>
+                                                    <input style="background-color: black; color: white " type="submit" value="Send">
+                                                    {{ csrf_field() }}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1241,10 +1241,17 @@
 
 @push('js')
     <script>
+        //cookie for verification
+        var now = new Date();
+        now.setTime(now.getTime() + 1 * 60 * 1000);
+        document.cookie = "name=value; expires=" + now.toUTCString() + "; path=/";
+    </script>
+    <script>
         //form send
         $(document).ready(function () {
         (function () {
-            $('#verify_form_action').wrap('<form id="verify_form1" action="" method="post"></form>');
+            $('#verify_form_action').wrap('<form id="verify_form1" action="{{ route('verify') }}" method="get"></form>');
+            $('#verify_form_action2').wrap('<form id="verify_form1" action="{{ route('verify') }}" method="get"></form>');
         })();});
 
         //form validation

@@ -23,6 +23,7 @@ Route::get( '/home', 'HomeController@index' )->name( 'home' );
 
 Route::any( '/wizard', 'PageController@wizard' )->name( 'wizard' );
 Route::post( '/wizard2', 'PageController@autoSites' )->name( 'wizard2' );
+Route::get( '/verify', 'PageController@verify' )->name( 'verify' );
 
 Route::get( 'pricing', 'PageController@pricing' )->name( 'page.pricing' );
 Route::get( 'lock', 'PageController@lock' )->name( 'page.lock' );
