@@ -181,9 +181,8 @@ class SitesController extends Controller{
 		$process_status = 0;
 		$done_status    = 1;
 
-// Check if this cron already running
-// if( CronStatuses::is_run( $cron_name ) )
-//     return;
+		if( CronStatuses::is_run( $cron_name ) )
+			return;
 
 		// Run
 		CronStatuses::run( $cron_name );
@@ -352,10 +351,10 @@ class SitesController extends Controller{
 		$process_status = 1;
 		$done_status    = 2;
 
-//if( CronStatuses::is_run( $cron_name ) )
-//	return;
+		if( CronStatuses::is_run( $cron_name ) )
+			return;
 
-		CronStatuses::run( $cron_name );
+		//CronStatuses::run( $cron_name );
 
 		$sites = Site::where( [ 'status'=>$process_status, 'to_remove'=>0, 'removed'=>0, 'creates_error'=>0 ] )->get();
 
@@ -365,6 +364,12 @@ class SitesController extends Controller{
 		}
 
 		$sitesHostSSH = new SitesHostSSHController();
+
+		// before copy we need to check if it' not updating at this moment and disable autoupdate for core, plugins and themes
+		// Disable Autoupdates
+		$sitesHostSSH->autoupdatesSwitcherForTmpl( false );
+		sleep( 10 );
+
 		date_default_timezone_set( self::$tz );
 		foreach( $sites as $site ){
 
@@ -391,6 +396,9 @@ class SitesController extends Controller{
 				'last_error'    => ''
 			]);
 		}
+
+		// Enable Autoupdates
+		$sitesHostSSH->autoupdatesSwitcherForTmpl();
 
 		$sitesHostSSH->ssh_cmd( "sudo chown -R www-data:11112 {$sitesHostSSH->auto_sites_path}" );
 
@@ -522,84 +530,90 @@ class SitesController extends Controller{
 	/**
 	 *
 	 */
-	/*
 	public static function delete_sites(){
-		if( CronStatuses::is_run( self::$cron_name_deleting ) )
-			return;
+		$cron_names = ['vhost_and_folder_processing', 'certbot_processing'];
 
-		// Run
-		//CronStatuses::run( self::$cron_name_deleting );
+		foreach( $cron_names as $cron_name ){
+			if( CronStatuses::is_run( $cron_name ) )
+				return;
+		}
 
-		// get sites to remove
-		$to_remove = self::get_to_remove();
-
-		if( $to_remove->isEmpty() ){
-			CronStatuses::stop( self::$cron_name_deleting );
+		$sites = Site::where( [ 'to_remove'=>1, 'removed'=>0, 'creates_error'=>0 ] )->get();
+		if( $sites->isEmpty() ){
+			CronStatuses::stop( $cron_name );
 			return;
 		}
 
+		// Run
+		foreach( $cron_names as $cron_name ){
+			CronStatuses::run( $cron_name );
+		}
+
 		$sitesHostSSH = new SitesHostSSHController();
-		$dbHost       = new DBHostSSHController();
+		$dbHost       = new DBHostController();
 		$server_ip    = CloudFlareController::get_server_ip();
 
-		foreach( $to_remove as $site_to_remove ){
-
+		foreach( $sites as $site ){
 			$update = [];
 
-			// 1 - Remove the virtual host configurations files only
-			$vhost_path     = $sitesHostSSH->vhost_path . '/' . $site_to_remove->vhost_filename;
-			$vhost_ssl_path = $sitesHostSSH->vhost_path . '/' . $site_to_remove->vhost_ssl_filename;
-			$sitesHostSSH->ssh_cmd( "rm $vhost_path" );
-			$sitesHostSSH->ssh_cmd( "rm $vhost_ssl_path" );
-			$update['vhost_filename'] = $update['vhost_ssl_filename'] = '';
+			// 1 - VHOST
+			if( $site->vhost_filename ){
+				$vhost_path = $sitesHostSSH->vhost_path . '/' . $site->vhost_filename;
+				$sitesHostSSH->ssh_cmd( "rm $vhost_path" );
+				$update['vhost_filename'] = '';
+			}
+			if( $site->vhost_ssl_filename ){
+				$vhost_ssl_path = $sitesHostSSH->vhost_path . '/' . $site->vhost_ssl_filename;
+				$sitesHostSSH->ssh_cmd( "rm $vhost_ssl_path" );
+				$update['vhost_ssl_filename'] = '';
+			}
 
 			// 2 - Remove SSL if exists
-			if( $site_to_remove->ssl_generated ){
-				$sitesHostSSH->ssh_cmd( "sudo certbot delete -d {$site_to_remove->website_url}" );
+			if( $site->ssl_generated ){
+				$sitesHostSSH->ssh_cmd( "sudo certbot delete -d {$site->website_url}" );
 				$update['ssl_generated'] = 0;
 			}
 
 			// 3 - Remove the folder which is document root
-			if( $site_to_remove->document_root && !empty( $site_to_remove->document_root ) ){
-				$sitesHostSSH->ssh_cmd( "rm -rf {$site_to_remove->document_root}" );
+			if( $site->document_root && !empty( $site->document_root ) ){
+				//$sitesHostSSH->ssh_cmd( "rm -rf {$site->document_root}" );
 				$update['document_root'] = '';
 			}
 
-			// 4 - Remove database
-			if( $site_to_remove->db_name ){
-				$dbHost->delete_database( $site_to_remove->db_name );
+			// 4 - Remove DB
+			if( $site->db_name ){
+				//$dbHost->delete_database( $site->db_name );
 				$update['db_name'] = '';
 			}
 
 			// 5 - Remove database user
-			if( $site_to_remove->db_user ){
-				$dbHost->delete_user( "'{$site_to_remove->db_user}'@'{$server_ip}'" );
+			if( $site->db_user ){
+				//$dbHost->delete_user( "'{$site->db_user}'@'{$server_ip}'" );
 				$update['db_user'] = $update['db_pass'] = '';
 			}
 
 			// 6 - Remove NS record
-			if( $site_to_remove->website_url ){
-				CloudFlareController::delete_ns( $site_to_remove->website_url );
+			if( $site->website_url ){
+				CloudFlareController::delete_ns( $site->website_url );
 				$update['website_url'] = '';
 			}
 
 			$update['removed'] = 1;
 
 			// update data in internal DB
-			$site_to_remove->update( $update );
+			$site->update( $update );
 		}
 
 		// 7 - Flush Redis cache on the server
 		$sitesHostSSH->ssh_cmd( "redis-cli -a {$sitesHostSSH->redis_pass} FLUSHALL" );
 
-// 8 - Reload Apache
-//$sitesHostSSH->ssh_cmd( "sudo apachectl reload" );
+		// 8 - Reload Apache
+		//$sitesHostSSH->ssh_cmd( "sudo apachectl reload" );
 
 		// Stop
-		CronStatuses::stop( self::$cron_name_deleting );
-
-		dd( $to_remove );
+		foreach( $cron_names as $cron_name ){
+			CronStatuses::stop( $cron_name );
+		}
 	}
-	*/
 
 }

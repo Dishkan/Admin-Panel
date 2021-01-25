@@ -53,7 +53,7 @@ class HelperController extends Controller{
 		// SitesController::process_without_files();
 
 		// 2 - TEST PASSED
-		// SitesController::process_with_empty_db();
+		SitesController::process_with_empty_db();
 
 		// 3 - TEST
 		// SitesController::process_without_SSL();

@@ -26,18 +26,70 @@ class SitesHostSSHController extends Controller{
 	protected $temp_file_name          = 'auto_sites';
 	protected $vhost_template_file     = 'vhost-template.conf';
 	protected $vhost_template_file_ssl = 'vhost-template-le-ssl.conf';
-	public $wpconfig_template_file  = 'wp-config-template.php';
-	public $wpconfig_filename       = 'wp-config.php';
-	public $wpconfig_storage        = 'wpconfigs';
+	public    $wpconfig_template_file  = 'wp-config-template.php';
+	public    $wpconfig_filename       = 'wp-config.php';
+	public    $wpconfig_storage        = 'wpconfigs';
 
 	// templates
 	protected $tmpl_site_path = '/var/www/dealer_sites_auto/tmpl.idweb.io';
 
 	protected $login_res;
 
+	public $code_to_disable_autoupdates;
+	public $code_to_enable_autoupdates;
+
+    public $dis_updates_filepath;
+    public $enab_updates_filepath;
+
 	public function __construct(){
 		$this->sites_server_host = '54.188.129.59';
 		$this->sites_server_user = 'dg_auto'; // 4LzJp91PPnQREIe
+
+        // ENABLE
+        ob_start(); ?>// {{{ AUTOUPDATES_START }}}
+if( class_exists( 'Puc_v4_Factory' ) ){
+    $slug                   = basename( PARENT_THEME_PATH );
+    $update_server_url      = 'https://api.datgate.com/wp-update-server';
+    $example_update_checker = new ThemeUpdateChecker( $slug, "{$update_server_url}/temp/{$slug}_info.json" );
+
+    $example_update_checker->addQueryArgFilter( 'wsh_filter_update_theme_checks' );
+    function wsh_filter_update_theme_checks( $queryArgs ){
+    $queryArgs['license_key'] = get_option( 'dealer-tower_license_key' );
+            return $queryArgs;
+        }
+    }
+// {{{ AUTOUPDATES END }}}<?php
+        $this->code_to_enable_autoupdates = ob_get_clean();
+
+        // DISABLE
+        ob_start(); ?>// {{{ AUTOUPDATES START }}}
+// disable updates checker
+add_filter( 'pre_site_transient_update_core', '__return_null' );
+wp_clear_scheduled_hook( 'wp_version_check' );
+
+// disable plugin updates
+remove_action( 'load-update-core.php', 'wp_update_plugins' );
+add_filter( 'pre_site_transient_update_plugins', '__return_null' );
+wp_clear_scheduled_hook( 'wp_update_plugins' );
+
+// disable themes update
+remove_action( 'load-update-core.php', 'wp_update_themes' );
+add_filter( 'pre_site_transient_update_themes', '__return_null' );
+wp_clear_scheduled_hook( 'wp_update_themes' );
+// {{{ AUTOUPDATES END }}}<?php
+        $this->code_to_disable_autoupdates = ob_get_clean();
+
+
+		$this->dis_updates_filepath  = storage_path( $this->wpconfig_storage ) . '/autoupdates_dis.phpt';
+		$this->enab_updates_filepath = storage_path( $this->wpconfig_storage ) . '/autoupdates_enab.phpt';
+
+		if( ! file_exists( $this->dis_updates_filepath ) ){
+			file_put_contents( $this->dis_updates_filepath, "<?php\n {$this->code_to_disable_autoupdates}" );
+		}
+
+		if( ! file_exists( $this->enab_updates_filepath ) ){
+			file_put_contents( $this->enab_updates_filepath, "<?php\n {$this->code_to_enable_autoupdates}" );
+		}
 	}
 
 	/**
@@ -77,7 +129,6 @@ class SitesHostSSHController extends Controller{
 	 * @return bool
 	 */
 	public function ssh_send_file( string $from, string $to ):bool{
-
 		if( ! $this->ch ) $this->__ssh_connect();
 
 		return ssh2_scp_send( $this->ch, $from, $to, 0644 );
@@ -161,6 +212,9 @@ class SitesHostSSHController extends Controller{
 
 		// remove /var/www/dealer_sites_auto/{{DOCUMENT_ROOT}}/content/object-cache.php
 		$this->ssh_cmd( "rm {$document_root}/content/object-cache.php" );
+
+		// Enable autoupdates for just copied site
+		$this->ssh_send_file( $this->enab_updates_filepath, "{$document_root}/content/themes/dh5/autoupdates.php" );
 
 		$tmp_file          = 'site_folder_listing.tmp';
 		$check_files_names = [ '.htaccess', 'content', 'core', 'index.php', 'wp-config.php', 'wp-config-extend.php' ];
@@ -267,6 +321,21 @@ class SitesHostSSHController extends Controller{
 	 */
 	public function get_vhost_template_file_ssl_content():string{
 		return $this->ssh_cmd( "cat {$this->vhost_template_file_ssl}" );
+	}
+
+	/**
+	 * Need to check if tmpl site is not updating at this moment, if yes, wait 5 sec, if no - disable autoupdates
+     *
+     * @param bool $enable
+     *
+	 */
+	public function autoupdatesSwitcherForTmpl( $enable = true ):void{
+		if( $enable ){
+			$this->ssh_send_file( $this->enab_updates_filepath, "{$this->tmpl_site_path}/content/themes/dh5/autoupdates.php" );
+        }
+		else{
+		    $this->ssh_send_file( $this->dis_updates_filepath, "{$this->tmpl_site_path}/content/themes/dh5/autoupdates.php" );
+        }
 	}
 
 	/**
