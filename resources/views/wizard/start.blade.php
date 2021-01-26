@@ -749,8 +749,8 @@
                                                                 </div>
                                                                 <div class="input-with-label">
                                                                     <input required type="text" placeholder="Email"
-                                                                           value="{{ old('dealer_email_auto') }}"
-                                                                           class="form-control" name="dealer_email_auto">
+                                                                           value="{{ old('dealer_email') }}"
+                                                                           class="form-control" name="dealer_email">
                                                                     <label id="label_for_domain_js">@domain.name</label>
                                                                 </div>
                                                             </div>
@@ -758,36 +758,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-lg-5 mt-3">
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                <i class="now-ui-icons objects_planet"></i>
-                                                            </div>
                                                         </div>
                                                         <input required id="old_website_url" name="old_website_url"
                                                                class="form-control"
-                                                               type="text" placeholder="Enter Your Old Website URL"
+                                                               type="hidden" placeholder="Enter Your Old Website URL"
                                                                value="{{ old('old_website_url') }}"/>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-lg-5 mt-3">
-                                                    <div class="input-group form-control-lg">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                <i class="now-ui-icons ui-1_email-85"></i>
-                                                            </div>
-                                                        </div>
-                                                        <input required type="text"
-                                                               placeholder="Lead Emails, comma separated"
-                                                               value="{{ old('dealer_email') }}"
-                                                               class="form-control" name="dealer_email">
-                                                    </div>
-                                                </div>
-                                            </div>
+
+
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-5 mt-3">
                                                     <div class="input-group form-control-lg">
@@ -1109,109 +1089,109 @@
 
                                             </div>
 
-                                        <h5 class="info-text">User Account</h5>
+                                            <h5 class="info-text">User Account</h5>
 
-                                        <div class="row justify-content-center">
+                                            <div class="row justify-content-center">
 
-                                            <div class="col-sm-10 mt-3 flex-2-columns">
+                                                <div class="col-sm-10 mt-3 flex-2-columns">
 
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons users_circle-08"></i>
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons users_circle-08"></i>
+                                                            </div>
                                                         </div>
+                                                        <input required type="text" class="form-control"
+                                                               value="{{ old('person_firstname') }}"
+                                                               placeholder="First Name (required)"
+                                                               name="person_firstname">
                                                     </div>
-                                                    <input required type="text" class="form-control"
-                                                           value="{{ old('person_firstname') }}"
-                                                           placeholder="First Name (required)"
-                                                           name="person_firstname">
-                                                </div>
 
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons text_caps-small"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required type="text" placeholder="Last Name (required)"
-                                                           value="{{ old('person_lastname') }}"
-                                                           class="form-control" name="person_lastname">
-                                                </div>
-
-                                                <div class="input-group form-control-lg">
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
                                                                 <i class="now-ui-icons text_caps-small"></i>
                                                             </div>
                                                         </div>
-                                                        <input required type="email" placeholder="Email (required)"
-                                                               class="form-control"
-                                                               value="{{ old('person_email') }}"
-                                                               name="person_email">
+                                                        <input required type="text" placeholder="Last Name (required)"
+                                                               value="{{ old('person_lastname') }}"
+                                                               class="form-control" name="person_lastname">
                                                     </div>
-                                                </div>
 
-                                                <div class="input-group form-control-lg">
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group form-control-lg">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="now-ui-icons tech_mobile"></i>
+                                                                </div>
+                                                            </div>
+                                                            <input required
+                                                                   id="person_phonenumber"
+                                                                   placeholder="Phone (required)" class="form-control"
+                                                                   name="person_phonenumber"
+                                                                   value="{{ old('person_phonenumber') }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group form-control-lg">
+                                                        <div class="input-group form-control-lg">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="now-ui-icons text_caps-small"></i>
+                                                                </div>
+                                                            </div>
+                                                            <input required type="email" placeholder="Email (required)"
+                                                                   class="form-control"
+                                                                   value="{{ old('person_email') }}"
+                                                                   name="person_email">
+                                                        </div>
+                                                    </div>
+
+                                                    <!--Begin input password -->
+                                                    <div
+                                                        class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <i class="now-ui-icons objects_key-25"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input id="person_password" required
+                                                               class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                               placeholder="{{ __('Password') }}" type="password"
+                                                               name="person_password"
+                                                               value="{{ old( 'person_password' ) }}"
+                                                        >
+                                                        @if ($errors->has('password'))
+                                                            <span class="invalid-feedback" style="display: block;"
+                                                                  role="alert">
+                                                        <strong>{{ $errors->first('password') }}</strong>
+                                                    </span>
+                                                        @endif
+                                                    </div>
+                                                    <!--Begin input confirm password -->
                                                     <div class="input-group form-control-lg">
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">
-                                                                <i class="now-ui-icons tech_mobile"></i>
+                                                                <i class="now-ui-icons objects_key-25"></i>
                                                             </div>
                                                         </div>
-                                                        <input required onchange="verifyFunc()"
-                                                               id="person_phonenumber"
-                                                               placeholder="Phone (required)" class="form-control"
-                                                               name="person_phonenumber"
-                                                               value="{{ old('person_phonenumber') }}">
+                                                        <input id="person_password_confirmation" required class="form-control"
+                                                               placeholder="{{ __('Confirm Password') }}"
+                                                               type="password" name="person_password_confirmation"
+                                                               value="{{ old( 'person_password_confirmation' ) }}"
+                                                        >
                                                     </div>
-                                                </div>
 
-                                                <!--Begin input password -->
-                                                <div
-                                                    class="input-group form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons objects_key-25"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required
-                                                           class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                           placeholder="{{ __('Password') }}" type="password"
-                                                           name="person_password"
-                                                           value="{{ old( 'person_password' ) }}"
-                                                    >
-                                                    @if ($errors->has('password'))
-                                                        <span class="invalid-feedback" style="display: block;"
-                                                              role="alert">
-                                                        <strong>{{ $errors->first('password') }}</strong>
-                                                    </span>
-                                                    @endif
                                                 </div>
-                                                <!--Begin input confirm password -->
-                                                <div class="input-group form-control-lg">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="now-ui-icons objects_key-25"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input required class="form-control"
-                                                           placeholder="{{ __('Confirm Password') }}"
-                                                           type="password" name="person_password_confirmation"
-                                                           value="{{ old( 'person_password_confirmation' ) }}"
-                                                    >
+                                            </div>
+                                            <div class="row justify-content-center types_js">
+                                                <div class="col-lg-5 mt-3">
+                                                    <button id="manualButton" type="submit"
+                                                            style="background-color: #008CBA; font-size: 95%">Finish
+                                                    </button>
                                                 </div>
-
                                             </div>
-                                        </div>
-                                        <div class="row justify-content-center types_js">
-                                            <div class="col-lg-5 mt-3">
-                                                <button id="manualButton" type="submit"
-                                                        style="background-color: #008CBA; font-size: 95%">Finish
-                                                </button>
-                                            </div>
-                                        </div>
-                                        {{ csrf_field() }}
+                                            {{ csrf_field() }}
                                         </form>
                                         <div class="overlay_popup"></div>
 
@@ -1242,43 +1222,20 @@
 @push('js')
     <script>
         //cookie for verification
+
         var now = new Date();
         now.setTime(now.getTime() + 1 * 60 * 1000);
         document.cookie = "name=value; expires=" + now.toUTCString() + "; path=/";
-    </script>
-    <script>
+
         //form send
         $(document).ready(function () {
-        (function () {
-            $('#verify_form_action').wrap('<form id="verify_form1" action="{{ route('verify') }}" method="get"></form>');
-            $('#verify_form_action2').wrap('<form id="verify_form1" action="{{ route('verify') }}" method="get"></form>');
-        })();});
-
-        //form validation
-        $("form[action]").submit(function(event){
-            var $validation = true;
-            $(this).find('input[required]').each(function(){
-                if($(this).attr("value") == '') {
-                    $(this).parents(".input-group.form-control-lg").addClass("has-danger");
-                    if($validation)
-                        $validation = false
-                }
-            })
-            if( !$validation )
-                event.preventDefault();
-        });
+            (function () {
+                $('#verify_form_action').wrap('<form id="verify_form1" action="{{ route('verify') }}" method="get"></form>');
+                $('#verify_form_action2').wrap('<form id="verify_form2" action="{{ route('verify') }}" method="get"></form>');
+            })();});
     </script>
 
     <script>
-        /*
-        $("#manualButton").on("click", function(){
-            $(this).parents("form").find("input[required]").each(function(){
-                if($(this).attr("value") == '') {
-                    $(this).parents(".input-group.form-control-lg").addClass("has-danger")
-                }
-            })
-        }) */
-
         //verify method ownership
         $(".verify_method_js").on("click", function(){
             $("#verify_ownership_method").parent().find(".verify_method_js").removeClass("active");
@@ -1406,12 +1363,7 @@
         $('#oneblock').hide()
         $('#showDatalist').hide()
         $('#showMultiDatalist').hide()
-
-        function verifyFunc() {
-            if ($('#person_phonenumber').val() !== "") {
-                $('#verification').prop('disabled', false);
-            }
-        }
+        $('#manualButton').hide()
 
         $('.show_popup').click(function () {
             var popup_id = $('#' + $(this).attr("rel"));
@@ -1535,47 +1487,15 @@
                         for (let p = 0; p < place_data.address_components.length; p++) {
                             let type = place_data.address_components[p].types[0]
                             let val = place_data.address_components[p].long_name
-                            /*
-                                                        if( 'locality' === type ){
-                                                            place_data_conv[ 'city' ] = val
-                                                        }
-                                                        else if( 'administrative_area_level_1' === type ){
-                                                            place_data_conv[ 'state' ] = val
-                                                        }
-                                                        else if( 'postal_code' === type ){
-                                                            place_data_conv[ 'postal_code' ] = val
-                                                        }
-                                                        else if( 'country' === type ){
-                                                            place_data_conv[ 'country' ] = val
-                                                        } */
                         }
 
                         let inputs = [
                             'dealer_number_auto',
                             'lead_emails_auto',
-                            //'dealer_number',
-                            //'dealer_name',
-                            //'lead_emails',
-                            //'country',
-                            //'state',
-                            //'city',
-                            //'postal_code',
-                            //'address',
                         ]
 
                         for (let o = 0; o < inputs.length; o++) {
                             let $input = $('input[name=' + inputs[o] + ']')
-                            /*
-                            if( 'address' === inputs[ o ] ){
-                                $input.val( place_data.formatted_address )
-                            }
-                            else if( 'dealer_name' === inputs[ o ] ){
-                                $input.val( place_data.name )
-                            }
-                            else if( 'dealer_number' === inputs[ o ] ){
-                                $input.val( place_data.formatted_phone_number )
-                            }
-                            else */
                             if ('dealer_number_auto' === inputs[o]) {
                                 $input.val(place_data.formatted_phone_number)
                             } else {
@@ -1590,16 +1510,6 @@
 
                 preloader_end()
 
-                /*
-                infowindowContent.children.namedItem( 'place-name' ).textContent    =
-                    place.name;
-                infowindowContent.children.namedItem( 'place-id' ).textContent      =
-                    place.place_id;
-                infowindowContent.children.namedItem( 'place-address' ).textContent =
-                    place.formatted_address;
-                 */
-
-                //infowindow.open( map, marker );
             });
         }
 
@@ -1639,8 +1549,10 @@
             let $old_website_url_input = $form.find('#old_website_url')
             let $email_input = $form.find('input[name="person_email"]')
             let $dealeremail_input = $form.find('input[name="dealer_email"]')
+            let $person_email_input = $form.find('input[name="person_email"]')
             let $dealeremail_auto = $form.find('input[name="dealer_email_auto"]')
             let $phone_input = $form.find('input[name="person_phonenumber"]')
+            let $person_password_confirmation_input = $form.find('input[name="person_password_confirmation"]')
             let $dealer_input = $form.find('input[name="dealer_number"]')
 
             $phone_input.mask('(999) 999-9999');
@@ -1719,6 +1631,30 @@
 
                 });
             })
+
+            $person_password_confirmation_input.on('keyup focus blur', function () {
+
+                let $the = $(this)
+                let password = $the.val()
+
+                $.ajax({
+                    url: "{{ route('API_isPassUnique') }}?password=" + password
+                }).done(function (data) {
+                    let parsed = JSON.parse(data)
+
+                    if ('ERROR' === parsed.status) {
+                        let $errorLabel = $('#person_password-error')
+                        $errorLabel.html(parsed.message)
+                        $errorLabel.show()
+                        $('#manualButton').hide()
+                    }
+                    else {
+                        $('#manualButton').show()
+                    }
+
+                });
+            })
+
             $dealeremail_auto.on('keyup focus blur', function () {
 
                 let $the = $(this)
@@ -1737,25 +1673,6 @@
                     }
                     else {
                         $('#submitbutton').show()
-                    }
-
-                });
-            })
-
-            $phone_input.on('keyup focus blur', function () {
-
-                let $the = $(this)
-                let phone = $the.val()
-
-                $.ajax({
-                    url: "{{ route('API_isPhoneUnique') }}?phone=" + phone
-                }).done(function (data) {
-                    let parsed = JSON.parse(data)
-
-                    if ('ERROR' === parsed.status) {
-                        let $errorLabel = $('#person_phone-error')
-                        $errorLabel.html(parsed.message)
-                        $errorLabel.show()
                     }
 
                 });

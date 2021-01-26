@@ -119,6 +119,26 @@ class SitesHelperController extends Controller{
 
 		return json_encode( $return, JSON_UNESCAPED_SLASHES );
 	}
+	public function isPassUnique( Request $request ){
+		$password = $request->input( 'password' );
+
+		if( $password == '' ){
+			$return = [
+				'status'  => 'ERROR',
+				'message' => 'Password is not valid',
+			];
+		}
+		else{
+			$data = [];
+
+			$return = [
+				'status' => 'OK',
+				'data'   => $data,
+			];
+		}
+
+		return json_encode( $return, JSON_UNESCAPED_SLASHES );
+	}
 
 	/**
 	 * @param Request $request
