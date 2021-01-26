@@ -1236,6 +1236,7 @@
     </script>
 
     <script>
+
         //verify method ownership
         $(".verify_method_js").on("click", function(){
             $("#verify_ownership_method").parent().find(".verify_method_js").removeClass("active");
