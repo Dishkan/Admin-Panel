@@ -19,6 +19,141 @@ class HelperController extends Controller{
 		$dens_number   = '+380931488118';
 
 
+		if( false && 'TEST'){
+			$curl = curl_init();
+
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => 'https://rest.plus.dealerpeak.com/api/Credit/CreateApplication?createLead=true',
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => '',
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 0,
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => 'POST',
+				CURLOPT_POSTFIELDS =>'{
+  "Source": "Dealership Website",
+  "Applicant": {
+    "DOB": "05/23/1985",
+    "SSN": 555555555,
+    "DriversLicense": "334345AB12",
+    "DriversLicenseState": "AZ",
+    "DriversLicenseExpirationDate": "05/23/2025",
+    "FirstName": "John",
+    "MiddleName": "Test",
+    "LastName": "Customer",
+    "Suffix": "Sr",
+    "Title": "Dr",
+    "ConsumerEmail": "drtest@example.com",
+    "HomePhone": 7776668888,
+    "CellPhone": 6667779999,
+    "WorkPhone": 3335557777,
+    "Address1": "123 Test Dr",
+    "Address2": "Appt 123",
+    "City": "Phoenix",
+    "State": "AZ",
+    "ZipCode": "85001",
+    "YearsAtCurrentAddress": 3,
+    "MonthsAtCurrentAddress": 3,
+    "Address1Prev": "345 Blah St",
+    "Address2Prev": "",
+    "CityPrev": "Amarillo",
+    "StatePrev": "TX",
+    "ZipCodePrev": "79110",
+    "YearsAtPrevAddress": 6,
+    "MonthsAtPrevAddress": 3,
+    "MailingAddress1": "PO BOX 6890",
+    "MailingAddress2": "",
+    "MailingCity": "Phoenix",
+    "MailingState": "AZ",
+    "MailingZipCode": "85001",
+    "HomeFinance": "BuyingHome",
+    "HousingPayment": 1456.00,
+    "OutstandingAutoLoan": true,
+    "LineHolder": "Car Bank",
+    "Year": "2021",
+    "Make": "Tesla",
+    "Model": "Model X",
+    "LoanAmount": 82300.00,
+    "TradeVehicle": false,
+    "Employer": "DealerPeak LLC",
+    "JobDescription": "Salesperson",
+    "EmploymentStatus": "FullTime",
+    "EmployerPhone": 5554443333,
+    "EmployerEmail": "employer@example.com",
+    "EmployerAddress1": "123 Test Dr",
+    "EmployerAddress2": "",
+    "EmployerCity": "Phoenix",
+    "EmployerState": "AZ",
+    "EmployerZipCode": "85005",
+    "YearsAtCurrentCompany": 7,
+    "MonthsAtCurrentCompany": 6,
+    "EmployerPrev": "",
+    "JobDescriptionPrev": "",
+    "EmployerPhonePrev": null,
+    "EmployerAddress1Prev": "",
+    "EmployerAddress2Prev": "",
+    "EmployerCityPrev": "",
+    "EmployerStatePrev": "",
+    "EmployerZipCodePrev": "",
+    "YearsAtPrevCompany": null,
+    "MonthsAtPrevCompany": null,
+    "PrimaryIncome": 3000,
+    "SecondaryIncome": 600,
+    "SourceofOtherIncome": "Waiter",
+    "Reference1Name": "Bill Joe",
+    "Reference1Address": "456 Big Blvd Amarillo, TX 79112",
+    "Reference1Phone": 5678901234,
+    "Reference1Relationship": "Professor",
+    "Reference2Name": "",
+    "Reference2Address": "",
+    "Reference2Phone": null,
+    "Reference2Relationship": "",
+    "Reference3Name": "",
+    "Reference3Address": "",
+    "Reference3Phone": null,
+    "Reference3Relationship": "",
+    "InsuranceCompanyName": "AllState",
+    "InsuranceCompanyPhone": 345678123,
+    "InsuranceCompanyAddress1": "123 All St",
+    "InsuranceCompanyAddress2": "",
+    "InsuranceCompanyCity": "Phoenix",
+    "InsuranceCompanyState": "AZ",
+    "InsuranceCompanyZipCode": "85007",
+    "InsuranceCompanyAgentFirstName": "My",
+    "InsuranceCompanyAgentLastName": "Agent",
+    "InsuranceCompanyAgencyName": "My AllState Agency",
+    "InsuranceCompanyPolicyNumber": 12345677,
+    "InsuranceCompanyPolicyStartDate": null,
+    "InsuranceCompanyPolicyEndDate": null,
+    "InsuranceCompanyLiabilityCoverage": null,
+    "InsuranceCompanyCompCoverage": null,
+    "InsuranceCompanyCompDeductible": null,
+    "InsuranceCompanyCollisionCoverage": null,
+    "InsuranceCompanyCollisionDeductible": null
+  },
+  "CoApplicant": null,
+  "BankruptcyComments": "",
+  "AdditionalComments": ""
+}',
+				CURLOPT_HTTPHEADER => array(
+					'RooftopID: 174',
+					'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRodW1lQGRlYWxlcnBlYWsuY29tIiwidW5pcXVlX25hbWUiOiJVV0ZCWE85RDVRRllWOVhNS1lLNDA4VVpRV1BZTE5KTyIsInJvbGUiOiJBcGlVc2VyIiwiVXNlcklEIjoiMSIsIlVzZXJUeXBlIjoiU2VjdXJlMzYwLk1vZGVscy5BcGlVc2VyIiwiUm9vZnRvcElEIjoiIiwibmJmIjoxNjExMjY2MjE2LCJleHAiOjE3NjkwMzI2MTYsImlhdCI6MTYxMTI2NjIxNn0.wYPq97EXmjEUez3w7L-M0sSpTeWWTr-M-QupOrwVIAs',
+					'Content-Type: application/json'
+				),
+			));
+
+			$response = curl_exec($curl);
+			$info     = curl_getinfo( $curl );
+
+			curl_close($curl);
+
+			echo $response;
+			echo '<pre>';
+			print_r( $info );
+		}
+
+
 		//$twilio = new TwilioController();
 		//$twilio->callVoiceCode( $hirads_number, '12345' );
 
@@ -53,7 +188,7 @@ class HelperController extends Controller{
 		// SitesController::process_without_files();
 
 		// 2 - TEST PASSED
-		SitesController::process_with_empty_db();
+		// SitesController::process_with_empty_db();
 
 		// 3 - TEST
 		// SitesController::process_without_SSL();
