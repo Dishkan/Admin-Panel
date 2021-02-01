@@ -20,6 +20,7 @@ class CreateAutositesTable extends Migration
             $table->string('place_name', 250)->nullable();
             $table->string('dealer_email', 250)->nullable();
             $table->longText('make')->nullable();
+            $table->string('verify_method', 250)->nullable();
             $table->string('old_website_url', 250)->nullable();
             $table->timestamps();
         });

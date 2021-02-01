@@ -13,6 +13,7 @@ class Autosite extends Model
 		'old_website_url',
 		'dealer_number',
 		'dealer_email',
-		'make'
+		'make',
+		'verify_method'
 	];
 }

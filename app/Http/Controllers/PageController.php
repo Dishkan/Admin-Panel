@@ -49,7 +49,7 @@ class PageController extends Controller{
 	public function verify(Request $request) {
         if( $request->isMethod( 'GET' ) ){
             $input = $request->except( [ '_token'] );
-            if($input['codename2'] == 111111) {
+            if($input['codename2'] == 111111 || $input['codename'] == 111111) {
              return 12345;
             }
         }
@@ -63,7 +63,6 @@ class PageController extends Controller{
 		if( $request->isMethod( 'POST' ) ){
 
 			$input = $request->except( [ '_token'] );
-
 			$validator = Validator::make( $input, [
 				'place_name'         => 'required|max:255',
 				'type'               => 'required',
@@ -86,8 +85,9 @@ class PageController extends Controller{
 				'dealer_number'   => $input['dealer_number_auto'],
 				'old_website_url' => $input['old_website_url'],
                 'make'            => rtrim($input['dealer_makes'], ','),
+                'verify_method'   => $input['verify_method'],
 			]);
-			return redirect()->route( 'home' );
+			return redirect()->route( 'wizard' );
 		}
 		else{
 			$makes = ['Acura',
@@ -335,7 +335,7 @@ class PageController extends Controller{
 				'old_website_url'         => $input['old_website_url_manual'],
 				//'old_website_favicon_src' => $input['site_icon_src'],
 				//'old_website_logo_src'    => $input['logo_src'],
-				'make'                    => $input['make_manual'],
+				'make'                    => $input['make'],
 				'user_id'                 => Auth::id(),
 				'processed'               => false,
 			] );
