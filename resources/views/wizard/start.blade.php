@@ -1364,7 +1364,6 @@
         $('#oneblock').hide()
         $('#showDatalist').hide()
         $('#showMultiDatalist').hide()
-        $('#manualButton').hide()
 
         $('.show_popup').click(function () {
             var popup_id = $('#' + $(this).attr("rel"));
@@ -1610,28 +1609,6 @@
 
                 });
             })
-            $dealeremail_input.on('keyup focus blur', function () {
-
-                let $the = $(this)
-                let email = $the.val()
-
-                $.ajax({
-                    url: "{{ route('API_isEmailUnique') }}?email=" + email
-                }).done(function (data) {
-                    let parsed = JSON.parse(data)
-
-                    if ('ERROR' === parsed.status) {
-                        let $errorLabel = $('#person_email-error')
-                        $errorLabel.html(parsed.message)
-                        $errorLabel.show()
-                        $('#submitbutton').hide()
-                    }
-                    else {
-                        $('#submitbutton').show()
-                    }
-
-                });
-            })
 
             $person_password_confirmation_input.on('keyup focus blur', function () {
 
@@ -1651,29 +1628,6 @@
                     }
                     else {
                         $('#manualButton').show()
-                    }
-
-                });
-            })
-
-            $dealeremail_auto.on('keyup focus blur', function () {
-
-                let $the = $(this)
-                let email = $the.val()
-
-                $.ajax({
-                    url: "{{ route('API_isEmailUnique') }}?email=" + email
-                }).done(function (data) {
-                    let parsed = JSON.parse(data)
-
-                    if ('ERROR' === parsed.status) {
-                        let $errorLabel = $('#person_email-error')
-                        $errorLabel.html(parsed.message)
-                        $errorLabel.show()
-                        $('#submitbutton').hide()
-                    }
-                    else {
-                        $('#submitbutton').show()
                     }
 
                 });
