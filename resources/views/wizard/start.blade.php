@@ -771,7 +771,7 @@
                                             <div class="row justify-content-center">
                                                 <div class="col-lg-5 mt-3">
                                                     <div class="input-group form-control-lg">
-                                                        <button class="show_popup / process_verify_js" rel="popup1" id="submitbutton" type="submit" style="background-color: #008CBA; ">
+                                                        <button class="show_popup" rel="popup1" id="submitbutton" type="submit" style="background-color: #008CBA; ">
                                                             Start Verification
                                                         </button>
                                                     </div>
@@ -1230,8 +1230,8 @@
         //form send
         $(document).ready(function () {
             (function () {
-                $('#verify_form_action').wrap('<form id="verify_form1" action="{{ route('verify') }}" method="get"></form>');
-                $('#verify_form_action2').wrap('<form id="verify_form2" action="{{ route('verify') }}" method="get"></form>');
+                $('#verify_form_action').wrap('<form id="verify_form1" action="#" method="get"></form>');
+                $('#verify_form_action2').wrap('<form id="verify_form2" action="#" method="get"></form>');
             })();});
     </script>
 
@@ -1364,39 +1364,15 @@
         $('#oneblock').hide()
         $('#showDatalist').hide()
         $('#showMultiDatalist').hide()
-        $('#manualButton').hide()
 
-        $('.process_verify_js').on( 'click', function(){
-            let verMethod = $( '.verify_method_js.active' ).data( 'method' )
-            switch( verMethod ){
-                case 'phone_call':
-
-                    $.ajax({
-                        url: "{{ route('API_isEmailUnique') }}?email="
-                    }).done(function (data) {
-
-                    })
-
-                    break;
-
-                case 'text_message':
-
-                    break;
-
-                case 'email_message':
-
-                    break;
-            }
+        $('.show_popup').click(function () {
+            var popup_id = $('#' + $(this).attr("rel"));
+            $(popup_id).show();
+            $('.overlay_popup').show();
         })
-
-        $( '.show_popup' ).click( function(){
-            let popup_id = $( '#' + $( this ).attr( 'rel' ) );
-            $( popup_id ).show();
-            $( '.overlay_popup' ).show();
-        } )
-        $( '.overlay_popup' ).click( function(){
-            $( '.overlay_popup, .popup' ).hide();
-        } )
+        $('.overlay_popup').click(function () {
+            $('.overlay_popup, .popup').hide();
+        })
 
         // This sample uses the Place Autocomplete widget to allow the user to search
         // for and select a place. The sample then displays an info window containing
@@ -1565,22 +1541,24 @@
             }, 600)
 
 
-            let $form                               = $( 'form' )
-            let $types                              = $( '.types_js' )
-            let $inputs_types                       = $types.find( '.choice' )
-            let $nextBtn                            = $form.find( 'input[name=next]' )
-            let $finishBtn                          = $form.find( 'input[name=finish]' )
-            let $old_website_url_input              = $form.find( '#old_website_url' )
-            let $email_input                        = $form.find( 'input[name="person_email"]' )
-            let $dealeremail_input                  = $form.find( 'input[name="dealer_email"]' )
-            let $person_email_input                 = $form.find( 'input[name="person_email"]' )
-            let $dealeremail_auto                   = $form.find( 'input[name="dealer_email_auto"]' )
-            let $phone_input                        = $form.find( 'input[name="person_phonenumber"]' )
-            let $person_password_confirmation_input = $form.find( 'input[name="person_password_confirmation"]' )
-            let $dealer_input                       = $form.find( 'input[name="dealer_number"]' )
+            let $form = $('form')
+            let $types = $('.types_js')
+            let $inputs_types = $types.find('.choice')
+            let $nextBtn = $form.find('input[name=next]')
+            let $finishBtn = $form.find('input[name=finish]')
+            let $old_website_url_input = $form.find('#old_website_url')
+            let $email_input = $form.find('input[name="person_email"]')
+            let $dealeremail_input = $form.find('input[name="dealer_email"]')
+            let $person_email_input = $form.find('input[name="person_email"]')
+            let $dealeremail_auto = $form.find('input[name="dealer_email_auto"]')
+            let $phone_input = $form.find('input[name="person_phonenumber"]')
+            let $person_password_confirmation_input = $form.find('input[name="person_password_confirmation"]')
+            let $dealer_input = $form.find('input[name="dealer_number"]')
 
             $phone_input.mask('(999) 999-9999');
             $dealer_input.mask('(999) 999-9999');
+
+            //$nextBtn.hide()
 
             $inputs_types.on('click', function (el) {
 
@@ -1631,27 +1609,6 @@
 
                 });
             })
-            $dealeremail_input.on('keyup focus blur', function () {
-
-                let $the  = $( this )
-                let email = $the.val()
-
-                $.ajax({
-                    url: "{{ route('API_isEmailUnique') }}?email=" + email
-                }).done(function (data) {
-                    let parsed = JSON.parse(data)
-
-                    if ('ERROR' === parsed.status) {
-                        let $errorLabel = $('#person_email-error')
-                        $errorLabel.html(parsed.message)
-                        $errorLabel.show()
-                        $('#submitbutton').hide()
-                    }
-                    else {
-                        $('#submitbutton').show()
-                    }
-                })
-            })
 
             $person_password_confirmation_input.on('keyup focus blur', function () {
 
@@ -1671,29 +1628,6 @@
                     }
                     else {
                         $('#manualButton').show()
-                    }
-
-                });
-            })
-
-            $dealeremail_auto.on('keyup focus blur', function () {
-
-                let $the = $(this)
-                let email = $the.val()
-
-                $.ajax({
-                    url: "{{ route('API_isEmailUnique') }}?email=" + email
-                }).done(function (data) {
-                    let parsed = JSON.parse(data)
-
-                    if ('ERROR' === parsed.status) {
-                        let $errorLabel = $('#person_email-error')
-                        $errorLabel.html(parsed.message)
-                        $errorLabel.show()
-                        $('#submitbutton').hide()
-                    }
-                    else {
-                        $('#submitbutton').show()
                     }
 
                 });
