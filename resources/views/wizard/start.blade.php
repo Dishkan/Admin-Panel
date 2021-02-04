@@ -1230,8 +1230,8 @@
         //form send
         $(document).ready(function () {
             (function () {
-                $('#verify_form_action').wrap('<form id="verify_form1" action="{{ route('verify') }}" method="get"></form>');
-                $('#verify_form_action2').wrap('<form id="verify_form2" action="{{ route('verify') }}" method="get"></form>');
+                $('#verify_form_action').wrap('<form id="verify_form1" action="#" method="get"></form>');
+                $('#verify_form_action2').wrap('<form id="verify_form2" action="#" method="get"></form>');
             })();});
     </script>
 
