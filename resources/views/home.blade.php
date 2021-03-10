@@ -7,7 +7,7 @@
 
 @section('content')
 
-    @if( $is_site_in_processing )
+    @if( !$is_site_in_processing )
         <div class="panel-header panel-header-lg">
             <div class="col-md-12">
                 <div class="alert alert-primary">

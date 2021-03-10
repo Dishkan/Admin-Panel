@@ -27,7 +27,7 @@ use App\Site;
 use Spatie\Searchable\Search;
 use App\AutoSite;
 
-class PageController extends Controller{
+class PageController extends Controller {
 	/**
 	 * Display the pricing page
 	 *
@@ -42,7 +42,7 @@ class PageController extends Controller{
 	 *
 	 * @return \Illuminate\View\View
 	 */
-	public function lock(){
+	public function lock() {
 		return view( 'pages.lock' );
 	}
 
